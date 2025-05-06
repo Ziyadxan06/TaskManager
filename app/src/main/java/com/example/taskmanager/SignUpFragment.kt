@@ -21,6 +21,7 @@ class SignUpFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var email: String
+    private lateinit var confirmPassword: String
     private lateinit var password: String
 
     override fun onCreateView(
@@ -49,9 +50,10 @@ class SignUpFragment : Fragment() {
     fun signup(){
 
         email = binding.signupEmail.text.toString()
+        confirmPassword = binding.signupPassword2.text.toString()
         password = binding.signUpPassword.text.toString()
 
-        if(email == "" || password == ""){
+        if(email == "" || password == "" || confirmPassword == ""){
             Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
         }else{
             auth.createUserWithEmailAndPassword(email, password)
