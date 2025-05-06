@@ -43,6 +43,10 @@ class SignInFragment : Fragment() {
             signin()
         }
 
+        binding.linkviewReset.setOnClickListener {
+            resetPassword()
+        }
+
         if(currentUser != null){
 
         }
@@ -62,6 +66,20 @@ class SignInFragment : Fragment() {
                 }
             }.addOnFailureListener {
                 Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+    }
+
+    fun resetPassword(){
+        email = binding.signinEmail.text.toString()
+        password = binding.signinPassword.text.toString()
+
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener(){task ->
+                if(task.isSuccessful){
+                    Toast.makeText(context, "Reset linki emailinize gonderildi", Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(context, "Xeta bas verdi", Toast.LENGTH_LONG).show()
+                }
             }
     }
 }
