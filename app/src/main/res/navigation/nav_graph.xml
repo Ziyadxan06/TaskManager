@@ -36,7 +36,7 @@
         android:id="@+id/taskListFragment"
         android:name="com.example.taskmanager.AdminTaskListFragment"
         android:label="fragment_task_list"
-        tools:layout="@layout/fragment_task_list" />
+        tools:layout="@layout/admin_fragment_task_list" />
     <fragment
         android:id="@+id/inventoryListFragment"
         android:name="com.example.taskmanager.AdminInventoryListFragment"
