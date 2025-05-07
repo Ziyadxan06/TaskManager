@@ -34,12 +34,12 @@
     </fragment>
     <fragment
         android:id="@+id/taskListFragment"
-        android:name="com.example.taskmanager.TaskListFragment"
+        android:name="com.example.taskmanager.AdminTaskListFragment"
         android:label="fragment_task_list"
         tools:layout="@layout/fragment_task_list" />
     <fragment
         android:id="@+id/inventoryListFragment"
-        android:name="com.example.taskmanager.InventoryListFragment"
+        android:name="com.example.taskmanager.AdminInventoryListFragment"
         android:label="fragment_inventory_list"
         tools:layout="@layout/fragment_inventory_list" />
 </navigation>
