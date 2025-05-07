@@ -36,10 +36,19 @@
         android:id="@+id/taskListFragment"
         android:name="com.example.taskmanager.AdminTaskListFragment"
         android:label="fragment_task_list"
-        tools:layout="@layout/admin_fragment_task_list" />
+        tools:layout="@layout/admin_fragment_task_list" >
+        <action
+            android:id="@+id/action_taskListFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+    </fragment>
     <fragment
         android:id="@+id/inventoryListFragment"
         android:name="com.example.taskmanager.AdminInventoryListFragment"
         android:label="fragment_inventory_list"
         tools:layout="@layout/fragment_inventory_list" />
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.example.taskmanager.AddTaskFragment"
+        android:label="fragment_add_task"
+        tools:layout="@layout/fragment_add_task" />
 </navigation>

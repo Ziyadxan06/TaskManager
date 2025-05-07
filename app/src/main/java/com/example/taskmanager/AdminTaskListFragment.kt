@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -36,5 +37,9 @@ class AdminTaskListFragment : Fragment() {
 
         recyclerView = binding.taskListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_taskListFragment_to_addTaskFragment)
+        }
     }
 }
