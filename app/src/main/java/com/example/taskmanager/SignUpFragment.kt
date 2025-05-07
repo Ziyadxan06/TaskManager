@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.databinding.FragmentSignUpBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -32,11 +33,16 @@ class SignUpFragment : Fragment() {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return (binding.root)
 
-        auth = Firebase.auth
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = requireActivity()
+        activity.findViewById<BottomNavigationView>(R.id.bottomNavigation).visibility = View.GONE
+
+        auth = Firebase.auth
 
         binding.linkviewSingup.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)

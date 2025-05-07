@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.databinding.FragmentSignInBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 
 class SignInFragment : Fragment() {
@@ -28,11 +30,17 @@ class SignInFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSignInBinding.inflate(inflater, container, false)
         return (binding.root)
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val activity = requireActivity()
+        activity.findViewById<BottomNavigationView>(R.id.bottomNavigation).visibility = View.GONE
+
+        auth = Firebase.auth
         val currentUser = auth.currentUser
 
         binding.linkviewSignin.setOnClickListener {
@@ -57,29 +65,33 @@ class SignInFragment : Fragment() {
         email = binding.signinEmail.text.toString()
         password = binding.signinPassword.text.toString()
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                if(email == "" || password == ""){
-                    Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
-                }else{
+        if(email.isEmpty() || password.isEmpty()){
+            Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
+        }else{
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
 
+                }.addOnFailureListener {
+                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
-            }.addOnFailureListener {
-                Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
-            }
+        }
     }
 
     fun resetPassword(){
         email = binding.signinEmail.text.toString()
         password = binding.signinPassword.text.toString()
 
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener(){task ->
-                if(task.isSuccessful){
-                    Toast.makeText(context, "Reset linki emailinize gonderildi", Toast.LENGTH_LONG).show()
-                }else{
-                    Toast.makeText(context, "Xeta bas verdi", Toast.LENGTH_LONG).show()
+        if(email.isEmpty()){
+            Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
+        }else{
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(){task ->
+                    if(task.isSuccessful){
+                        Toast.makeText(context, "Reset linki emailinize gonderildi", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(context, "Xeta bas verdi", Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
+        }
     }
 }
