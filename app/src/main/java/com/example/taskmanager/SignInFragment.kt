@@ -70,7 +70,7 @@ class SignInFragment : Fragment() {
         }else{
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-
+                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
                 }.addOnFailureListener {
                     Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
