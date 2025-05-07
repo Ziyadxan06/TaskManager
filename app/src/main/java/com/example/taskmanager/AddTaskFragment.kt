@@ -73,7 +73,14 @@ class AddTaskFragment : Fragment() {
         if (taskName.isEmpty() || priority.isEmpty() || assignedTo.isEmpty() || deadlineTimestamp == 0L) {
             Toast.makeText(requireContext(), "Bütün sahələri doldurun", Toast.LENGTH_SHORT).show()
         }else{
+
+            val db = FirebaseFirestore.getInstance()
+            val collection = db.collection("tasks")
+
+            val newDocRef = collection.document()
+
             val taskData = hashMapOf(
+                "id" to newDocRef.id,
                 "name" to taskName,
                 "priority" to priority,
                 "assignedTo" to assignedTo,
@@ -81,7 +88,6 @@ class AddTaskFragment : Fragment() {
                 "status" to "Yeni"
             )
 
-            val db = FirebaseFirestore.getInstance()
             db.collection("tasks")
                 .add(taskData)
                 .addOnSuccessListener {
