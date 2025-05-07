@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentSignInBinding
-import com.example.taskmanager.databinding.FragmentTaskListBinding
 import com.example.taskmanager.recyclerview.TasksAdapter
 import com.example.taskmanager.recyclerview.TasksModel
 
 class AdminTaskListFragment : Fragment() {
 
-    private var _binding: FragmentTaskListBinding? = null
+    private var _binding: AdminFragmentTaskListBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
@@ -27,7 +27,7 @@ class AdminTaskListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentTaskListBinding.inflate(inflater, container, false)
+        _binding = AdminFragmentTaskListBinding.inflate(inflater, container, false)
         return (binding.root)
     }
 
