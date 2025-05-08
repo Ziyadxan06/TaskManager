@@ -7,7 +7,7 @@
     tools:context=".EditTaskFragment">
 
     <EditText
-        android:id="@+id/tasknameAdd"
+        android:id="@+id/tasknameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="140dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/taskPriority"
+        android:id="@+id/taskpriorityEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
@@ -30,10 +30,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tasknameAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/tasknameEdit" />
 
     <EditText
-        android:id="@+id/taskDeadline"
+        android:id="@+id/taskdeadlineEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
@@ -43,10 +43,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskPriority" />
+        app:layout_constraintTop_toBottomOf="@+id/taskpriorityEdit" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -54,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskAssignee" />
+        app:layout_constraintTop_toBottomOf="@+id/taskAssigneeEdit" />
 
     <TextView
         android:id="@+id/textView6"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/taskAssignee"
+        android:id="@+id/taskAssigneeEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
@@ -77,7 +77,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDeadline" />
+        app:layout_constraintTop_toBottomOf="@+id/taskdeadlineEdit" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.databinding.FragmentTaskDetailsDialogBinding
@@ -36,13 +37,11 @@ class TaskDetailsDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val taskId = args.taskId
-        Log.d("FIRESTORE", "Received taskId: $taskId")
 
         FirebaseFirestore.getInstance().collection("tasks")
             .document(taskId)
             .get()
             .addOnSuccessListener{ document ->
-                Log.d("FIRESTORE", "Document: ${document.data}")
                 binding.tasknameTextView.text = document.getString("name") ?: "-"
                 binding.priorityTextView.text = document.getString("priority") ?: "-"
                 binding.assignedtoTextView.text = document.getString("assignedTo") ?: "-"
@@ -56,5 +55,10 @@ class TaskDetailsDialogFragment : DialogFragment() {
             }.addOnFailureListener {
                 Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
+
+        binding.btnEdit.setOnClickListener {
+            val action = TaskDetailsDialogFragmentDirections.actionTaskDetailsDialogFragmentToEditTaskFragment(taskId)
+            findNavController().navigate(action)
+        }
     }
 }

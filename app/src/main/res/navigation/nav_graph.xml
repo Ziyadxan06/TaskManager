@@ -53,7 +53,11 @@
         android:id="@+id/addTaskFragment"
         android:name="com.example.taskmanager.AddTaskFragment"
         android:label="fragment_add_task"
-        tools:layout="@layout/fragment_add_task" />
+        tools:layout="@layout/fragment_add_task" >
+        <action
+            android:id="@+id/action_addTaskFragment_to_adminTaskListFragment"
+            app:destination="@id/adminTaskListFragment" />
+    </fragment>
 
     <dialog
         android:id="@+id/taskDetailsDialogFragment"
@@ -73,5 +77,13 @@
         android:id="@+id/editTaskFragment"
         android:name="com.example.taskmanager.EditTaskFragment"
         android:label="fragment_edit_task"
-        tools:layout="@layout/fragment_edit_task" />
+        tools:layout="@layout/fragment_edit_task">
+
+        <argument
+            android:name="taskId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_editTaskFragment_to_adminTaskListFragment"
+            app:destination="@id/adminTaskListFragment" />
+    </fragment>
 </navigation>
