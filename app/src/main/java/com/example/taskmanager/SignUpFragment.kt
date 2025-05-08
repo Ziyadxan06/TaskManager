@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
@@ -24,6 +25,7 @@ class SignUpFragment : Fragment() {
     private lateinit var email: String
     private lateinit var confirmPassword: String
     private lateinit var password: String
+    private lateinit var userName: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,7 @@ class SignUpFragment : Fragment() {
 
         binding.btnSignup.setOnClickListener {
             signup()
+
         }
     }
 
@@ -55,15 +58,37 @@ class SignUpFragment : Fragment() {
         email = binding.signupEmail.text.toString()
         confirmPassword = binding.signupPassword2.text.toString()
         password = binding.signUpPassword.text.toString()
+        userName = binding.signupUsername.text.toString()
 
-        if(email == "" || password == "" || confirmPassword == ""){
+        if(email == "" || password == "" || confirmPassword == "" || userName == ""){
             Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
-        }else{
+        }else if(password != confirmPassword){
+            Toast.makeText(context, "Təhlükəsizlik üçün şifrəni iki dəfə daxil etməlisiniz. Şifrələr uyğun gəlmir.", Toast.LENGTH_LONG).show()
+        }
+        else{
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
-                }.addOnFailureListener {
+                    Toast.makeText(context, "Hesab Yaradildi", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_signUpFragment_to_taskListFragment)
+                }
+                .addOnFailureListener {
                     Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+
+            val db = FirebaseFirestore.getInstance()
+            val collection = db.collection("users")
+
+            val newDocRef = collection.document()
+
+            val taskData = hashMapOf(
+                "id" to newDocRef.id,
+                "username" to userName,
+                "useremail" to email
+            )
+
+            newDocRef.set(taskData)
+                .addOnFailureListener { e ->
+                    Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
                 }
         }
     }
