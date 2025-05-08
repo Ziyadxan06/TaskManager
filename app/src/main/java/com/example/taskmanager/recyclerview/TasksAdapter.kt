@@ -9,7 +9,7 @@ import com.example.taskmanager.R
 import java.util.Date
 import java.util.Locale
 
-class TasksAdapter(val taskList: ArrayList<TasksModel>) : RecyclerView.Adapter<TasksViewHolder>() {
+class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick: (TasksModel) -> Unit) : RecyclerView.Adapter<TasksViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerrowtasks, parent, false)
         val tasksViewHolder = TasksViewHolder(itemView)
@@ -25,6 +25,10 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>) : RecyclerView.Adapter<T
         holder.nameTextView.text = task.taskName
         holder.deadlineTextView.text = formattedDeadline
         holder.status.text = task.status
+
+        holder.itemView.setOnClickListener {
+            onItemClick(task)
+        }
     }
 
     override fun getItemCount(): Int {

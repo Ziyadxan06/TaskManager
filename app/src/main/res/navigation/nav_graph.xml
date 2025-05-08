@@ -15,7 +15,7 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_signInFragment_to_taskListFragment"
-            app:destination="@id/taskListFragment" />
+            app:destination="@id/adminTaskListFragment" />
         <action
             android:id="@+id/action_signInFragment_to_inventoryListFragment"
             app:destination="@id/inventoryListFragment" />
@@ -30,16 +30,19 @@
             app:destination="@id/signInFragment" />
         <action
             android:id="@+id/action_signUpFragment_to_taskListFragment"
-            app:destination="@id/taskListFragment" />
+            app:destination="@id/adminTaskListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/taskListFragment"
+        android:id="@+id/adminTaskListFragment"
         android:name="com.example.taskmanager.AdminTaskListFragment"
         android:label="fragment_task_list"
         tools:layout="@layout/admin_fragment_task_list" >
         <action
             android:id="@+id/action_taskListFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_taskDetailsDialogFragment"
+            app:destination="@id/taskDetailsDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/inventoryListFragment"
@@ -51,4 +54,16 @@
         android:name="com.example.taskmanager.AddTaskFragment"
         android:label="fragment_add_task"
         tools:layout="@layout/fragment_add_task" />
+
+    <dialog
+        android:id="@+id/taskDetailsDialogFragment"
+        android:name="com.example.taskmanager.TaskDetailsDialogFragment"
+        android:label="fragment_task_details_dialog"
+        tools:layout="@layout/fragment_task_details_dialog">
+
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            android:defaultValue="" />
+    </dialog>
 </navigation>

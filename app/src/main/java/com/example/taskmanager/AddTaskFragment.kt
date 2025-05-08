@@ -88,8 +88,7 @@ class AddTaskFragment : Fragment() {
                 "status" to "Yeni"
             )
 
-            db.collection("tasks")
-                .add(taskData)
+            newDocRef.set(taskData)
                 .addOnSuccessListener {
                     Toast.makeText(requireContext(), "Tapşırıq uğurla əlavə olundu", Toast.LENGTH_SHORT).show()
                 }

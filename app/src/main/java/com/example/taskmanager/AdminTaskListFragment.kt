@@ -47,7 +47,10 @@ class AdminTaskListFragment : Fragment() {
 
         recyclerView = binding.taskListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksAdapter = TasksAdapter(taskList)
+        tasksAdapter = TasksAdapter(taskList) { selectedTask ->
+            val action = AdminTaskListFragmentDirections.actionTaskListFragmentToTaskDetailsDialogFragment(selectedTask.id)
+            findNavController().navigate(action)
+        }
         binding.taskListRV.adapter = tasksAdapter
 
         getData()
