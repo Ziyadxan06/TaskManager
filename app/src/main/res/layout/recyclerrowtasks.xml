@@ -2,9 +2,10 @@
 <LinearLayout
     android:id="@+id/recyclerView"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="7dp">
 
     <TextView
         android:id="@+id/taskName"
@@ -16,7 +17,7 @@
     <TextView
         android:id="@+id/deadline"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="06.03.2004"
         android:textSize="16sp"/>
 
