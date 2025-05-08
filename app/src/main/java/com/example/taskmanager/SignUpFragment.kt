@@ -39,9 +39,6 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val activity = requireActivity()
-        activity.findViewById<BottomNavigationView>(R.id.bottomNavigation).visibility = View.GONE
-
         auth = Firebase.auth
 
         binding.linkviewSingup.setOnClickListener {

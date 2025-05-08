@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/TaskListFragment"
+        android:id="@+id/adminTaskListFragment"
         android:icon="@drawable/baseline_task_alt_24"
         android:title="Tasks"/>
 
     <item
-        android:id="@+id/InventoryListFragment"
+        android:id="@+id/inventoryListFragment"
         android:icon="@drawable/baseline_inventory_24"
         android:title="Inventory"/>
 </menu>

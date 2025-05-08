@@ -74,7 +74,7 @@ class EditTaskFragment : Fragment() {
                 )
 
                 FirebaseFirestore.getInstance().collection("tasks")
-                    .document(args.taskId) // ← eyni sənəd ID
+                    .document(args.taskId)
                     .update(updateMap)
                     .addOnSuccessListener {
                         Toast.makeText(context, "Tapşırıq yeniləndi", Toast.LENGTH_SHORT).show()
