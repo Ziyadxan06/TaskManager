@@ -65,5 +65,13 @@
             android:name="taskId"
             app:argType="string"
             android:defaultValue="" />
+        <action
+            android:id="@+id/action_taskDetailsDialogFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="com.example.taskmanager.EditTaskFragment"
+        android:label="fragment_edit_task"
+        tools:layout="@layout/fragment_edit_task" />
 </navigation>
