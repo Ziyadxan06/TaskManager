@@ -9,4 +9,5 @@ import org.w3c.dom.Text
 class TasksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val nameTextView = itemView.findViewById<TextView>(R.id.taskName)
     val deadlineTextView = itemView.findViewById<TextView>(R.id.deadline)
+    val status = itemView.findViewById<TextView>(R.id.statusView)
 }

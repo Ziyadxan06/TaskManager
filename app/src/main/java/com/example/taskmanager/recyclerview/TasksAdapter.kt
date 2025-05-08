@@ -24,6 +24,7 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>) : RecyclerView.Adapter<T
 
         holder.nameTextView.text = task.taskName
         holder.deadlineTextView.text = formattedDeadline
+        holder.status.text = task.status
     }
 
     override fun getItemCount(): Int {

@@ -21,4 +21,11 @@
         android:text="06.03.2004"
         android:textSize="16sp"/>
 
+    <TextView
+        android:id="@+id/statusView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Yeni"
+        android:textSize="16sp"/>
+
 </LinearLayout>
