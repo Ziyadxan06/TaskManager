@@ -67,29 +67,31 @@ class SignUpFragment : Fragment() {
         }
         else{
             auth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Hesab Yaradildi", Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_signUpFragment_to_taskListFragment)
+                .addOnSuccessListener { authResult ->
+                    val uid = authResult.user?.uid ?: return@addOnSuccessListener
+
+                    val db = FirebaseFirestore.getInstance()
+                    val userData = hashMapOf(
+                        "id" to uid,
+                        "username" to userName,
+                        "useremail" to email,
+                        "role" to "staff"
+                    )
+
+                    db.collection("users")
+                        .document(uid)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Hesab Yaradıldı", Toast.LENGTH_LONG).show()
+                            findNavController().navigate(R.id.action_signUpFragment_to_staffTaskListFragment)
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "DB Xətası: ${e.message}", Toast.LENGTH_LONG).show()
+                        }
+
                 }
                 .addOnFailureListener {
-                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-
-            val db = FirebaseFirestore.getInstance()
-            val collection = db.collection("users")
-
-            val newDocRef = collection.document()
-
-            val taskData = hashMapOf(
-                "id" to newDocRef.id,
-                "username" to userName,
-                "useremail" to email,
-                "role" to "staff"
-            )
-
-            newDocRef.set(taskData)
-                .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Auth xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
         }
     }

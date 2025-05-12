@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_signInFragment_to_inventoryListFragment"
             app:destination="@id/inventoryListFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_staffTaskListFragment"
+            app:destination="@id/staffTaskListFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -29,8 +32,8 @@
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
         <action
-            android:id="@+id/action_signUpFragment_to_taskListFragment"
-            app:destination="@id/adminTaskListFragment" />
+            android:id="@+id/action_signUpFragment_to_staffTaskListFragment"
+            app:destination="@id/staffTaskListFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminTaskListFragment"
@@ -86,4 +89,9 @@
             android:id="@+id/action_editTaskFragment_to_adminTaskListFragment"
             app:destination="@id/adminTaskListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/staffTaskListFragment"
+        android:name="com.example.taskmanager.StaffTaskListFragment"
+        android:label="fragment_staff_task_list"
+        tools:layout="@layout/fragment_staff_task_list" />
 </navigation>

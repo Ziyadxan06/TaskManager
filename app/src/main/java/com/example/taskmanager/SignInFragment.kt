@@ -68,7 +68,7 @@ class SignInFragment : Fragment() {
         }else{
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-
+                    adminorstaff()
                 }.addOnFailureListener {
                     Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
@@ -91,5 +91,21 @@ class SignInFragment : Fragment() {
                     }
                 }
         }
+    }
+
+    fun adminorstaff(){
+        FirebaseFirestore.getInstance().collection("users")
+            .document(id.toString())
+            .get()
+            .addOnSuccessListener { document ->
+                val role = document.getString("role")
+
+                if (role == "admin") {
+                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
+                } else {
+                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
+                }
+            }
+
     }
 }
