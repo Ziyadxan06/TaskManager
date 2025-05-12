@@ -46,12 +46,19 @@
         <action
             android:id="@+id/action_taskListFragment_to_taskDetailsDialogFragment"
             app:destination="@id/taskDetailsDialogFragment" />
+        <action
+            android:id="@+id/action_adminTaskListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/inventoryListFragment"
         android:name="com.example.taskmanager.AdminInventoryListFragment"
         android:label="fragment_inventory_list"
-        tools:layout="@layout/fragment_inventory_list" />
+        tools:layout="@layout/fragment_inventory_list" >
+        <action
+            android:id="@+id/action_inventoryListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
         android:name="com.example.taskmanager.AddTaskFragment"
@@ -93,5 +100,14 @@
         android:id="@+id/staffTaskListFragment"
         android:name="com.example.taskmanager.StaffTaskListFragment"
         android:label="fragment_staff_task_list"
-        tools:layout="@layout/fragment_staff_task_list" />
+        tools:layout="@layout/fragment_staff_task_list" >
+        <action
+            android:id="@+id/action_staffTaskListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.taskmanager.SettingsFragment"
+        android:label="fragment_options_menu_admin"
+        tools:layout="@layout/fragment_options_menu_admin" />
 </navigation>

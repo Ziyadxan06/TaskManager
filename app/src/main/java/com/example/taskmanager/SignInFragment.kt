@@ -94,8 +94,9 @@ class SignInFragment : Fragment() {
     }
 
     fun adminorstaff(){
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
         FirebaseFirestore.getInstance().collection("users")
-            .document(id.toString())
+            .document(uid)
             .get()
             .addOnSuccessListener { document ->
                 val role = document.getString("role")
@@ -103,7 +104,7 @@ class SignInFragment : Fragment() {
                 if (role == "admin") {
                     findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
                 } else {
-                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
+                    findNavController().navigate(R.id.action_signInFragment_to_staffTaskListFragment)
                 }
             }
 
