@@ -42,6 +42,10 @@ class SettingsFragment : Fragment() {
                 findNavController().navigate(R.id.action_settingsFragment_to_signInFragment)
             }, 300)
         }
+
+        binding.accountView.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
+        }
     }
 
     fun adminorstaff(){
@@ -56,6 +60,5 @@ class SettingsFragment : Fragment() {
                 val role = document.getString("role")
                 binding.usermanagmentView.visibility = if (role == "admin") View.VISIBLE else View.GONE
             }
-
     }
 }

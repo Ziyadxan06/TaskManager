@@ -84,7 +84,6 @@ class AdminTaskListFragment : Fragment() {
     }
 
     private fun getData() {
-        Log.d("FIRESTORE", "getData() started")
         db.collection("tasks").addSnapshotListener { value, error ->
             if (error != null) {
                 Log.e("FIRESTORE", "Error: ${error.message}")
