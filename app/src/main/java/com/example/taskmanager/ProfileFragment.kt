@@ -17,6 +17,8 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var uid: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +35,7 @@ class ProfileFragment : Fragment() {
         binding.useridAccount.setText(user?.uid ?: "-")
         binding.useremailAccount.setText(user?.email ?: "-")
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         FirebaseFirestore.getInstance()
             .collection("users")
@@ -53,5 +55,28 @@ class ProfileFragment : Fragment() {
             .addOnFailureListener {
                 Toast.makeText(context, "Xəta: ${it.message}", Toast.LENGTH_LONG).show()
             }
+
+        binding.btnupdateName.setOnClickListener {
+            updateName()
+        }
     }
+
+    fun updateName(){
+        val updatedName = binding.usernameAccount.text.toString().trim()
+
+        val updateMap = hashMapOf<String, Any>(
+            "username" to updatedName
+        )
+
+        FirebaseFirestore.getInstance().collection("users")
+            .document(uid)
+            .update(updateMap)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Username Yenilendi", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Xəta baş verdi: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
 }

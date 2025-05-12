@@ -17,7 +17,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="false"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:background="@android:color/transparent"/>
 
     <EditText
         android:id="@+id/usernameAccount"
@@ -29,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/useridAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/useridAccount"/>
 
     <EditText
         android:id="@+id/useremailAccount"
@@ -40,7 +44,11 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameAccount"
+        android:focusable="false"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:background="@android:color/transparent"/>
 
     <EditText
         android:id="@+id/roleAccount"
@@ -51,7 +59,11 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/useremailAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/useremailAccount"
+        android:focusable="false"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:background="@android:color/transparent"/>
 
     <TextView
         android:id="@+id/textView12"
@@ -108,4 +120,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnupdateName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Update Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roleAccount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
