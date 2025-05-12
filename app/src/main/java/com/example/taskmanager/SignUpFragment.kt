@@ -89,6 +89,11 @@ class SignUpFragment : Fragment() {
                             Toast.makeText(context, "DB Xətası: ${e.message}", Toast.LENGTH_LONG).show()
                         }
 
+                    binding.signupEmail.setText("")
+                    binding.signUpPassword.setText("")
+                    binding.signupUsername.setText("")
+                    binding.signupPassword2.setText("")
+
                 }
                 .addOnFailureListener {
                     Toast.makeText(context, "Auth xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()

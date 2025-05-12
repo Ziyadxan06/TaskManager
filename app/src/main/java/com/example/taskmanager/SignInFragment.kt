@@ -69,6 +69,8 @@ class SignInFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
                     adminorstaff()
+                    binding.signinEmail.setText("")
+                    binding.signinPassword.setText("")
                 }.addOnFailureListener {
                     Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
