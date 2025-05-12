@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class SignInFragment : Fragment() {
@@ -67,7 +68,7 @@ class SignInFragment : Fragment() {
         }else{
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
+
                 }.addOnFailureListener {
                     Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }

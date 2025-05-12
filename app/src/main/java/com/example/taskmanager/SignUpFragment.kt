@@ -83,7 +83,8 @@ class SignUpFragment : Fragment() {
             val taskData = hashMapOf(
                 "id" to newDocRef.id,
                 "username" to userName,
-                "useremail" to email
+                "useremail" to email,
+                "role" to "staff"
             )
 
             newDocRef.set(taskData)

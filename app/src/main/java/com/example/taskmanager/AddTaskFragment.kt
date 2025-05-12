@@ -1,5 +1,6 @@
 package com.example.taskmanager
 
+
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.icu.text.SimpleDateFormat
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentAddTaskBinding
@@ -62,6 +64,8 @@ class AddTaskFragment : Fragment() {
         binding.btnAdd.setOnClickListener {
             uploadData()
         }
+
+        setupAssigneeEmailDropdown()
     }
 
     fun uploadData(){
@@ -96,5 +100,39 @@ class AddTaskFragment : Fragment() {
                     Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
                 }
         }
+    }
+
+    private fun setupAssigneeEmailDropdown() {
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                val emailList = result.mapNotNull { it.getString("useremail") }
+
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    emailList
+                )
+
+                binding.taskAssignee.setAdapter(adapter)
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Email siyahısı yüklənmədi: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+
+        binding.taskAssignee.setOnItemClickListener { _, _, position, _ ->
+            val selectedEmail = binding.taskAssignee.adapter.getItem(position) as String
+
+            FirebaseFirestore.getInstance().collection("users")
+                .whereEqualTo("useremail", selectedEmail)
+                .limit(1)
+                .get()
+                .addOnSuccessListener { result ->
+                    val name = result.documents.firstOrNull()?.getString("username") ?: "-"
+                    binding.usernameAdd.setText(name)
+                }
+        }
+
     }
 }
