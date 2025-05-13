@@ -50,6 +50,13 @@ class UserManagement : Fragment() {
         binding.userRecyclerView.adapter = userAdapter
 
         getData()
+
+        parentFragmentManager.setFragmentResultListener("userRoleUpdated", viewLifecycleOwner) { _, bundle ->
+            val updatedUserId = bundle.getString("updatedUserId")
+            if (!updatedUserId.isNullOrBlank()) {
+                refreshUser(updatedUserId)
+            }
+        }
     }
 
     fun getData(){
@@ -66,5 +73,21 @@ class UserManagement : Fragment() {
             }
     }
 
-    
+    private fun refreshUser(userId: String) {
+        FirebaseFirestore.getInstance().collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                val updatedUser = document.toObject(UserModel::class.java)
+                val index = userList.indexOfFirst { it.uid == userId }
+
+                if (updatedUser != null && index != -1) {
+                    userList[index] = updatedUser.copy(uid = document.id)
+                    userAdapter.notifyItemChanged(index)
+                }
+            }
+    }
+
+
+
 }

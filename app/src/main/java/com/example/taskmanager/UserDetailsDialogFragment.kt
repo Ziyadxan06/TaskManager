@@ -90,6 +90,7 @@ class UserDetailsDialogFragment : DialogFragment() {
                 if (newRole != currentRole) {
                     updateUserRole(userId, newRole)
                     currentRole = newRole
+                    binding.userRole.text = newRole
                 }
             }
         }
@@ -100,10 +101,17 @@ class UserDetailsDialogFragment : DialogFragment() {
             .document(userId)
             .update("role", role)
             .addOnSuccessListener {
-                Toast.makeText(context, "Role updated to $role", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Role updated to $role", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Failed to update role", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to update role", Toast.LENGTH_SHORT).show()
             }
+
+        parentFragmentManager.setFragmentResult(
+            "userRoleUpdated",
+            Bundle().apply {
+                putString("updatedUserId", userId)
+            }
+        )
     }
 }
