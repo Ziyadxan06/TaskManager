@@ -86,10 +86,8 @@ class AdminTaskListFragment : Fragment() {
     private fun getData() {
         db.collection("tasks").addSnapshotListener { value, error ->
             if (error != null) {
-                Log.e("FIRESTORE", "Error: ${error.message}")
                 Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
             } else if (value != null && !value.isEmpty) {
-                Log.d("FIRESTORE", "Snapshot received")
 
                 val documents = value.documents
 
@@ -106,7 +104,6 @@ class AdminTaskListFragment : Fragment() {
                 }
 
                 tasksAdapter.notifyDataSetChanged()
-                Log.d("FIRESTORE", "Total tasks after fetch: ${taskList.size}")
             }
         }
     }

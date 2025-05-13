@@ -116,10 +116,18 @@
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_userManagement"
+            app:destination="@id/userManagement" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.taskmanager.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/userManagement"
+        android:name="com.example.taskmanager.UserManagement"
+        android:label="fragment_user_management"
+        tools:layout="@layout/fragment_user_management" />
 </navigation>

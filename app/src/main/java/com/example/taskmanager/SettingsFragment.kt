@@ -46,6 +46,10 @@ class SettingsFragment : Fragment() {
         binding.accountView.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
         }
+
+        binding.usermanagmentView.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_userManagement)
+        }
     }
 
     fun adminorstaff(){

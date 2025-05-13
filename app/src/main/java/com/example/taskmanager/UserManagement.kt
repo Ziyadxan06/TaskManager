@@ -5,13 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentOptionsMenuAdminBinding
 import com.example.taskmanager.databinding.FragmentUserManagementBinding
+import com.example.taskmanager.recyclerview.TasksAdapter
+import com.example.taskmanager.recyclerview.TasksModel
+import com.example.taskmanager.recyclerview.UserAdapter
+import com.example.taskmanager.recyclerview.UserModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 
 class UserManagement : Fragment() {
 
     private var _binding: FragmentUserManagementBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var userAdapter: UserAdapter
+    private lateinit var userList: ArrayList<UserModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,5 +37,31 @@ class UserManagement : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userList = ArrayList()
+
+        recyclerView = binding.userRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        userAdapter = UserAdapter(userList) { selectedItem ->
+
+        }
+        binding.userRecyclerView.adapter = userAdapter
+
+        getData()
     }
+
+    fun getData(){
+        FirebaseFirestore.getInstance().collection("users")
+            .get()
+            .addOnSuccessListener { documents ->
+                userList.clear()
+                for(document in documents){
+                    val user = document.toObject(UserModel::class.java)
+                    userList.add(user)
+                }
+                userAdapter.notifyDataSetChanged()
+            }
+    }
+
+    
 }
