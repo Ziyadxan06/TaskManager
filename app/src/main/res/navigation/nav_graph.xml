@@ -129,5 +129,20 @@
         android:id="@+id/userManagement"
         android:name="com.example.taskmanager.UserManagement"
         android:label="fragment_user_management"
-        tools:layout="@layout/fragment_user_management" />
+        tools:layout="@layout/fragment_user_management" >
+
+        <action
+            android:id="@+id/action_userManagement_to_userDetailsDialogFragment"
+            app:destination="@id/userDetailsDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/userDetailsDialogFragment"
+        android:name="com.example.taskmanager.UserDetailsDialogFragment"
+        android:label="fragment_user_details_dialog"
+        tools:layout="@layout/fragment_user_details_dialog" >
+
+        <argument
+            android:name="userId"
+            app:argType="string"/>
+    </dialog>
 </navigation>

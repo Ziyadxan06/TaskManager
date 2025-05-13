@@ -16,6 +16,7 @@ import com.example.taskmanager.recyclerview.UserAdapter
 import com.example.taskmanager.recyclerview.UserModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import java.nio.file.attribute.UserPrincipal
 
 class UserManagement : Fragment() {
 
@@ -43,7 +44,8 @@ class UserManagement : Fragment() {
         recyclerView = binding.userRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         userAdapter = UserAdapter(userList) { selectedItem ->
-
+            val action = UserManagementDirections.actionUserManagementToUserDetailsDialogFragment(selectedItem.uid ?: "")
+            findNavController().navigate(action)
         }
         binding.userRecyclerView.adapter = userAdapter
 
@@ -57,7 +59,8 @@ class UserManagement : Fragment() {
                 userList.clear()
                 for(document in documents){
                     val user = document.toObject(UserModel::class.java)
-                    userList.add(user)
+                    val userWithId = user.copy(uid = document.id)
+                    userList.add(userWithId)
                 }
                 userAdapter.notifyDataSetChanged()
             }
