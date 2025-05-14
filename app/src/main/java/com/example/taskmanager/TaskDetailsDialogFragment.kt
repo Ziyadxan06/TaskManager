@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.databinding.FragmentTaskDetailsDialogBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
 import java.util.Locale
@@ -52,8 +53,20 @@ class TaskDetailsDialogFragment : DialogFragment() {
                     Date(deadlineMillis)
                 )
                 binding.deadlineTextView.text = formatted
+
             }.addOnFailureListener {
                 Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+
+        val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
+        FirebaseFirestore.getInstance().collection("users")
+            .document(currentUserUid!!)
+            .get()
+            .addOnSuccessListener { document ->
+                val role = document.getString("role")
+                if (role == "admin" || role == "superadmin") {
+                    binding.btnEdit.visibility = View.VISIBLE
+                }
             }
 
         binding.btnEdit.setOnClickListener {
