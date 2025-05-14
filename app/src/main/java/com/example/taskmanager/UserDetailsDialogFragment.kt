@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.FragmentUserDetailsDialogBinding
 import com.example.taskmanager.databinding.FragmentUserManagementBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
 import java.util.Locale
@@ -46,6 +47,18 @@ class UserDetailsDialogFragment : DialogFragment() {
         binding.userEmail.isSelected = true
         binding.userID.isSelected = true
         binding.userName.isSelected = true
+
+         FirebaseAuth.getInstance().currentUser?.uid?.let { currentUid ->
+            FirebaseFirestore.getInstance().collection("users").document(currentUid)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    val role = snapshot.getString("role") ?: ""
+                    if (role == "superadmin") {
+                        binding.roleChipGroup.visibility = View.VISIBLE
+                    }
+                }
+        }
+
     }
 
     private fun getUser(){

@@ -62,7 +62,7 @@ class SettingsFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 val role = document.getString("role")
-                binding.usermanagmentView.visibility = if (role == "admin") View.VISIBLE else View.GONE
+                binding.usermanagmentView.visibility = if (role == "admin" || role == "superadmin") View.VISIBLE else View.GONE
             }
     }
 }

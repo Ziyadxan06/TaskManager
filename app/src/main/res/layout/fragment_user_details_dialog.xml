@@ -123,6 +123,7 @@
         android:id="@+id/roleChipGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
