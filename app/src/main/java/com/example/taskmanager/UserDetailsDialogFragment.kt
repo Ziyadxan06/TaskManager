@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.FragmentUserDetailsDialogBinding
 import com.example.taskmanager.databinding.FragmentUserManagementBinding
+import com.example.taskmanager.recyclerview.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
@@ -67,6 +68,7 @@ class UserDetailsDialogFragment : DialogFragment() {
             .get()
             .addOnSuccessListener{ document ->
                 val role = document.getString("role") ?: ""
+                val targetUser = document.toObject(UserModel::class.java)!!.copy(uid = document.id)
                 binding.userID.text = document.getString("id") ?: "-"
                 binding.userName.text = document.getString("username") ?: "-"
                 binding.userEmail.text = document.getString("useremail") ?: "-"
@@ -82,6 +84,11 @@ class UserDetailsDialogFragment : DialogFragment() {
                 }
 
                 shouldHandleChipChange = true
+
+                if (targetUser.role == "superadmin") {
+                    binding.chipAdmin.isEnabled = false
+                    binding.chipStaff.isEnabled = false
+                }
 
             }.addOnFailureListener {
                 Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
