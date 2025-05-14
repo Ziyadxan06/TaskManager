@@ -14,6 +14,7 @@ import com.example.taskmanager.recyclerview.TasksAdapter
 import com.example.taskmanager.recyclerview.TasksModel
 import com.example.taskmanager.recyclerview.UserAdapter
 import com.example.taskmanager.recyclerview.UserModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import java.nio.file.attribute.UserPrincipal
@@ -60,14 +61,18 @@ class UserManagement : Fragment() {
     }
 
     fun getData(){
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
         FirebaseFirestore.getInstance().collection("users")
             .get()
             .addOnSuccessListener { documents ->
                 userList.clear()
                 for(document in documents){
-                    val user = document.toObject(UserModel::class.java)
-                    val userWithId = user.copy(uid = document.id)
-                    userList.add(userWithId)
+                    if (document.id != currentUserId) {
+                        val user = document.toObject(UserModel::class.java)
+                        val userWithId = user.copy(uid = document.id)
+                        userList.add(userWithId)
+                    }
                 }
                 userAdapter.notifyDataSetChanged()
             }
