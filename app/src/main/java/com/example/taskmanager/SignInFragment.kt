@@ -103,7 +103,7 @@ class SignInFragment : Fragment() {
             .addOnSuccessListener { document ->
                 val role = document.getString("role")
 
-                if (role == "admin") {
+                if (role == "admin" || role == "superadmin") {
                     findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
                 } else {
                     findNavController().navigate(R.id.action_signInFragment_to_staffTaskListFragment)

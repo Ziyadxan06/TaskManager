@@ -104,6 +104,9 @@
         <action
             android:id="@+id/action_staffTaskListFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_staffTaskListFragment_to_taskDetailsDialogFragment"
+            app:destination="@id/taskDetailsDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

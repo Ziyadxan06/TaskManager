@@ -8,17 +8,28 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.databinding.FragmentSignUpBinding
 import com.example.taskmanager.databinding.FragmentStaffTaskListBinding
+import com.example.taskmanager.recyclerview.TasksAdapter
+import com.example.taskmanager.recyclerview.TasksModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class StaffTaskListFragment : Fragment() {
 
     private var _binding: FragmentStaffTaskListBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var tasksAdapter: TasksAdapter
+    private lateinit var taskList: ArrayList<TasksModel>
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,5 +61,45 @@ class StaffTaskListFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner)
+
+        taskList = ArrayList()
+        recyclerView = binding.tasksRv
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        tasksAdapter = TasksAdapter(taskList) { selectedTask ->
+            val action = StaffTaskListFragmentDirections.actionStaffTaskListFragmentToTaskDetailsDialogFragment(selectedTask.id)
+            findNavController().navigate(action)
+        }
+        binding.tasksRv.adapter = tasksAdapter
+
+        getData()
+    }
+
+    private fun getData() {
+        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email
+
+        FirebaseFirestore.getInstance().collection("tasks").addSnapshotListener { value, error ->
+            if (error != null) {
+                Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
+            } else if (value != null && !value.isEmpty) {
+
+                val documents = value.documents
+
+                for (document in documents) {
+                    if(document.get("assignedTo") == currentUserEmail){
+                        val id = document.get("id") as? String ?: ""
+                        val assignedTo = document.get("assignedTo") as? String ?: ""
+                        val taskTitle = document.get("name") as? String ?: ""
+                        val priority = document.get("priority") as? String ?: ""
+                        val status = document.get("status") as? String ?: ""
+                        val deadline = document.get("deadline") as? Long ?: 0L
+
+                        val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status)
+                        taskList.add(task)
+                    }
+                }
+
+                tasksAdapter.notifyDataSetChanged()
+            }
+        }
     }
 }
