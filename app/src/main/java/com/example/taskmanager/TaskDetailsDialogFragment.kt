@@ -82,6 +82,7 @@ class TaskDetailsDialogFragment : DialogFragment() {
                 val role = document.getString("role")
                 if (role == "admin" || role == "superadmin") {
                     binding.btnEdit.visibility = View.VISIBLE
+                    binding.statusRadioGroup.visibility = View.GONE
                 }
             }
 
