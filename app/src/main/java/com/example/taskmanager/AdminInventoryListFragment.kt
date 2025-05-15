@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.taskmanager.databinding.FragmentInventoryListBinding
 import com.example.taskmanager.databinding.FragmentStaffTaskListBinding
 
 class AdminInventoryListFragment : Fragment() {
 
-    private var _binding: FragmentStaffTaskListBinding? = null
+    private var _binding: FragmentInventoryListBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,7 +18,7 @@ class AdminInventoryListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentStaffTaskListBinding.inflate(inflater, container, false)
+        _binding = FragmentInventoryListBinding.inflate(inflater, container, false)
         return (binding.root)
     }
 
