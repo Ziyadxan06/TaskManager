@@ -45,6 +45,26 @@
         android:textSize="18sp"
         android:layout_marginTop="20dp"/>
 
+    <RadioGroup
+        android:id="@+id/statusRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioInProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending" />
+
+        <RadioButton
+            android:id="@+id/radioDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done" />
+    </RadioGroup>
+
+
 
     <Button
         android:id="@+id/btnEdit"

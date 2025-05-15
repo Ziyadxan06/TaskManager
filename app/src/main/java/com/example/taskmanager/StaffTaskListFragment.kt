@@ -72,6 +72,7 @@ class StaffTaskListFragment : Fragment() {
         binding.tasksRv.adapter = tasksAdapter
 
         getData()
+        taskUpdated()
     }
 
     private fun getData() {
@@ -81,10 +82,11 @@ class StaffTaskListFragment : Fragment() {
             if (error != null) {
                 Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
             } else if (value != null && !value.isEmpty) {
-
+                taskList.clear()
                 val documents = value.documents
 
                 for (document in documents) {
+
                     if(document.get("assignedTo") == currentUserEmail){
                         val id = document.get("id") as? String ?: ""
                         val assignedTo = document.get("assignedTo") as? String ?: ""
@@ -99,6 +101,21 @@ class StaffTaskListFragment : Fragment() {
                 }
 
                 tasksAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun taskUpdated(){
+        parentFragmentManager.setFragmentResultListener("taskUpdated", viewLifecycleOwner) { _, bundle ->
+            val taskId = bundle.getString("updatedTaskId")
+            val newStatus = bundle.getString("updatedStatus")
+
+            if (!taskId.isNullOrBlank() && !newStatus.isNullOrBlank()) {
+                val index = taskList.indexOfFirst { it.id == taskId }
+                if (index != -1) {
+                    taskList[index] = taskList[index].copy(status = newStatus)
+                    tasksAdapter.notifyItemChanged(index)
+                }
             }
         }
     }
