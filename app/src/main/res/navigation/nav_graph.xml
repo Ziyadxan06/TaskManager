@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_inventoryListFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_inventoryListFragment_to_inventoryAddFragment"
+            app:destination="@id/inventoryAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -148,4 +151,9 @@
             android:name="userId"
             app:argType="string"/>
     </dialog>
+    <fragment
+        android:id="@+id/inventoryAddFragment"
+        android:name="com.example.taskmanager.InventoryAddFragment"
+        android:label="fragment_inventory_add"
+        tools:layout="@layout/fragment_inventory_add" />
 </navigation>
