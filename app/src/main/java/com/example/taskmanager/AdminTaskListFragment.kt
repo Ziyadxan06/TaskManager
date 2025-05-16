@@ -47,6 +47,8 @@ class AdminTaskListFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar2)
 
+        binding.progressBar.visibility = View.VISIBLE
+
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         FirebaseFirestore.getInstance().collection("users")
@@ -95,7 +97,7 @@ class AdminTaskListFragment : Fragment() {
     }
 
     private fun setupUiByRole(role: String) {
-        if (role == "admin") {
+        if (role == "admin" || role == "superadmin") {
             binding.floatingActionButton.visibility = View.VISIBLE
         } else {
             binding.floatingActionButton.visibility = View.GONE
@@ -121,6 +123,8 @@ class AdminTaskListFragment : Fragment() {
                 Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
                 return@addSnapshotListener
             }
+
+            binding.progressBar.visibility = View.GONE
 
             if (snapshot != null && !snapshot.isEmpty) {
                 taskList.clear()
