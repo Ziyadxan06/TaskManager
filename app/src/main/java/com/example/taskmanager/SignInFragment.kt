@@ -68,7 +68,7 @@ class SignInFragment : Fragment() {
         }else{
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    adminorstaff()
+                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
                     binding.signinEmail.setText("")
                     binding.signinPassword.setText("")
                 }.addOnFailureListener {
@@ -93,22 +93,5 @@ class SignInFragment : Fragment() {
                     }
                 }
         }
-    }
-
-    fun adminorstaff(){
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        FirebaseFirestore.getInstance().collection("users")
-            .document(uid)
-            .get()
-            .addOnSuccessListener { document ->
-                val role = document.getString("role")
-
-                if (role == "admin" || role == "superadmin") {
-                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
-                } else {
-                    findNavController().navigate(R.id.action_signInFragment_to_staffTaskListFragment)
-                }
-            }
-
     }
 }

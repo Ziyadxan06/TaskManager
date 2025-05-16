@@ -20,6 +20,7 @@ import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.recyclerview.TasksAdapter
 import com.example.taskmanager.recyclerview.TasksModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdminTaskListFragment : Fragment() {
@@ -46,6 +47,18 @@ class AdminTaskListFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar2)
 
+        val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        FirebaseFirestore.getInstance().collection("users")
+            .document(currentUserUid)
+            .get()
+            .addOnSuccessListener { document ->
+                val role = document.getString("role") ?: "staff"
+                setupUiByRole(role)
+                fetchTasks(role)
+            }
+
+
         db = FirebaseFirestore.getInstance()
 
         taskList = ArrayList()
@@ -59,8 +72,6 @@ class AdminTaskListFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.taskListRV.adapter = tasksAdapter
-
-        getData()
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_taskListFragment_to_addTaskFragment)
@@ -83,15 +94,37 @@ class AdminTaskListFragment : Fragment() {
         }, viewLifecycleOwner)
     }
 
-    private fun getData() {
-        db.collection("tasks").addSnapshotListener { value, error ->
+    private fun setupUiByRole(role: String) {
+        if (role == "admin") {
+            binding.floatingActionButton.visibility = View.VISIBLE
+        } else {
+            binding.floatingActionButton.visibility = View.GONE
+        }
+    }
+
+    private fun fetchTasks(role: String) {
+        val collection = FirebaseFirestore.getInstance().collection("tasks")
+
+        val query = if (role == "admin" || role == "superadmin") {
+            collection
+        } else {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            collection.whereEqualTo("assignedTo", email)
+        }
+
+        taskList.clear()
+        tasksAdapter.notifyDataSetChanged()
+
+        query.addSnapshotListener { snapshot, error ->
+
             if (error != null) {
                 Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
-            } else if (value != null && !value.isEmpty) {
+                return@addSnapshotListener
+            }
 
-                val documents = value.documents
-
-                for (document in documents) {
+            if (snapshot != null && !snapshot.isEmpty) {
+                taskList.clear()
+                for (document in snapshot.documents) {
                     val id = document.get("id") as? String ?: ""
                     val assignedTo = document.get("assignedTo") as? String ?: ""
                     val taskTitle = document.get("name") as? String ?: ""
@@ -104,7 +137,13 @@ class AdminTaskListFragment : Fragment() {
                 }
 
                 tasksAdapter.notifyDataSetChanged()
+            } else {
+                taskList.clear()
+                tasksAdapter.notifyDataSetChanged()
             }
         }
     }
+
+
+
 }

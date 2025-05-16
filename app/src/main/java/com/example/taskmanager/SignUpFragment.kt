@@ -83,7 +83,7 @@ class SignUpFragment : Fragment() {
                         .set(userData)
                         .addOnSuccessListener {
                             Toast.makeText(context, "Hesab Yaradıldı", Toast.LENGTH_LONG).show()
-                            findNavController().navigate(R.id.action_signUpFragment_to_staffTaskListFragment)
+                            findNavController().navigate(R.id.action_signUpFragment_to_adminTaskListFragment)
                         }
                         .addOnFailureListener { e ->
                             Toast.makeText(context, "DB Xətası: ${e.message}", Toast.LENGTH_LONG).show()
