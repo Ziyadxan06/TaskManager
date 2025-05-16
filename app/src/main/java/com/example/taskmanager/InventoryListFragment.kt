@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentInventoryListBinding
 import com.example.taskmanager.recyclerview.InventoryAdapter
 import com.example.taskmanager.recyclerview.InventoryModel
-import com.example.taskmanager.recyclerview.TasksAdapter
-import com.example.taskmanager.recyclerview.TasksModel
 import com.google.firebase.firestore.FirebaseFirestore
 
-class AdminInventoryListFragment : Fragment() {
+class InventoryListFragment : Fragment() {
 
     private var _binding: FragmentInventoryListBinding? = null
     private val binding get() = _binding!!

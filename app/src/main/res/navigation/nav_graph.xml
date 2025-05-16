@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/inventoryListFragment"
-        android:name="com.example.taskmanager.AdminInventoryListFragment"
+        android:name="com.example.taskmanager.InventoryListFragment"
         android:label="fragment_inventory_list"
         tools:layout="@layout/fragment_inventory_list" >
         <action
