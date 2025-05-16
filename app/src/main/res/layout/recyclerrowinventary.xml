@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="7dp">
+
+    <TextView
+        android:id="@+id/inventarynameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Komputer"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/categoryView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Computer"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/macView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A1:B2:C3:D4:E5:F6"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/arrivalView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="12 may 2025"
+        android:textSize="16sp"/>
+
+
+</LinearLayout>
