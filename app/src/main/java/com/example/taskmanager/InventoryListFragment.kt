@@ -39,7 +39,8 @@ class InventoryListFragment : Fragment() {
         recyclerView = binding.adminInventoryRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         inventoryAdapter = InventoryAdapter(equipmentList) { selectedItem ->
-
+            val action = InventoryListFragmentDirections.actionInventoryListFragmentToInventoryDetailsDialogFragment(selectedItem.id)
+            findNavController().navigate(action)
         }
         binding.adminInventoryRV.adapter = inventoryAdapter
 

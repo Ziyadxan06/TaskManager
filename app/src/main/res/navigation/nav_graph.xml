@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_inventoryListFragment_to_inventoryAddFragment"
             app:destination="@id/inventoryAddFragment" />
+        <action
+            android:id="@+id/action_inventoryListFragment_to_inventoryDetailsDialogFragment"
+            app:destination="@id/inventoryDetailsDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -141,4 +144,14 @@
         android:name="com.example.taskmanager.InventoryAddFragment"
         android:label="fragment_inventory_add"
         tools:layout="@layout/fragment_inventory_add" />
+    <dialog
+        android:id="@+id/inventoryDetailsDialogFragment"
+        android:name="com.example.taskmanager.InventoryDetailsDialogFragment"
+        android:label="fragment_inventory_details_dialog"
+        tools:layout="@layout/fragment_inventory_details_dialog" >
+
+        <argument
+            android:name="equipmentId"
+            app:argType="string"/>
+    </dialog>
 </navigation>

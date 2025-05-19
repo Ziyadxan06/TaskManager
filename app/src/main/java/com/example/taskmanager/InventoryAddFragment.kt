@@ -126,7 +126,9 @@ class InventoryAddFragment : Fragment() {
 
             FirebaseFirestore.getInstance().collection("inventory")
                 .add(inventoryItem)
-                .addOnSuccessListener {
+                .addOnSuccessListener { documentReference ->
+                    val id = documentReference.id
+                    documentReference.update("id", id)
                     Toast.makeText(requireContext(), "Inventory elementi əlavə edildi", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener {
