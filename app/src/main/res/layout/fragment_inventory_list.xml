@@ -7,11 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".InventoryListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/adminInventoryRV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="56dp"/>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -24,17 +20,31 @@
         android:src="@drawable/baseline_add_24" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/inventoryToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
-
-    <Spinner
-        android:id="@+id/filterSpinner"
+        android:titleTextColor="@android:color/white"
+        app:title=" "/>
+    
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/filterSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/adminInventoryRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
 
 </FrameLayout>

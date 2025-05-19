@@ -6,12 +6,18 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -114,7 +120,24 @@ class InventoryListFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
         binding.filterSpinner.adapter = adapter
 
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        requireActivity().addMenuProvider(object: MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.optionsmenu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId){
+                    R.id.menu_settings -> { findNavController().navigate(R.id.action_inventoryListFragment_to_settingsFragment)
+                        true
+                    }
+                    else -> {false}
+                }
+            }
+        }, viewLifecycleOwner )
+
+        val toolbar = binding.inventoryToolbar
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
 
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -141,6 +164,8 @@ class InventoryListFragment : Fragment() {
     }
 
     fun fetchAllInventory(role: String, userId: String) {
+        equipmentList.clear()
+        inventoryAdapter.notifyDataSetChanged()
         val query = if(role == "admin" || role == "superadmin"){
             FirebaseFirestore.getInstance().collection("inventory")
         }else{
