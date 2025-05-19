@@ -28,4 +28,11 @@
         android:text="Yeni"
         android:textSize="16sp"/>
 
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ziyadxan"
+        android:textSize="16sp"/>
+
 </LinearLayout>

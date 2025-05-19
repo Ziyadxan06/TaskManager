@@ -51,6 +51,7 @@ class TaskDetailsDialogFragment : DialogFragment() {
                 binding.priorityTextView.text = document.getString("priority") ?: "-"
                 binding.assignedtoTextView.text = document.getString("assignedTo") ?: "-"
                 binding.statusTextView.text = document.getString("status") ?: "-"
+                binding.usernameTextView.text = document.getString("userName") ?: "-"
 
                 currentStatus = document.getString("status") ?: "New"
                 val deadlineMillis = document.getLong("deadline") ?: 0L

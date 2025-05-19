@@ -72,7 +72,7 @@ class AddTaskFragment : Fragment() {
         val taskName = binding.tasknameAdd.text.toString().trim()
         val priority = binding.taskPriority.text.toString().trim()
         val assignedTo = binding.taskAssignee.text.toString().trim()
-        val deadlineDisplay = binding.taskDeadline.text.toString().trim()
+        val userName = binding.usernameAdd.text.toString().trim()
 
         if (taskName.isEmpty() || priority.isEmpty() || assignedTo.isEmpty() || deadlineTimestamp == 0L) {
             Toast.makeText(requireContext(), "Bütün sahələri doldurun", Toast.LENGTH_SHORT).show()
@@ -88,6 +88,7 @@ class AddTaskFragment : Fragment() {
                 "name" to taskName,
                 "priority" to priority,
                 "assignedTo" to assignedTo,
+                "userName" to userName,
                 "deadline" to deadlineTimestamp,
                 "status" to "Yeni"
             )

@@ -74,42 +74,6 @@ class InventoryListFragment : Fragment() {
 
     }
 
-    private fun getData(role : String, userId: String) {
-
-        val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory")
-        }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId)
-        }
-
-        equipmentList.clear()
-        inventoryAdapter.notifyDataSetChanged()
-
-        query.addSnapshotListener { value, error ->
-            if (error != null) {
-                Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
-            } else if (value != null && !value.isEmpty) {
-
-                val documents = value.documents
-
-                for (document in documents) {
-                    val id = document.get("id") as? String ?: ""
-                    val name = document.get("equipmentName") as? String ?: ""
-                    val category = document.get("category") as? String ?: ""
-                    val imageUri = document.get("imageUrl") as? String ?: ""
-                    val macAddress = document.get("MACaddress") as? String ?: ""
-                    val ipAddress = document.get("IPaddress") as? String ?: ""
-                    val arrival = document.get("createdAt") as? Long ?: 0L
-
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
-                    equipmentList.add(equipment)
-                }
-
-                inventoryAdapter.notifyDataSetChanged()
-            }
-        }
-    }
-
     private fun setupFilterSpinner(role: String, userId: String) {
 
         val options = if(role == "admin" || role == "superadmin"){
@@ -305,6 +269,4 @@ class InventoryListFragment : Fragment() {
                 inventoryAdapter.notifyDataSetChanged()
             }
     }
-
-
 }

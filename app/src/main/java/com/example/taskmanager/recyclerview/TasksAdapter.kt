@@ -25,6 +25,7 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick:
         holder.nameTextView.text = task.taskName
         holder.deadlineTextView.text = formattedDeadline
         holder.status.text = task.status
+        holder.userName.text = task.userName
 
         holder.itemView.setOnClickListener {
             onItemClick(task)

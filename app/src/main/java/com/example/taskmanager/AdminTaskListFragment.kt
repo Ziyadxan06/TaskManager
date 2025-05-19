@@ -134,9 +134,10 @@ class AdminTaskListFragment : Fragment() {
                     val taskTitle = document.get("name") as? String ?: ""
                     val priority = document.get("priority") as? String ?: ""
                     val status = document.get("status") as? String ?: ""
+                    val userName = document.get("userName") as? String ?: ""
                     val deadline = document.get("deadline") as? Long ?: 0L
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status)
+                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
                     taskList.add(task)
                 }
 
@@ -147,7 +148,4 @@ class AdminTaskListFragment : Fragment() {
             }
         }
     }
-
-
-
 }
