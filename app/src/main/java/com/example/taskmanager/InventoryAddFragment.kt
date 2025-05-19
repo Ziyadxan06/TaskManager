@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import com.example.taskmanager.databinding.FragmentInventoryAddBinding
 import com.example.taskmanager.databinding.FragmentInventoryListBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class InventoryAddFragment : Fragment() {
@@ -107,6 +108,7 @@ class InventoryAddFragment : Fragment() {
 
 
     private fun saveImageUriToFirestore(imageUrl: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
         equipmentName = binding.equipmentName.text.toString().trim()
         category = binding.equipmentType.text.toString().trim()
         macAddress = binding.macAddress.text.toString().trim()
@@ -116,12 +118,13 @@ class InventoryAddFragment : Fragment() {
             Toast.makeText(requireContext(), "Butun xanalari doldurun", Toast.LENGTH_SHORT).show()
         }else{
             val inventoryItem = hashMapOf(
+                "userId" to userId,
                 "imageUrl" to imageUrl,
                 "createdAt" to System.currentTimeMillis(),
                 "equipmentName" to equipmentName,
                 "category" to category,
                 "MACaddress" to macAddress,
-                "IPaddress" to ipAddress
+                "IPaddress" to ipAddress,
             )
 
             FirebaseFirestore.getInstance().collection("inventory")

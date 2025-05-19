@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentInventoryListBinding
 import com.example.taskmanager.recyclerview.InventoryAdapter
 import com.example.taskmanager.recyclerview.InventoryModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class InventoryListFragment : Fragment() {
@@ -52,7 +53,8 @@ class InventoryListFragment : Fragment() {
     }
 
     private fun getData() {
-        FirebaseFirestore.getInstance().collection("inventory").addSnapshotListener { value, error ->
+        val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+        FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", currentUser).addSnapshotListener { value, error ->
             if (error != null) {
                 Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
             } else if (value != null && !value.isEmpty) {
