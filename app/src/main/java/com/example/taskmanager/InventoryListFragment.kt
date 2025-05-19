@@ -44,17 +44,35 @@ class InventoryListFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.adminInventoryRV.adapter = inventoryAdapter
+        val currentUser = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
-        getData()
+        FirebaseFirestore.getInstance().collection("users")
+            .document(currentUser)
+            .get()
+            .addOnSuccessListener { document ->
+                val role = document.getString("role") ?: "staff"
+                getData(role, currentUser)
+            }
+
+
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_inventoryListFragment_to_inventoryAddFragment)
         }
     }
 
-    private fun getData() {
-        val currentUser = FirebaseAuth.getInstance().currentUser?.uid
-        FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", currentUser).addSnapshotListener { value, error ->
+    private fun getData(role : String, userId: String) {
+
+        val query = if(role == "admin" || role == "superadmin"){
+            FirebaseFirestore.getInstance().collection("inventory")
+        }else{
+            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId)
+        }
+
+        equipmentList.clear()
+        inventoryAdapter.notifyDataSetChanged()
+
+        query.addSnapshotListener { value, error ->
             if (error != null) {
                 Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
             } else if (value != null && !value.isEmpty) {
