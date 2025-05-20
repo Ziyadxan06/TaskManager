@@ -166,5 +166,8 @@
         <argument
             android:name="itemId"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_editInventoryItemFragment_to_inventoryDetailsDialogFragment"
+            app:destination="@id/inventoryDetailsDialogFragment" />
     </fragment>
 </navigation>

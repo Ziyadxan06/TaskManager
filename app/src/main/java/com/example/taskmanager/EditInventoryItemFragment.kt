@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
@@ -71,6 +73,12 @@ class EditInventoryItemFragment : Fragment() {
         binding.editimageView.setOnClickListener {
             getPermission()
         }
+
+        binding.btnequipEdit.setOnClickListener {
+            selectedImageUri.let { uri ->
+                updateData(uri.toString())
+            }
+        }
     }
 
     private fun getPermission(){
@@ -110,6 +118,34 @@ class EditInventoryItemFragment : Fragment() {
     private fun openGallery(){
         val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activityResulLauncher.launch(intentToGallery)
+    }
+
+    private fun updateData(imageUrl: String){
+        val updatedName = binding.editequipmentName.text.toString().trim()
+        val updatedCategory = binding.editequipmentType.text.toString().trim()
+        val updatedMac = binding.editmacAddress.text.toString().trim()
+        val updatedIp = binding.editipAddress.text.toString().trim()
+
+        val updatedData = hashMapOf<String, Any>(
+            "equipmentName" to updatedName,
+            "category" to updatedCategory,
+            "MACaddress" to updatedMac,
+            "IPaddress" to updatedIp,
+            "imageUrl" to imageUrl
+        )
+
+
+        FirebaseFirestore.getInstance()
+            .collection("inventory")
+            .document(args.itemId)
+            .update(updatedData)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Data Updated", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Yeniləmə xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
     }
 
 }
