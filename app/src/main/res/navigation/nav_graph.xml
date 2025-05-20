@@ -153,5 +153,18 @@
         <argument
             android:name="equipmentId"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_inventoryDetailsDialogFragment_to_editInventoryItemFragment"
+            app:destination="@id/editInventoryItemFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/editInventoryItemFragment"
+        android:name="com.example.taskmanager.EditInventoryItemFragment"
+        android:label="fragment_edit_inventory_item"
+        tools:layout="@layout/fragment_edit_inventory_item" >
+
+        <argument
+            android:name="itemId"
+            app:argType="string"/>
+    </fragment>
 </navigation>
