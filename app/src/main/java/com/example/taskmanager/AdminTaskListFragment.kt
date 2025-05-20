@@ -126,7 +126,7 @@ class AdminTaskListFragment : Fragment() {
 
         binding.progressBar.visibility = View.GONE
 
-        val adapter = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, options)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, options)
         binding.filterSpinnerTask.adapter = adapter
 
         binding.filterSpinnerTask.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
