@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,11 +8,11 @@
     tools:context=".EditInventoryItemFragment">
 
     <ImageView
-        android:id="@+id/addimageView"
+        android:id="@+id/editimageView"
         android:layout_width="185dp"
         android:layout_height="165dp"
         android:layout_marginTop="140dp"
-        android:src="@drawable/add_inventory"
+        android:src="@drawable/change_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/equipmentName"
+        android:id="@+id/editequipmentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -37,10 +38,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addimageView" />
+        app:layout_constraintTop_toBottomOf="@+id/editimageView" />
 
     <EditText
-        android:id="@+id/equipmentType"
+        android:id="@+id/editequipmentType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -49,10 +50,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/equipmentName" />
+        app:layout_constraintTop_toBottomOf="@+id/editequipmentName" />
 
     <EditText
-        android:id="@+id/macAddress"
+        android:id="@+id/editmacAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -61,10 +62,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/equipmentType" />
+        app:layout_constraintTop_toBottomOf="@+id/editequipmentType" />
 
     <EditText
-        android:id="@+id/ipAddress"
+        android:id="@+id/editipAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -73,10 +74,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/editmacAddress" />
 
     <Button
-        android:id="@+id/btnequipAdd"
+        android:id="@+id/btnequipEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="104dp"

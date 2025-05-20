@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
@@ -40,7 +41,10 @@ class InventoryDetailsDialogFragment : DialogFragment() {
         documentId = args.equipmentId
         loadEquipmentDetails(documentId)
 
-
+        binding.btnEditTask.setOnClickListener {
+            val action = InventoryDetailsDialogFragmentDirections.actionInventoryDetailsDialogFragmentToEditInventoryItemFragment(documentId)
+            findNavController().navigate(action)
+        }
     }
 
     private fun loadEquipmentDetails(docId : String){
