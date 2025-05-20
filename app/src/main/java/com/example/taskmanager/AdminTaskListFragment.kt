@@ -70,7 +70,6 @@ class AdminTaskListFragment : Fragment() {
                 val role = document.getString("role") ?: "staff"
                 setupUiByRole(role)
                 setUpFilterListenerTasks(role, currentUserEmail)
-                //fetchTasks(role)
             }
 
 
@@ -243,10 +242,8 @@ class AdminTaskListFragment : Fragment() {
                 val displayList = mutableListOf<String>()
 
                 for (doc in documents) {
-                    Log.d("USER_DEBUG", "Document data: ${doc.data}")
                     val username = doc.getString("username") ?: ""
                     val email = doc.getString("useremail") ?: ""
-                    Log.d("USER_DEBUG", "Extracted username=$username, email=$email")
                     if (email.isNotEmpty() && username.isNotEmpty()) {
                         val user = UserModel(username = username, useremail = email)
                         userList.add(user)
