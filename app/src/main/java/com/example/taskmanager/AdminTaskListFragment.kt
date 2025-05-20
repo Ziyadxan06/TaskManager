@@ -117,51 +117,6 @@ class AdminTaskListFragment : Fragment() {
         }
     }
 
-    private fun fetchTasks(role: String) {
-        val collection = FirebaseFirestore.getInstance().collection("tasks")
-
-        val query = if (role == "admin" || role == "superadmin") {
-            collection
-        } else {
-            val email = FirebaseAuth.getInstance().currentUser?.email
-            collection.whereEqualTo("assignedTo", email)
-        }
-
-        taskList.clear()
-        tasksAdapter.notifyDataSetChanged()
-
-        query.addSnapshotListener { snapshot, error ->
-
-            if (error != null) {
-                Toast.makeText(context, error.localizedMessage, Toast.LENGTH_LONG).show()
-                return@addSnapshotListener
-            }
-
-
-
-            if (snapshot != null && !snapshot.isEmpty) {
-                taskList.clear()
-                for (document in snapshot.documents) {
-                    val id = document.get("id") as? String ?: ""
-                    val assignedTo = document.get("assignedTo") as? String ?: ""
-                    val taskTitle = document.get("name") as? String ?: ""
-                    val priority = document.get("priority") as? String ?: ""
-                    val status = document.get("status") as? String ?: ""
-                    val userName = document.get("userName") as? String ?: ""
-                    val deadline = document.get("deadline") as? Long ?: 0L
-
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                    taskList.add(task)
-                }
-
-                tasksAdapter.notifyDataSetChanged()
-            } else {
-                taskList.clear()
-                tasksAdapter.notifyDataSetChanged()
-            }
-        }
-    }
-
     private fun setUpFilterListenerTasks(role: String, email: String){
         val options = if(role == "admin" || role == "superadmin"){
             arrayOf("All Tasks", "My Tasks", "By User", "By Deadline")
