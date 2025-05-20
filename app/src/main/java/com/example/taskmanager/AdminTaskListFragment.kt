@@ -3,6 +3,7 @@ package com.example.taskmanager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
@@ -26,8 +29,10 @@ import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.recyclerview.InventoryModel
 import com.example.taskmanager.recyclerview.TasksAdapter
 import com.example.taskmanager.recyclerview.TasksModel
+import com.example.taskmanager.recyclerview.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 
 class AdminTaskListFragment : Fragment() {
 
@@ -269,24 +274,67 @@ class AdminTaskListFragment : Fragment() {
     }
 
     private fun showEmailInputDialog() {
-        val input = EditText(requireContext())
-        input.hint = "Enter user email"
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_user_filter, null)
+        val autoCompleteTextView = dialogView.findViewById<AutoCompleteTextView>(R.id.autoCompleteUser)
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("Filter by Email")
-            .setView(input)
-            .setPositiveButton("OK") { dialog, _ ->
-                val email = input.text.toString().trim()
-                if (email.isNotEmpty()) {
-                    taskList.clear()
-                    tasksAdapter.notifyDataSetChanged()
-                    fetchInventoryByEmail(email)
+        autoCompleteTextView.inputType = InputType.TYPE_CLASS_TEXT
+        autoCompleteTextView.threshold = 1
+        autoCompleteTextView.requestFocus()
+
+        FirebaseFirestore.getInstance().collection("users")
+            .get()
+            .addOnSuccessListener { documents ->
+                val userList = mutableListOf<UserModel>()
+                val displayList = mutableListOf<String>()
+
+                for (doc in documents) {
+                    Log.d("USER_DEBUG", "Document data: ${doc.data}")
+                    val username = doc.getString("username") ?: ""
+                    val email = doc.getString("useremail") ?: ""
+                    Log.d("USER_DEBUG", "Extracted username=$username, email=$email")
+                    if (email.isNotEmpty() && username.isNotEmpty()) {
+                        val user = UserModel(username = username, useremail = email)
+                        userList.add(user)
+                        displayList.add("${user.username} (${user.useremail})")
+                    }
                 }
-                dialog.dismiss()
+
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, displayList)
+                autoCompleteTextView.setAdapter(adapter)
+
+
+                autoCompleteTextView.postDelayed({
+                    autoCompleteTextView.showDropDown()
+                }, 200)
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Filter by User")
+                    .setView(dialogView)
+                    .setPositiveButton("OK") { dialog, _ ->
+                        val selectedText = autoCompleteTextView.text.toString().trim()
+                        val selectedUser = userList.find {
+                            "${it.username} (${it.useremail})" == selectedText
+                        }
+
+                        if (selectedUser != null) {
+                            taskList.clear()
+                            tasksAdapter.notifyDataSetChanged()
+                            fetchInventoryByEmail(selectedUser.useremail ?: "")
+                        } else {
+                            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                        }
+
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                    .show()
             }
-            .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
-            .show()
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Error fetching users: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
     }
+
+
 
     private fun showArrivalDatePicker(role: String, userId: String) {
         val calendar = java.util.Calendar.getInstance()
@@ -312,7 +360,7 @@ class AdminTaskListFragment : Fragment() {
         datePicker.show()
     }
 
-    fun fetchInventoryByDateRange(start: Long, end: Long, role: String, email: String) {
+     fun fetchInventoryByDateRange(start: Long, end: Long, role: String, email: String) {
         val query = if(role == "admin" || role == "superadmin"){
             FirebaseFirestore.getInstance().collection("tasks")
         }else{
@@ -336,5 +384,5 @@ class AdminTaskListFragment : Fragment() {
                     tasksAdapter.notifyDataSetChanged()
                 }
             }
-    }
+        }
 }
