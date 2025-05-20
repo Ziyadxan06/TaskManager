@@ -82,12 +82,12 @@ class TaskDetailsDialogFragment : DialogFragment() {
             .addOnSuccessListener { document ->
                 val role = document.getString("role")
                 if (role == "admin" || role == "superadmin") {
-                    binding.btnEdit.visibility = View.VISIBLE
+                    binding.btnEditTask.visibility = View.VISIBLE
                     binding.statusRadioGroup.visibility = View.GONE
                 }
             }
 
-        binding.btnEdit.setOnClickListener {
+        binding.btnEditTask .setOnClickListener {
             val action = TaskDetailsDialogFragmentDirections.actionTaskDetailsDialogFragmentToEditTaskFragment(taskId)
             findNavController().navigate(action)
         }
