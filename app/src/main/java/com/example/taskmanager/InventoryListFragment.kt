@@ -70,20 +70,6 @@ class InventoryListFragment : Fragment() {
             findNavController().navigate(R.id.action_inventoryListFragment_to_inventoryAddFragment)
         }
 
-
-
-    }
-
-    private fun setupFilterSpinner(role: String, userId: String) {
-
-        val options = if(role == "admin" || role == "superadmin"){
-            arrayOf("All Items", "My Items", "By User", "By Arrival Date")
-        }else{
-            arrayOf("All Items", "By Arrival Date")
-        }
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
-        binding.filterSpinner.adapter = adapter
-
         requireActivity().addMenuProvider(object: MenuProvider{
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.optionsmenu, menu)
@@ -98,6 +84,18 @@ class InventoryListFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner )
+
+    }
+
+    private fun setupFilterSpinner(role: String, userId: String) {
+
+        val options = if(role == "admin" || role == "superadmin"){
+            arrayOf("All Items", "My Items", "By User", "By Arrival Date")
+        }else{
+            arrayOf("All Items", "By Arrival Date")
+        }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
+        binding.filterSpinner.adapter = adapter
 
         val toolbar = binding.inventoryToolbar
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
