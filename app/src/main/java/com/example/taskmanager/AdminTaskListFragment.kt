@@ -19,11 +19,16 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.recyclerview.InventoryModel
@@ -33,6 +38,10 @@ import com.example.taskmanager.recyclerview.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
+import java.util.concurrent.TimeUnit
+import androidx.work.PeriodicWorkRequestBuilder
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 class AdminTaskListFragment : Fragment() {
 
@@ -106,6 +115,19 @@ class AdminTaskListFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner)
+
+        val workRequest = PeriodicWorkRequestBuilder<DeadlineCheckWorker>(
+            1, TimeUnit.DAYS
+        ).build()
+
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            "DeadlineCheck",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
+
+
+
     }
 
     private fun setupUiByRole(role: String) {
