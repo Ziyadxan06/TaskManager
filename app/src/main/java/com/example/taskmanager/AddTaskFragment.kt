@@ -12,10 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentAddTaskBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class AddTaskFragment : Fragment() {
 
@@ -100,6 +104,21 @@ class AddTaskFragment : Fragment() {
                 .addOnFailureListener { e ->
                     Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
                 }
+        }
+
+
+
+        val delay = deadlineTimestamp - System.currentTimeMillis()
+
+        if (delay > 0) {
+            val data = workDataOf("taskName" to taskName)
+
+            val deadlineWork = OneTimeWorkRequestBuilder<DeadlinePassedWorker>()
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                .setInputData(data)
+                .build()
+
+            WorkManager.getInstance(requireContext()).enqueue(deadlineWork)
         }
     }
 

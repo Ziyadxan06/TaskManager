@@ -54,7 +54,6 @@ class DeadlineCheckWorker(
     private fun showNotification(taskName: String) {
         val channelId = "task_reminders"
 
-        // Notification channel (Android 8+)
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             val name = "Task Deadline Reminders"
             val importance = NotificationManager.IMPORTANCE_HIGH

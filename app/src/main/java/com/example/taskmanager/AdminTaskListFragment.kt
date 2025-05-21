@@ -125,9 +125,6 @@ class AdminTaskListFragment : Fragment() {
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
-
-
-
     }
 
     private fun setupUiByRole(role: String) {
