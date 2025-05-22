@@ -17,6 +17,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentAddTaskBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -72,7 +73,7 @@ class AddTaskFragment : Fragment() {
         setupAssigneeEmailDropdown()
     }
 
-    fun uploadData(){
+    fun uploadData() {
         val taskName = binding.tasknameAdd.text.toString().trim()
         val priority = binding.taskPriority.text.toString().trim()
         val assignedTo = binding.taskAssignee.text.toString().trim()
@@ -80,8 +81,7 @@ class AddTaskFragment : Fragment() {
 
         if (taskName.isEmpty() || priority.isEmpty() || assignedTo.isEmpty() || deadlineTimestamp == 0L) {
             Toast.makeText(requireContext(), "Bütün sahələri doldurun", Toast.LENGTH_SHORT).show()
-        }else{
-
+        } else {
             val db = FirebaseFirestore.getInstance()
             val collection = db.collection("tasks")
 
@@ -104,23 +104,22 @@ class AddTaskFragment : Fragment() {
                 .addOnFailureListener { e ->
                     Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-        }
 
 
+            val delay = deadlineTimestamp - System.currentTimeMillis()
+            if (delay > 0) {
+                val data = workDataOf("taskName" to taskName)
 
-        val delay = deadlineTimestamp - System.currentTimeMillis()
+                val deadlineWork = OneTimeWorkRequestBuilder<DeadlinePassedWorker>()
+                    .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                    .setInputData(data)
+                    .build()
 
-        if (delay > 0) {
-            val data = workDataOf("taskName" to taskName)
-
-            val deadlineWork = OneTimeWorkRequestBuilder<DeadlinePassedWorker>()
-                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .setInputData(data)
-                .build()
-
-            WorkManager.getInstance(requireContext()).enqueue(deadlineWork)
+                WorkManager.getInstance(requireContext()).enqueue(deadlineWork)
+            }
         }
     }
+
 
     private fun setupAssigneeEmailDropdown() {
         FirebaseFirestore.getInstance()
