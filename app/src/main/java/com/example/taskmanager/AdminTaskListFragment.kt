@@ -68,8 +68,6 @@ class AdminTaskListFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar2)
 
-        delete()
-
         binding.progressBar.visibility = View.VISIBLE
 
         val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
@@ -80,6 +78,9 @@ class AdminTaskListFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 val role = document.getString("role") ?: "staff"
+                if(role == "admin" || role == "superadmin"){
+                    delete()
+                }
                 setupUiByRole(role)
                 setUpFilterListenerTasks(role, currentUserEmail)
             }
