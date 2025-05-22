@@ -23,6 +23,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +67,8 @@ class AdminTaskListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar2)
+
+        delete()
 
         binding.progressBar.visibility = View.VISIBLE
 
@@ -355,4 +358,33 @@ class AdminTaskListFragment : Fragment() {
                 }
             }
         }
+
+    private fun delete(){
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val deletedTask = taskList[position]
+
+                FirebaseFirestore.getInstance()
+                    .collection("tasks")
+                    .document(deletedTask.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        taskList.removeAt(position)
+                        tasksAdapter.notifyItemRemoved(position)
+                        Toast.makeText(requireContext(), "Task Deleted", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(requireContext(), "Task could not deleted",Toast.LENGTH_LONG).show()
+                    }
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.taskListRV)
+    }
 }
