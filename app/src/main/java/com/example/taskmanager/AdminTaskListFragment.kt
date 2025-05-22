@@ -52,7 +52,6 @@ class AdminTaskListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tasksAdapter: TasksAdapter
     private lateinit var taskList: ArrayList<TasksModel>
-    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,8 +83,6 @@ class AdminTaskListFragment : Fragment() {
                 setupUiByRole(role)
                 setUpFilterListenerTasks(role, currentUserEmail)
             }
-
-        db = FirebaseFirestore.getInstance()
 
         taskList = ArrayList()
 
@@ -183,7 +180,7 @@ class AdminTaskListFragment : Fragment() {
         }else{
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
-        query.get().addOnSuccessListener { documents ->
+        query.whereEqualTo("status", "Pending").whereEqualTo("status", "Yeni").get().addOnSuccessListener { documents ->
             for(document in documents){
                 val id = document.get("id") as? String ?: ""
                 val assignedTo = document.get("assignedTo") as? String ?: ""
@@ -208,6 +205,8 @@ class AdminTaskListFragment : Fragment() {
 
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
+            .whereEqualTo("status", "Pending")
+            .whereEqualTo("status", "Yeni")
             .get()
             .addOnSuccessListener { documents ->
                 for(document in documents){
@@ -231,6 +230,8 @@ class AdminTaskListFragment : Fragment() {
     private fun fetchInventoryByEmail(email: String) {
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
+            .whereEqualTo("status", "Pending")
+            .whereEqualTo("status", "Yeni")
             .get()
             .addOnSuccessListener {documents ->
                 for (document in documents) {
@@ -342,6 +343,8 @@ class AdminTaskListFragment : Fragment() {
         }
         query.whereGreaterThanOrEqualTo("deadline", start)
             .whereLessThanOrEqualTo("deadline", end)
+            .whereEqualTo("status", "Pending")
+            .whereEqualTo("status", "Yeni")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
