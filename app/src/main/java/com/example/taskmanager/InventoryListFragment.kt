@@ -22,6 +22,7 @@ import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentInventoryListBinding
@@ -51,6 +52,8 @@ class InventoryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        delete()
 
         equipmentList = ArrayList()
         recyclerView = binding.adminInventoryRV
@@ -310,5 +313,34 @@ class InventoryListFragment : Fragment() {
                 }
                 inventoryAdapter.notifyDataSetChanged()
             }
+    }
+
+    private fun delete(){
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val deletedTask = equipmentList[position]
+
+                FirebaseFirestore.getInstance()
+                    .collection("inventory")
+                    .document(deletedTask.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        equipmentList.removeAt(position)
+                        inventoryAdapter.notifyItemRemoved(position)
+                        Toast.makeText(requireContext(), "Item deleted", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(requireContext(), "Item could not deleted", Toast.LENGTH_LONG).show()
+                    }
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.adminInventoryRV)
     }
 }
