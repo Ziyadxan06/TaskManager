@@ -170,4 +170,13 @@
             android:id="@+id/action_editInventoryItemFragment_to_inventoryDetailsDialogFragment"
             app:destination="@id/inventoryDetailsDialogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/backgroundTaskFragment"
+        android:name="com.example.taskmanager.BackgroundTaskFragment"
+        android:label="fragment_background_task"
+        tools:layout="@layout/fragment_background_task" >
+        <action
+            android:id="@+id/action_backgroundTaskFragment_to_taskDetailsDialogFragment"
+            app:destination="@id/taskDetailsDialogFragment" />
+    </fragment>
 </navigation>
