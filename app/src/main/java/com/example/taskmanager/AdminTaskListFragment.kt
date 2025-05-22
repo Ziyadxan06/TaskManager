@@ -81,7 +81,6 @@ class AdminTaskListFragment : Fragment() {
                 setUpFilterListenerTasks(role, currentUserEmail)
             }
 
-
         db = FirebaseFirestore.getInstance()
 
         taskList = ArrayList()
