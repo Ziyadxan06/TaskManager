@@ -9,4 +9,9 @@
         android:id="@+id/inventoryListFragment"
         android:icon="@drawable/baseline_inventory_24"
         android:title="Inventory"/>
+
+    <item
+        android:id="@+id/backgroundTaskFragment"
+        android:icon="@drawable/baseline_archive_24"
+        android:title="Background"/>
 </menu>
