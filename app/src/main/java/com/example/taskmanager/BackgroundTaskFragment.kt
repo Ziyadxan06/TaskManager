@@ -32,6 +32,7 @@ class BackgroundTaskFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var backgroundtasksAdapter: TasksAdapter
     private lateinit var taskList: ArrayList<TasksModel>
+    private var now = System.currentTimeMillis()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,82 +105,114 @@ class BackgroundTaskFragment : Fragment() {
         }
     }
 
-    private fun fetchAllTasks(role: String, email: String){
+    private fun fetchAllTasks(role: String, email: String) {
         taskList.clear()
         backgroundtasksAdapter.notifyDataSetChanged()
 
-        val query = if(role == "admin" || role == "superadmin"){
+        val commonList = mutableSetOf<String>()
+
+        val queryBase = if (role == "admin" || role == "superadmin") {
             FirebaseFirestore.getInstance().collection("tasks")
-        }else{
+        } else {
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
-        query.whereEqualTo("status", "Done").get().addOnSuccessListener { documents ->
-            for(document in documents){
-                val id = document.get("id") as? String ?: ""
-                val assignedTo = document.get("assignedTo") as? String ?: ""
-                val taskTitle = document.get("name") as? String ?: ""
-                val priority = document.get("priority") as? String ?: ""
-                val status = document.get("status") as? String ?: ""
-                val userName = document.get("userName") as? String ?: ""
-                val deadline = document.get("deadline") as? Long ?: 0L
 
-                val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                taskList.add(task)
+        queryBase.whereLessThan("deadline", now)
+            .get()
+            .addOnSuccessListener { deadlineDocs ->
+                for (doc in deadlineDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (commonList.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
+                }
                 backgroundtasksAdapter.notifyDataSetChanged()
             }
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), it.localizedMessage, Toast.LENGTH_LONG).show()
-        }
+
+        queryBase.whereEqualTo("status", "Done")
+            .get()
+            .addOnSuccessListener { doneDocs ->
+                for (doc in doneDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (commonList.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
+                }
+                backgroundtasksAdapter.notifyDataSetChanged()
+            }
     }
 
-    private fun fetchUserTasks(email: String){
+
+    private fun fetchUserTasks(email: String) {
         taskList.clear()
         backgroundtasksAdapter.notifyDataSetChanged()
 
-        FirebaseFirestore.getInstance().collection("tasks")
-            .whereEqualTo("assignedTo", email)
-            .whereEqualTo("status", "Done")
-            .get()
-            .addOnSuccessListener { documents ->
-                for(document in documents){
-                    val id = document.get("id") as? String ?: ""
-                    val assignedTo = document.get("assignedTo") as? String ?: ""
-                    val taskTitle = document.get("name") as? String ?: ""
-                    val priority = document.get("priority") as? String ?: ""
-                    val status = document.get("status") as? String ?: ""
-                    val userName = document.get("userName") as? String ?: ""
-                    val deadline = document.get("deadline") as? Long ?: 0L
+        val seenTaskIds = mutableSetOf<String>()
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                    taskList.add(task)
-                    backgroundtasksAdapter.notifyDataSetChanged()
+        val tasksCollection = FirebaseFirestore.getInstance().collection("tasks")
+            .whereEqualTo("assignedTo", email)
+
+        tasksCollection.whereLessThan("deadline", now)
+            .get()
+            .addOnSuccessListener { deadlineDocs ->
+                for (doc in deadlineDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (seenTaskIds.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
                 }
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), it.localizedMessage, Toast.LENGTH_LONG).show()
+                backgroundtasksAdapter.notifyDataSetChanged()
+            }
+
+        tasksCollection.whereEqualTo("status", "Done")
+            .get()
+            .addOnSuccessListener { doneDocs ->
+                for (doc in doneDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (seenTaskIds.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
+                }
+                backgroundtasksAdapter.notifyDataSetChanged()
             }
     }
+
 
     private fun fetchInventoryByEmail(email: String) {
-        FirebaseFirestore.getInstance().collection("tasks")
-            .whereEqualTo("assignedTo", email)
-            .whereEqualTo("status", "Done")
-            .get()
-            .addOnSuccessListener {documents ->
-                for (document in documents) {
-                    val id = document.get("id") as? String ?: ""
-                    val assignedTo = document.get("assignedTo") as? String ?: ""
-                    val taskTitle = document.get("name") as? String ?: ""
-                    val priority = document.get("priority") as? String ?: ""
-                    val status = document.get("status") as? String ?: ""
-                    val userName = document.get("userName") as? String ?: ""
-                    val deadline = document.get("deadline") as? Long ?: 0L
+        taskList.clear()
+        backgroundtasksAdapter.notifyDataSetChanged()
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                    taskList.add(task)
-                    backgroundtasksAdapter.notifyDataSetChanged()
+        val seenTaskIds = mutableSetOf<String>()
+
+        val tasksCollection = FirebaseFirestore.getInstance()
+            .collection("tasks")
+            .whereEqualTo("assignedTo", email)
+
+        tasksCollection.whereLessThan("deadline", now)
+            .get()
+            .addOnSuccessListener { deadlineDocs ->
+                for (doc in deadlineDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (seenTaskIds.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
                 }
+                backgroundtasksAdapter.notifyDataSetChanged()
+            }
+
+        tasksCollection.whereEqualTo("status", "Done")
+            .get()
+            .addOnSuccessListener { doneDocs ->
+                for (doc in doneDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (seenTaskIds.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
+                }
+                backgroundtasksAdapter.notifyDataSetChanged()
             }
     }
+
 
     private fun showEmailInputDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_user_filter, null)
@@ -265,31 +298,46 @@ class BackgroundTaskFragment : Fragment() {
     }
 
     fun fetchInventoryByDateRange(start: Long, end: Long, role: String, email: String) {
-        val query = if(role == "admin" || role == "superadmin"){
+        taskList.clear()
+        backgroundtasksAdapter.notifyDataSetChanged()
+
+        val seenTaskIds = mutableSetOf<String>()
+
+        val queryBase = if (role == "admin" || role == "superadmin") {
             FirebaseFirestore.getInstance().collection("tasks")
-        }else{
+        } else {
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
-        query.whereGreaterThanOrEqualTo("deadline", start)
+
+        queryBase
+            .whereGreaterThanOrEqualTo("deadline", start)
             .whereLessThanOrEqualTo("deadline", end)
+            .get()
+            .addOnSuccessListener { dateDocs ->
+                for (doc in dateDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (seenTaskIds.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
+                }
+                backgroundtasksAdapter.notifyDataSetChanged()
+            }
+
+        queryBase
             .whereEqualTo("status", "Done")
             .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val id = document.get("id") as? String ?: ""
-                    val assignedTo = document.get("assignedTo") as? String ?: ""
-                    val taskTitle = document.get("name") as? String ?: ""
-                    val priority = document.get("priority") as? String ?: ""
-                    val status = document.get("status") as? String ?: ""
-                    val userName = document.get("userName") as? String ?: ""
-                    val deadline = document.get("deadline") as? Long ?: 0L
-
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                    taskList.add(task)
-                    backgroundtasksAdapter.notifyDataSetChanged()
+            .addOnSuccessListener { doneDocs ->
+                for (doc in doneDocs) {
+                    val id = doc.getString("id") ?: continue
+                    if (seenTaskIds.add(id)) {
+                        taskList.add(doc.toTaskModel())
+                    }
                 }
+                backgroundtasksAdapter.notifyDataSetChanged()
             }
     }
+
+
     private fun delete(){
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
             override fun onMove(
@@ -318,5 +366,18 @@ class BackgroundTaskFragment : Fragment() {
 
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.backgroundRecyclerview)
     }
+
+    private fun com.google.firebase.firestore.DocumentSnapshot.toTaskModel(): TasksModel {
+        val id = get("id") as? String ?: ""
+        val assignedTo = get("assignedTo") as? String ?: ""
+        val taskTitle = get("name") as? String ?: ""
+        val priority = get("priority") as? String ?: ""
+        val status = get("status") as? String ?: ""
+        val userName = get("userName") as? String ?: ""
+        val deadline = get("deadline") as? Long ?: 0L
+
+        return TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
+    }
+
 
 }

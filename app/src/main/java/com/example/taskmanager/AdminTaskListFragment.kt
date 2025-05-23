@@ -52,6 +52,7 @@ class AdminTaskListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tasksAdapter: TasksAdapter
     private lateinit var taskList: ArrayList<TasksModel>
+    private var now = System.currentTimeMillis()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -180,10 +181,11 @@ class AdminTaskListFragment : Fragment() {
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
 
-        query.whereIn("status", listOf("Pending", "Yeni"))
+        query.whereIn("status", listOf("Pending", "Yeni")).whereGreaterThan("deadline", now)
             .addSnapshotListener { snapshots, error ->
                 if (error != null || snapshots == null) {
                     Toast.makeText(requireContext(), "Veri alınırken hata: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Log.e("Saaalllllam", error.toString())
                     return@addSnapshotListener
                 }
 
@@ -213,6 +215,7 @@ class AdminTaskListFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
             .whereIn("status", listOf("Pending", "Yeni"))
+            .whereGreaterThan("deadline", now)
             .addSnapshotListener { snapshots, error ->
                 if(error != null || snapshots == null){
                     Toast.makeText(requireContext(), "Error: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
@@ -242,6 +245,7 @@ class AdminTaskListFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
             .whereIn("status", listOf("Pending", "Yeni"))
+            .whereGreaterThan("deadline", now)
             .addSnapshotListener { snapshots, error ->
                 if(error != null || snapshots == null){
                     Toast.makeText(requireContext(), "Error: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
@@ -361,6 +365,7 @@ class AdminTaskListFragment : Fragment() {
         query.whereGreaterThanOrEqualTo("deadline", start)
             .whereLessThanOrEqualTo("deadline", end)
             .whereIn("status", listOf("Pending", "Yeni"))
+            .whereGreaterThan("deadline", now)
             .addSnapshotListener { snapshots, error ->
                 if(error != null || snapshots == null){
                     Toast.makeText(requireContext(), "Error: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
