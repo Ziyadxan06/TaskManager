@@ -3,6 +3,8 @@ package com.example.taskmanager.recyclerview
 import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.taskmanager.R
@@ -21,11 +23,25 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick:
 
         val formatter = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
         val formattedDeadline = formatter.format(Date(task.deadline))
+        val container = holder.itemView.findViewById<LinearLayout>(R.id.recyclerView)
+        val now = System.currentTimeMillis()
+        val deadlineMillis = task.deadline
 
         holder.nameTextView.text = task.taskName
         holder.deadlineTextView.text = formattedDeadline
         holder.status.text = task.status
         holder.userName.text = task.userName
+
+
+        if(deadlineMillis < now){
+            container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.expired_red))
+        }else if(deadlineMillis - now <= 3 * 24 * 60 * 60 * 1000){
+            container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.deadline_yellow))
+        } else when (task.status) {
+            "Yeni" -> container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_blue))
+            "Pending" -> container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_purple))
+            "Done" -> container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_green))
+        }
 
         holder.itemView.setOnClickListener {
             onItemClick(task)
