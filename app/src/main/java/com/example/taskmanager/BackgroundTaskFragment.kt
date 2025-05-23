@@ -47,8 +47,6 @@ class BackgroundTaskFragment : Fragment() {
 
         taskList = ArrayList()
 
-
-
         recyclerView = binding.backgroundRecyclerview
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         backgroundtasksAdapter = TasksAdapter(taskList) { selectedTask ->
@@ -59,15 +57,13 @@ class BackgroundTaskFragment : Fragment() {
 
         val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        delete()
 
         FirebaseFirestore.getInstance().collection("users")
             .document(currentUserUid)
             .get()
             .addOnSuccessListener { document ->
                 val role = document.getString("role") ?: "staff"
-                if(role == "admin" || role == "superadmin"){
-                    delete()
-                }
                 setUpFilterListenerTasks(role, currentUserEmail)
             }
     }
