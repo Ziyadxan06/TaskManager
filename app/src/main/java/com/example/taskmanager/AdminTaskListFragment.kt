@@ -171,32 +171,41 @@ class AdminTaskListFragment : Fragment() {
         }
     }
 
-    private fun fetchAllTasks(role: String, email: String){
+    private fun fetchAllTasks(role: String, email: String) {
         taskList.clear()
 
-        val query = if(role == "admin" || role == "superadmin"){
+        val query = if (role == "admin" || role == "superadmin") {
             FirebaseFirestore.getInstance().collection("tasks")
-        }else{
+        } else {
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
-        query.whereIn("status", listOf("Pending", "Yeni")).get().addOnSuccessListener { documents ->
-            for(document in documents){
-                val id = document.get("id") as? String ?: ""
-                val assignedTo = document.get("assignedTo") as? String ?: ""
-                val taskTitle = document.get("name") as? String ?: ""
-                val priority = document.get("priority") as? String ?: ""
-                val status = document.get("status") as? String ?: ""
-                val userName = document.get("userName") as? String ?: ""
-                val deadline = document.get("deadline") as? Long ?: 0L
 
-                val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                taskList.add(task)
+        query.whereIn("status", listOf("Pending", "Yeni"))
+            .addSnapshotListener { snapshots, error ->
+                if (error != null || snapshots == null) {
+                    Toast.makeText(requireContext(), "Veri alınırken hata: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                taskList.clear()
+
+                for (document in snapshots) {
+                    val id = document.get("id") as? String ?: ""
+                    val assignedTo = document.get("assignedTo") as? String ?: ""
+                    val taskTitle = document.get("name") as? String ?: ""
+                    val priority = document.get("priority") as? String ?: ""
+                    val status = document.get("status") as? String ?: ""
+                    val userName = document.get("userName") as? String ?: ""
+                    val deadline = document.get("deadline") as? Long ?: 0L
+
+                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
+                    taskList.add(task)
+                }
+
                 tasksAdapter.notifyDataSetChanged()
             }
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), it.localizedMessage, Toast.LENGTH_LONG).show()
-        }
     }
+
 
     private fun fetchUserTasks(email: String){
         taskList.clear()
@@ -204,9 +213,15 @@ class AdminTaskListFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
             .whereIn("status", listOf("Pending", "Yeni"))
-            .get()
-            .addOnSuccessListener { documents ->
-                for(document in documents){
+            .addSnapshotListener { snapshots, error ->
+                if(error != null || snapshots == null){
+                    Toast.makeText(requireContext(), "Error: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                taskList.clear()
+
+                for (document in snapshots) {
                     val id = document.get("id") as? String ?: ""
                     val assignedTo = document.get("assignedTo") as? String ?: ""
                     val taskTitle = document.get("name") as? String ?: ""
@@ -217,10 +232,9 @@ class AdminTaskListFragment : Fragment() {
 
                     val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
                     taskList.add(task)
-                    tasksAdapter.notifyDataSetChanged()
                 }
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), it.localizedMessage, Toast.LENGTH_LONG).show()
+
+                tasksAdapter.notifyDataSetChanged()
             }
     }
 
@@ -228,9 +242,15 @@ class AdminTaskListFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
             .whereIn("status", listOf("Pending", "Yeni"))
-            .get()
-            .addOnSuccessListener {documents ->
-                for (document in documents) {
+            .addSnapshotListener { snapshots, error ->
+                if(error != null || snapshots == null){
+                    Toast.makeText(requireContext(), "Error: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                taskList.clear()
+
+                for (document in snapshots) {
                     val id = document.get("id") as? String ?: ""
                     val assignedTo = document.get("assignedTo") as? String ?: ""
                     val taskTitle = document.get("name") as? String ?: ""
@@ -241,8 +261,9 @@ class AdminTaskListFragment : Fragment() {
 
                     val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
                     taskList.add(task)
-                    tasksAdapter.notifyDataSetChanged()
                 }
+
+                tasksAdapter.notifyDataSetChanged()
             }
     }
 
@@ -340,9 +361,15 @@ class AdminTaskListFragment : Fragment() {
         query.whereGreaterThanOrEqualTo("deadline", start)
             .whereLessThanOrEqualTo("deadline", end)
             .whereIn("status", listOf("Pending", "Yeni"))
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
+            .addSnapshotListener { snapshots, error ->
+                if(error != null || snapshots == null){
+                    Toast.makeText(requireContext(), "Error: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                taskList.clear()
+
+                for (document in snapshots) {
                     val id = document.get("id") as? String ?: ""
                     val assignedTo = document.get("assignedTo") as? String ?: ""
                     val taskTitle = document.get("name") as? String ?: ""
@@ -353,8 +380,9 @@ class AdminTaskListFragment : Fragment() {
 
                     val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
                     taskList.add(task)
-                    tasksAdapter.notifyDataSetChanged()
                 }
+
+                tasksAdapter.notifyDataSetChanged()
             }
         }
 
