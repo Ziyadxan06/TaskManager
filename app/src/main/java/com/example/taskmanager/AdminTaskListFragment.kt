@@ -173,14 +173,13 @@ class AdminTaskListFragment : Fragment() {
 
     private fun fetchAllTasks(role: String, email: String){
         taskList.clear()
-        tasksAdapter.notifyDataSetChanged()
 
         val query = if(role == "admin" || role == "superadmin"){
             FirebaseFirestore.getInstance().collection("tasks")
         }else{
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
-        query.whereEqualTo("status", "Pending").whereEqualTo("status", "Yeni").get().addOnSuccessListener { documents ->
+        query.whereIn("status", listOf("Pending", "Yeni")).get().addOnSuccessListener { documents ->
             for(document in documents){
                 val id = document.get("id") as? String ?: ""
                 val assignedTo = document.get("assignedTo") as? String ?: ""
@@ -201,12 +200,10 @@ class AdminTaskListFragment : Fragment() {
 
     private fun fetchUserTasks(email: String){
         taskList.clear()
-        tasksAdapter.notifyDataSetChanged()
 
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
-            .whereEqualTo("status", "Pending")
-            .whereEqualTo("status", "Yeni")
+            .whereIn("status", listOf("Pending", "Yeni"))
             .get()
             .addOnSuccessListener { documents ->
                 for(document in documents){
@@ -230,8 +227,7 @@ class AdminTaskListFragment : Fragment() {
     private fun fetchInventoryByEmail(email: String) {
         FirebaseFirestore.getInstance().collection("tasks")
             .whereEqualTo("assignedTo", email)
-            .whereEqualTo("status", "Pending")
-            .whereEqualTo("status", "Yeni")
+            .whereIn("status", listOf("Pending", "Yeni"))
             .get()
             .addOnSuccessListener {documents ->
                 for (document in documents) {
@@ -343,8 +339,7 @@ class AdminTaskListFragment : Fragment() {
         }
         query.whereGreaterThanOrEqualTo("deadline", start)
             .whereLessThanOrEqualTo("deadline", end)
-            .whereEqualTo("status", "Pending")
-            .whereEqualTo("status", "Yeni")
+            .whereIn("status", listOf("Pending", "Yeni"))
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
