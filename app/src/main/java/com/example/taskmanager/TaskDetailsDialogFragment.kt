@@ -112,25 +112,29 @@ class TaskDetailsDialogFragment : DialogFragment() {
                     }
 
                     if (newStatus == "Done" && status != "Done") {
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("Təsdiqləyin")
-                            .setMessage("Bu tapşırığı 'tamamlandı' olaraq işarələmək istəyirsinizmi? Daha sonra dəyişmək mümkün olmayacaq.")
-                            .setPositiveButton("Bəli") { _, _ ->
-                                updateTaskStatus(taskId, newStatus)
-                            }
-                            .setNegativeButton("Xeyr") { dialog, _ ->
-                                dialog.dismiss()
-                                restorePreviousSelection()
-                            }
-                            .show()
-                    } else if(newStatus == "Pending" && status != "Done" && status != "Pending"){
+                        context.let {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Təsdiqləyin")
+                                .setMessage("Bu tapşırığı 'tamamlandı' olaraq işarələmək istəyirsinizmi? Daha sonra dəyişmək mümkün olmayacaq.")
+                                .setPositiveButton("Bəli") { _, _ ->
+                                    updateTaskStatus(taskId, newStatus)
+                                }
+                                .setNegativeButton("Xeyr") { dialog, _ ->
+                                    dialog.dismiss()
+                                    restorePreviousSelection()
+                                }
+                                .show()
+                        }
+                    }
+                        else if(newStatus == "Pending" && status != "Done" && status != "Pending"){
                         updateTaskStatus(taskId, newStatus)
-                        Toast.makeText(requireContext(), "Status güncellendi: $newStatus", Toast.LENGTH_SHORT).show()
+                        context?.let{
+                            Toast.makeText(requireContext(), "Status güncellendi: $newStatus", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
         }
     }
-
 
     private fun updateTaskStatus(taskId: String, status: String) {
 
