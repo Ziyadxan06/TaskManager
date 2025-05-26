@@ -34,6 +34,7 @@ class EditInventoryItemFragment : Fragment() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private var selectedImageUri: Uri? = null
     private val args: EditInventoryItemFragmentArgs by navArgs()
+    private lateinit var defaultUri: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,8 +60,8 @@ class EditInventoryItemFragment : Fragment() {
                     val category = document.getString("category") ?: "-"
                     val mac = document.getString("MACaddress") ?: "-"
                     val ip = document.getString("IPaddress") ?: "-"
-                    val imageUrl = document.getString("imageUrl") ?: ""
-                    Log.d("EDIT_FRAGMENT", "Image URL: $imageUrl")
+                    defaultUri = document.getString("imageUrl") ?: ""
+
 
 
                     binding.editequipmentName.setText(name)
@@ -76,7 +77,11 @@ class EditInventoryItemFragment : Fragment() {
 
         binding.btnequipEdit.setOnClickListener {
             selectedImageUri.let { uri ->
-                updateData(uri.toString())
+                if(uri == null){
+                    updateData(defaultUri)
+                }else{
+                    updateData(uri.toString())
+                }
             }
         }
     }
