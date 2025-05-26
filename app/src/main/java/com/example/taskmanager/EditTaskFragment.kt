@@ -79,8 +79,7 @@ class EditTaskFragment : Fragment() {
                     .update(updateMap)
                     .addOnSuccessListener {
                         Toast.makeText(context, "Tapşırıq yeniləndi", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_editTaskFragment_to_adminTaskListFragment)
-                        findNavController().popBackStack(R.id.editTaskFragment, true)
+                        findNavController().popBackStack()
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, "Xəta baş verdi: ${it.message}", Toast.LENGTH_LONG).show()
