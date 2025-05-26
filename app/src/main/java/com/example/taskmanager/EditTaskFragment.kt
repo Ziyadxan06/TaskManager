@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
@@ -79,6 +80,7 @@ class EditTaskFragment : Fragment() {
                     .addOnSuccessListener {
                         Toast.makeText(context, "Tapşırıq yeniləndi", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_editTaskFragment_to_adminTaskListFragment)
+                        findNavController().popBackStack(R.id.editTaskFragment, true)
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, "Xəta baş verdi: ${it.message}", Toast.LENGTH_LONG).show()
