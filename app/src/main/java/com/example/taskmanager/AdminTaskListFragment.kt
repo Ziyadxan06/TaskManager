@@ -406,8 +406,12 @@ class AdminTaskListFragment : Fragment() {
                     .document(deletedTask.id)
                     .delete()
                     .addOnSuccessListener {
-                        taskList.removeAt(position)
-                        tasksAdapter.notifyItemRemoved(position)
+                        if (position >= 0 && position < taskList.size) {
+                            taskList.removeAt(position)
+                            tasksAdapter.notifyItemRemoved(position)
+                        } else {
+                            Log.e("TaskList", "Invalid position: $position for list size: ${taskList.size}")
+                        }
                         Toast.makeText(requireContext(), "Task Deleted", Toast.LENGTH_LONG).show()
                     }.addOnFailureListener {
                         Toast.makeText(requireContext(), "Task could not deleted",Toast.LENGTH_LONG).show()
