@@ -6,13 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".BackgroundTaskFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/backgroundRecyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="64dp"/>
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarBackground"
         android:layout_width="match_parent"
@@ -38,7 +31,12 @@
             android:id="@+id/backgroundfilterSpinnerTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp" />
+            android:layout_marginTop="6dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/backgroundRecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 </FrameLayout>
