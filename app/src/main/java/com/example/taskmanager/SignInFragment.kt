@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -69,8 +70,12 @@ class SignInFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
                     findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
-                    binding.signinEmail.setText("")
-                    binding.signinPassword.setText("")
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.signInFragment, true)
+                        .build()
+
+                    findNavController().navigate(R.id.adminTaskListFragment, null, navOptions)
+
                 }.addOnFailureListener {
                     Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
