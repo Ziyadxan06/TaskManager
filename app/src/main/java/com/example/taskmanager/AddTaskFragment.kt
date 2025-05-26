@@ -12,12 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentAddTaskBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
@@ -27,11 +29,6 @@ class AddTaskFragment : Fragment() {
 
     private var _binding: FragmentAddTaskBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var taskName: String
-    private lateinit var priority: String
-    private lateinit var deadlineText: String
-    private lateinit var assignedTo: String
     var deadlineTimestamp: Long = 0L
 
     override fun onCreateView(
@@ -45,6 +42,8 @@ class AddTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
 
         binding.taskDeadline.setOnClickListener {
             val calendar = Calendar.getInstance()
