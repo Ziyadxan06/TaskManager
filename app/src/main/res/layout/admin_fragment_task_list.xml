@@ -48,7 +48,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/taskListRV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="75dp"/>
 
     </LinearLayout>
 
