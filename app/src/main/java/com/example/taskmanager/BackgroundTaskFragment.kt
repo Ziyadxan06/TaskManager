@@ -6,12 +6,17 @@ import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +51,8 @@ class BackgroundTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarBackground)
+
         taskList = ArrayList()
 
         recyclerView = binding.backgroundRecyclerview
@@ -67,6 +74,22 @@ class BackgroundTaskFragment : Fragment() {
                 val role = document.getString("role") ?: "staff"
                 setUpFilterListenerTasks(role, currentUserEmail)
             }
+
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.optionsmenu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.menu_settings -> {
+                        findNavController().navigate(R.id.action_backgroundTaskFragment_to_settingsFragment)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner)
     }
 
     private fun setUpFilterListenerTasks(role: String, email: String){
