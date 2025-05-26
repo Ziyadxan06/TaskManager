@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.databinding.FragmentSignInBinding
 import com.example.taskmanager.databinding.FragmentSignUpBinding
@@ -84,15 +85,14 @@ class SignUpFragment : Fragment() {
                         .addOnSuccessListener {
                             Toast.makeText(context, "Hesab Yaradıldı", Toast.LENGTH_LONG).show()
                             findNavController().navigate(R.id.action_signUpFragment_to_adminTaskListFragment)
+                            val navOptions = NavOptions.Builder()
+                                .setPopUpTo(R.id.nav_graph, true)
+                                .build()
+                            findNavController().navigate(R.id.adminTaskListFragment, null, navOptions)
                         }
                         .addOnFailureListener { e ->
                             Toast.makeText(context, "DB Xətası: ${e.message}", Toast.LENGTH_LONG).show()
                         }
-
-                    binding.signupEmail.setText("")
-                    binding.signUpPassword.setText("")
-                    binding.signupUsername.setText("")
-                    binding.signupPassword2.setText("")
 
                 }
                 .addOnFailureListener {
