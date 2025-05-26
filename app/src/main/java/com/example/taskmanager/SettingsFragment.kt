@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
-import com.example.taskmanager.databinding.FragmentOptionsMenuAdminBinding
+import com.example.taskmanager.databinding.FragmentSettingsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -19,7 +19,7 @@ import com.google.firebase.ktx.Firebase
 
 class SettingsFragment : Fragment() {
 
-    private var _binding: FragmentOptionsMenuAdminBinding? = null
+    private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
@@ -29,7 +29,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentOptionsMenuAdminBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return (binding.root)
     }
 
