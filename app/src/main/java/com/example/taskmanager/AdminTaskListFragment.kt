@@ -87,8 +87,6 @@ class AdminTaskListFragment : Fragment() {
 
         taskList = ArrayList()
 
-
-
         recyclerView = binding.taskListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         tasksAdapter = TasksAdapter(taskList) { selectedTask ->
