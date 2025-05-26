@@ -155,6 +155,5 @@ class AddTaskFragment : Fragment() {
                     binding.usernameAdd.setText(name)
                 }
         }
-
     }
 }
