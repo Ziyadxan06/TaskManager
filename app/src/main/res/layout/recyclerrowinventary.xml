@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    android:elevation="6dp"
-    android:radius="16dp"
-    app:cardBackgroundColor="#808080">
+    android:layout_margin="12dp"
+    android:elevation="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="#2C2C2C">
 
     <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/inventarynameView"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Komputer"
-        android:textSize="22sp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/categoryView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Computer"
-        android:textSize="16sp"
-        android:textColor="#B0B0B0"/>
+        <TextView
+            android:id="@+id/inventarynameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: Komputer"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/macView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="A1:B2:C3:D4:E5:F6"
-        android:textSize="16sp"
-        android:textColor="#B0B0B0"/>
+        <TextView
+            android:id="@+id/categoryView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category: Computer"
+            android:textSize="16sp"
+            android:textColor="#DDDDDD"
+            android:layout_marginTop="4dp"/>
 
-    <TextView
-        android:id="@+id/arrivalView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="12 may 2025"
-        android:textSize="14sp"
-        android:textColor="#C0C0C0"
-        android:layout_marginTop="4dp"/>
+        <TextView
+            android:id="@+id/macView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MAC: A1:B2:C3:D4:E5:F6"
+            android:textSize="16sp"
+            android:textColor="#DDDDDD"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/arrivalView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arrival: 12 May 2025"
+            android:textSize="14sp"
+            android:textColor="#BBBBBB"
+            android:layout_marginTop="6dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
-
