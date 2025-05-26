@@ -103,7 +103,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.taskmanager.SettingsFragment"
         android:label="fragment_options_menu_admin"
-        tools:layout="@layout/fragment_options_menu_admin" >
+        tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
