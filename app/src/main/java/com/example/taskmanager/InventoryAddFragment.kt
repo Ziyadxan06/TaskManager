@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.databinding.FragmentInventoryAddBinding
 import com.example.taskmanager.databinding.FragmentInventoryListBinding
 import com.google.android.material.snackbar.Snackbar
@@ -133,6 +134,7 @@ class InventoryAddFragment : Fragment() {
                     val id = documentReference.id
                     documentReference.update("id", id)
                     Toast.makeText(requireContext(), "Inventory elementi əlavə edildi", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
                 }
                 .addOnFailureListener {
                     Toast.makeText(requireContext(), "Xəta: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
