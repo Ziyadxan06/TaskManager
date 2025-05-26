@@ -45,34 +45,37 @@ class TaskDetailsDialogFragment : DialogFragment() {
 
         FirebaseFirestore.getInstance().collection("tasks")
             .document(taskId)
-            .get()
-            .addOnSuccessListener{ document ->
-                binding.tasknameTextView.text = document.getString("name") ?: "-"
-                binding.priorityTextView.text = document.getString("priority") ?: "-"
-                binding.assignedtoTextView.text = document.getString("assignedTo") ?: "-"
-                binding.statusTextView.text = document.getString("status") ?: "-"
-                binding.usernameTextView.text = document.getString("userName") ?: "-"
-
-                currentStatus = document.getString("status") ?: "New"
-                val deadlineMillis = document.getLong("deadline") ?: 0L
-                val formatted = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault()).format(
-                    Date(deadlineMillis)
-                )
-                binding.deadlineTextView.text = formatted
-
-                if(currentStatus == "Done"){
-                    restorePreviousSelection()
-                    binding.statusRadioGroup.isEnabled = false
-                    binding.radioDone.isEnabled = false
-                    binding.radioInProgress.isEnabled = false
-                    binding.radioDone.isChecked = true
-                    return@addOnSuccessListener
-                }else if(currentStatus == "Pending"){
-                    binding.radioInProgress.isChecked = true
+            .addSnapshotListener { snapshot, error ->
+                if(error != null || snapshot == null) {
+                    Toast.makeText(requireContext(), error?.localizedMessage, Toast.LENGTH_SHORT)
+                        .show()
+                    return@addSnapshotListener
                 }
 
-            }.addOnFailureListener {
-                Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+
+                    binding.tasknameTextView.text = snapshot.getString("name") ?: "-"
+                    binding.priorityTextView.text = snapshot.getString("priority") ?: "-"
+                    binding.assignedtoTextView.text = snapshot.getString("assignedTo") ?: "-"
+                    binding.statusTextView.text = snapshot.getString("status") ?: "-"
+                    binding.usernameTextView.text = snapshot.getString("userName") ?: "-"
+
+                    currentStatus = snapshot.getString("status") ?: "New"
+                    val deadlineMillis = snapshot.getLong("deadline") ?: 0L
+                    val formatted = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault()).format(
+                        Date(deadlineMillis)
+                    )
+                    binding.deadlineTextView.text = formatted
+
+                    if(currentStatus == "Done"){
+                        restorePreviousSelection()
+                        binding.statusRadioGroup.isEnabled = false
+                        binding.radioDone.isEnabled = false
+                        binding.radioInProgress.isEnabled = false
+                        binding.radioDone.isChecked = true
+                        return@addSnapshotListener
+                    }else if(currentStatus == "Pending"){
+                        binding.radioInProgress.isChecked = true
+                    }
             }
 
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
