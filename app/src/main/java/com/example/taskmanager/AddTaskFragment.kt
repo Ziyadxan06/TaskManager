@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -100,6 +101,8 @@ class AddTaskFragment : Fragment() {
             newDocRef.set(taskData)
                 .addOnSuccessListener {
                     Toast.makeText(requireContext(), "Tapşırıq uğurla əlavə olundu", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_addTaskFragment_to_adminTaskListFragment)
+                    findNavController().popBackStack(R.id.addTaskFragment, true)
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
