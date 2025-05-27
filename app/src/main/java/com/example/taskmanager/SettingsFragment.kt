@@ -37,21 +37,25 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+        binding.settingsProgressBar.visibility = View.VISIBLE
+        binding.cardAccount.visibility = View.GONE
+        binding.cardUserManagement.visibility = View.GONE
+        binding.cardSignOut.visibility = View.GONE
 
         adminorstaff()
         auth = Firebase.auth
 
-        binding.signOutView.setOnClickListener {
+        binding.cardSignOut.setOnClickListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 findNavController().navigate(R.id.action_settingsFragment_to_signInFragment)
             }, 300)
         }
 
-        binding.accountView.setOnClickListener {
+        binding.cardAccount.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
         }
 
-        binding.usermanagmentView.setOnClickListener {
+        binding.cardUserManagement.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_userManagement)
         }
     }
@@ -66,7 +70,12 @@ class SettingsFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 val role = document.getString("role")
-                binding.usermanagmentView.visibility = if (role == "admin" || role == "superadmin") View.VISIBLE else View.GONE
+                binding.settingsProgressBar.visibility = View.GONE
+                binding.cardAccount.visibility = View.VISIBLE
+                binding.cardSignOut.visibility = View.VISIBLE
+                if (role == "admin" || role == "superadmin") {
+                    binding.cardUserManagement.visibility = View.VISIBLE
+                }
             }
     }
 }
