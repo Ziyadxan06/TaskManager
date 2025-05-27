@@ -15,4 +15,6 @@
     <color name="dark_background">#121212</color>
     <color name="medium_dark">#1E1E1E</color>
     <color name="light_stroke_dark">#2C2C2C</color>
+    <color name="dark_card">#1E1E1E</color>
+    <color name="link_color">#1DACF8</color>
 </resources>
