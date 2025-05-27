@@ -44,7 +44,7 @@ class SignUpFragment : Fragment() {
 
         auth = Firebase.auth
 
-        binding.linkviewSingup.setOnClickListener {
+        binding.linkviewSignup.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
 
