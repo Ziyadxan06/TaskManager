@@ -89,10 +89,13 @@ class AdminTaskListFragment : Fragment() {
 
         recyclerView = binding.taskListRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        tasksAdapter = TasksAdapter(taskList) { selectedTask ->
+        tasksAdapter = TasksAdapter(taskList, onItemClick =  { selectedTask ->
             val action = AdminTaskListFragmentDirections.actionTaskListFragmentToTaskDetailsDialogFragment(selectedTask.id)
             findNavController().navigate(action)
-        }
+        }, onOverdueDetected = { overdueTask ->
+            FirebaseFirestore.getInstance().collection("tasks").document(overdueTask.id)
+                .update("status", "Overdue")
+        })
         binding.taskListRV.adapter = tasksAdapter
 
         binding.floatingActionButton.setOnClickListener {

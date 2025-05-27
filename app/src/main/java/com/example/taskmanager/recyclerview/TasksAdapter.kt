@@ -11,7 +11,7 @@ import com.example.taskmanager.R
 import java.util.Date
 import java.util.Locale
 
-class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick: (TasksModel) -> Unit) : RecyclerView.Adapter<TasksViewHolder>() {
+class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick: (TasksModel) -> Unit, private val onOverdueDetected: (TasksModel) -> Unit) : RecyclerView.Adapter<TasksViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerrowtasks, parent, false)
         val tasksViewHolder = TasksViewHolder(itemView)
@@ -33,9 +33,10 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick:
         holder.userName.text = "User Name: ${task.userName}"
 
 
-        if(deadlineMillis < now){
+        if(deadlineMillis < now && task.status != "Done"){
             container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.expired_red))
-        }else if(deadlineMillis - now <= 3 * 24 * 60 * 60 * 1000){
+            onOverdueDetected(task)
+        }else if(deadlineMillis - now <= 3 * 24 * 60 * 60 * 1000 && task.status != "Done"){
             container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.deadline_yellow))
         } else when (task.status) {
             "Yeni" -> container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_blue))

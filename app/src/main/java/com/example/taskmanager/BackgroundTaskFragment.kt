@@ -57,10 +57,13 @@ class BackgroundTaskFragment : Fragment() {
 
         recyclerView = binding.backgroundRecyclerview
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        backgroundtasksAdapter = TasksAdapter(taskList) { selectedTask ->
+        backgroundtasksAdapter = TasksAdapter(taskList, onItemClick =  { selectedTask ->
             val action = BackgroundTaskFragmentDirections.actionBackgroundTaskFragmentToTaskDetailsDialogFragment(selectedTask.id)
             findNavController().navigate(action)
-        }
+        },onOverdueDetected = { overdueTask ->
+            FirebaseFirestore.getInstance().collection("tasks").document(overdueTask.id)
+                .update("status", "Overdue")
+        })
         binding.backgroundRecyclerview.adapter = backgroundtasksAdapter
 
         val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email ?: return

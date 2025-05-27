@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,6 +28,7 @@ class TaskDetailsDialogFragment : DialogFragment() {
     private val args: TaskDetailsDialogFragmentArgs by navArgs()
     var previousStatus: String = ""
     private var currentStatus: String =""
+    private val currentTimeMillis = System.currentTimeMillis()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +49,10 @@ class TaskDetailsDialogFragment : DialogFragment() {
             .document(taskId)
             .addSnapshotListener { snapshot, error ->
                 if(error != null || snapshot == null) {
-                    Toast.makeText(requireContext(), error?.localizedMessage, Toast.LENGTH_SHORT)
-                        .show()
+                    context?.let{
+                        Toast.makeText(requireContext(), error?.localizedMessage, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                     return@addSnapshotListener
                 }
 
@@ -72,9 +76,18 @@ class TaskDetailsDialogFragment : DialogFragment() {
                         binding.radioDone.isEnabled = false
                         binding.radioInProgress.isEnabled = false
                         binding.radioDone.isChecked = true
+                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_green))
                         return@addSnapshotListener
                     }else if(currentStatus == "Pending"){
                         binding.radioInProgress.isChecked = true
+                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_purple))
+                    }else if(currentStatus == "Yeni" && deadlineMillis - currentTimeMillis <= 3 * 24 * 60 * 60 * 1000){
+                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_blue))
+                    }else if(currentStatus == "Overdue"){
+                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.expired_red))
+                        binding.statusRadioGroup.isEnabled = false
+                        binding.radioDone.isEnabled = false
+                        binding.radioInProgress.isEnabled = false
                     }
             }
 
@@ -105,6 +118,7 @@ class TaskDetailsDialogFragment : DialogFragment() {
                 .get()
                 .addOnSuccessListener { document ->
                     val status = document.getString("status") ?: "New"
+                    val deadlineMillis = document.getLong("deadline") ?: 0L
 
                     previousStatus = status
 
@@ -128,29 +142,34 @@ class TaskDetailsDialogFragment : DialogFragment() {
                                 }
                                 .show()
                         }
-                    }
-                        else if(newStatus == "Pending" && status != "Done" && status != "Pending"){
+                    } else if(newStatus == "Pending" && status != "Done" && status != "Pending"){
                         updateTaskStatus(taskId, newStatus)
                         context?.let{
                             Toast.makeText(requireContext(), "Status güncellendi: $newStatus", Toast.LENGTH_SHORT).show()
                         }
+                    }else if(currentTimeMillis > deadlineMillis && status != "Done"){
+                        updateTaskStatus(taskId, "Overdue")
+                        binding.statusRadioGroup.isEnabled = false
+                        binding.radioDone.isEnabled = false
+                        binding.radioInProgress.isEnabled = false
+                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.expired_red ))
                     }
                 }
         }
     }
 
     private fun updateTaskStatus(taskId: String, status: String) {
-
         FirebaseFirestore.getInstance().collection("tasks")
             .document(taskId)
             .update("status", status)
-            .addOnSuccessListener {
-
+            .addOnSuccessListener { document ->
                 if (status == "Done") {
                     binding.statusRadioGroup.isEnabled = false
                     binding.radioDone.isEnabled = false
                     binding.radioInProgress.isEnabled = false
-                    Toast.makeText(requireContext(), "Status güncellendi: $status", Toast.LENGTH_SHORT).show()
+                    context?.let {
+                        Toast.makeText(requireContext(), "Status güncellendi: $status", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
     }
