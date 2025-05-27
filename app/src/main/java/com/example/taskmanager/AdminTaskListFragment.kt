@@ -220,7 +220,7 @@ class AdminTaskListFragment : Fragment() {
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
 
-        query//.whereIn("status", listOf("Pending", "Yeni")).whereGreaterThan("deadline", now)
+        query
             .addSnapshotListener { snapshots, error ->
                 if (error != null || snapshots == null) {
                     Toast.makeText(requireContext(), "Veri alınırken hata: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
@@ -241,10 +241,9 @@ class AdminTaskListFragment : Fragment() {
 
                     if (status in listOf("Pending", "Yeni")) {
                         if (now >= deadline) {
-                            // 🔥 Firestore'da status'u güncelle
                             FirebaseFirestore.getInstance().collection("tasks").document(id)
                                 .update("status", "Overdue")
-                            continue // Listeye ekleme
+                            continue
                         } else {
                             val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
                             taskList.add(task)
