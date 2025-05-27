@@ -3,6 +3,8 @@ package com.example.taskmanager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -53,6 +55,13 @@ class AdminTaskListFragment : Fragment() {
     private lateinit var tasksAdapter: TasksAdapter
     private lateinit var taskList: ArrayList<TasksModel>
     private var now = System.currentTimeMillis()
+    private val handler = Handler(Looper.getMainLooper())
+    private val checkDeadlineRunnable = object : Runnable {
+        override fun run() {
+            checkAndUpdateOverdueTasks()
+            handler.postDelayed(this, 30000)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,6 +136,35 @@ class AdminTaskListFragment : Fragment() {
             ExistingPeriodicWorkPolicy.KEEP,
             workRequest
         )
+
+        handler.post(checkDeadlineRunnable)
+    }
+
+    fun checkAndUpdateOverdueTasks() {
+        val now = System.currentTimeMillis()
+        val query = FirebaseFirestore.getInstance().collection("tasks")
+            .whereIn("status", listOf("Pending", "Yeni"))
+
+        query.get().addOnSuccessListener { documents ->
+            var listChanged = false
+            for (doc in documents) {
+                val id = doc.id
+                val deadline = doc.getLong("deadline") ?: continue
+                if (now >= deadline) {
+                    FirebaseFirestore.getInstance().collection("tasks").document(id)
+                        .update("status", "Overdue")
+                    // 🔥 Şu anki taskList'ten bu görevi çıkar
+                    val indexToRemove = taskList.indexOfFirst { it.id == id }
+                    if (indexToRemove >= 0) {
+                        taskList.removeAt(indexToRemove)
+                        listChanged = true
+                    }
+                }
+            }
+            if (listChanged) {
+                tasksAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun setupUiByRole(role: String) {
@@ -182,7 +220,7 @@ class AdminTaskListFragment : Fragment() {
             FirebaseFirestore.getInstance().collection("tasks").whereEqualTo("assignedTo", email)
         }
 
-        query.whereIn("status", listOf("Pending", "Yeni")).whereGreaterThan("deadline", now)
+        query//.whereIn("status", listOf("Pending", "Yeni")).whereGreaterThan("deadline", now)
             .addSnapshotListener { snapshots, error ->
                 if (error != null || snapshots == null) {
                     Toast.makeText(requireContext(), "Veri alınırken hata: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
@@ -201,8 +239,17 @@ class AdminTaskListFragment : Fragment() {
                     val userName = document.get("userName") as? String ?: ""
                     val deadline = document.get("deadline") as? Long ?: 0L
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
-                    taskList.add(task)
+                    if (status in listOf("Pending", "Yeni")) {
+                        if (now >= deadline) {
+                            // 🔥 Firestore'da status'u güncelle
+                            FirebaseFirestore.getInstance().collection("tasks").document(id)
+                                .update("status", "Overdue")
+                            continue // Listeye ekleme
+                        } else {
+                            val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
+                            taskList.add(task)
+                        }
+                    }
                 }
 
                 tasksAdapter.notifyDataSetChanged()
@@ -234,7 +281,15 @@ class AdminTaskListFragment : Fragment() {
                     val userName = document.get("userName") as? String ?: ""
                     val deadline = document.get("deadline") as? Long ?: 0L
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
+                    val newStatus = if (now > deadline && status != "Done" && status != "Overdue") {
+                        FirebaseFirestore.getInstance().collection("tasks").document(id)
+                            .update("status", "Overdue")
+                        "Overdue"
+                    } else {
+                        status
+                    }
+
+                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, newStatus, userName)
                     taskList.add(task)
                 }
 
@@ -264,7 +319,15 @@ class AdminTaskListFragment : Fragment() {
                     val userName = document.get("userName") as? String ?: ""
                     val deadline = document.get("deadline") as? Long ?: 0L
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
+                    val newStatus = if (now > deadline && status != "Done" && status != "Overdue") {
+                        FirebaseFirestore.getInstance().collection("tasks").document(id)
+                            .update("status", "Overdue")
+                        "Overdue"
+                    } else {
+                        status
+                    }
+
+                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, newStatus, userName)
                     taskList.add(task)
                 }
 
@@ -384,7 +447,15 @@ class AdminTaskListFragment : Fragment() {
                     val userName = document.get("userName") as? String ?: ""
                     val deadline = document.get("deadline") as? Long ?: 0L
 
-                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, status, userName)
+                    val newStatus = if (now > deadline && status != "Done" && status != "Overdue") {
+                        FirebaseFirestore.getInstance().collection("tasks").document(id)
+                            .update("status", "Overdue")
+                        "Overdue"
+                    } else {
+                        status
+                    }
+
+                    val task = TasksModel(id, taskTitle, deadline, assignedTo, priority, newStatus, userName)
                     taskList.add(task)
                 }
 
@@ -423,5 +494,10 @@ class AdminTaskListFragment : Fragment() {
         }
 
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.taskListRV)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(checkDeadlineRunnable)
     }
 }
