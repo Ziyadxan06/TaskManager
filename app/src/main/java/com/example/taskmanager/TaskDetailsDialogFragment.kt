@@ -80,11 +80,21 @@ class TaskDetailsDialogFragment : DialogFragment() {
                         return@addSnapshotListener
                     }else if(currentStatus == "Pending"){
                         binding.radioInProgress.isChecked = true
-                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_purple))
-                    }else if(currentStatus == "Yeni" && deadlineMillis - currentTimeMillis <= 3 * 24 * 60 * 60 * 1000){
-                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_blue))
+                        context?.let {
+                            binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_purple))
+                        }
+                    }else if(currentStatus == "Yeni" && deadlineMillis - currentTimeMillis > 3 * 24 * 60 * 60 * 1000){
+                        context?.let {
+                            binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_blue))
+                        }
+                    }else if(deadlineMillis - currentTimeMillis <= 3 * 24 * 60 * 60 * 1000 && currentStatus != "Overdue"){
+                        context?.let {
+                            binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.deadline_yellow))
+                        }
                     }else if(currentStatus == "Overdue"){
-                        binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.expired_red))
+                        context?.let {
+                            binding.taskListLayout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.expired_red))
+                        }
                         binding.statusRadioGroup.isEnabled = false
                         binding.radioDone.isEnabled = false
                         binding.radioInProgress.isEnabled = false
