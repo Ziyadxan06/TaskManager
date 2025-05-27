@@ -7,4 +7,12 @@
     <color name="deadline_yellow">#FFF8D0</color>
     <color name="expired_red">#FFD0D0</color>
     <color name="light_purple">#E0D0FF</color>
+    <color name="light_red">#F44336</color>
+    <color name="dark_purple">#4A148C</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="dark_gray">#333333</color>
+    <color name="light_stroke">#DDDDDD</color>
+    <color name="dark_background">#121212</color>
+    <color name="medium_dark">#1E1E1E</color>
+    <color name="light_stroke_dark">#2C2C2C</color>
 </resources>
