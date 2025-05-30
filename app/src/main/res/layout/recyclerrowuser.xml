@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/userrecyclerRow"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:backgroundTint="@color/card_background"
+    app:cardCornerRadius="16dp"
+    app:strokeColor="@color/white"
+    app:strokeWidth="1dp"
+    app:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/userNameRV"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vazfa"
-        android:textSize="24sp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/userroleRV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="admin"
-        android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/userNameRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
+        <TextView
+            android:id="@+id/userroleRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Role"
+            android:textSize="16sp"
+            android:textColor="@color/white_hint"/>
 
-</LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
