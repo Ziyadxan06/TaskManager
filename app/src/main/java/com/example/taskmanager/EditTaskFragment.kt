@@ -48,8 +48,8 @@ class EditTaskFragment : Fragment() {
             .document(taskId)
             .get()
             .addOnSuccessListener{ document ->
-                binding.tasknameEdit.setText(document.getString("name") ?: "-")
-                binding.taskpriorityEdit.setText(document.getString("priority") ?: "-")
+                binding.taskNameEdit.setText(document.getString("name") ?: "-")
+                binding.taskPriorityEdit.setText(document.getString("priority") ?: "-")
                 binding.taskAssigneeEdit.setText(document.getString("assignedTo") ?: "-")
                 binding.usernameEdit.setText(document.getString("userName") ?: "-")
 
@@ -57,16 +57,16 @@ class EditTaskFragment : Fragment() {
                 val formatted = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault()).format(
                     Date(deadlineMillis)
                 )
-                binding.taskdeadlineEdit.setText(formatted)
+                binding.taskDeadlineEdit.setText(formatted)
             }.addOnFailureListener {
                 Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
 
-        binding.btnEdit.setOnClickListener {
-            updatedName = binding.tasknameEdit.text.toString().trim()
-            updatedDeadline = binding.taskdeadlineEdit.text.toString().trim()
+        binding.btnSaveTask.setOnClickListener {
+            updatedName = binding.taskNameEdit.text.toString().trim()
+            updatedDeadline = binding.taskDeadlineEdit.text.toString().trim()
             updatedAssignee = binding.taskAssigneeEdit.text.toString().trim()
-            updatedPriority = binding.taskpriorityEdit.text.toString().trim()
+            updatedPriority = binding.taskPriorityEdit.text.toString().trim()
             updatedUsername = binding.usernameEdit.text.toString().trim()
 
 

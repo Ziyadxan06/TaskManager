@@ -1,100 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_background"
+    android:padding="16dp"
     tools:context=".EditTaskFragment">
 
-    <EditText
-        android:id="@+id/tasknameEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:ems="10"
-        android:hint="Enter Task Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/taskpriorityEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:ems="10"
-        android:hint="Enter Task Priority"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tasknameEdit" />
-
-    <EditText
-        android:id="@+id/taskdeadlineEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:ems="10"
-        android:hint="Choose Deadline"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskpriorityEdit" />
-
-    <Button
-        android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="Edit Task"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameEdit" />
-
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/titleEditTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="Edit Task"
         android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <EditText
+        android:id="@+id/taskNameEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Task Name"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/titleEditTask"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <EditText
+        android:id="@+id/taskPriorityEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Task Priority"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/taskNameEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/taskDeadlineEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Choose Deadline"
+        android:inputType="date"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/taskPriorityEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <AutoCompleteTextView
         android:id="@+id/taskAssigneeEdit"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:ems="10"
-        android:hint="Assinged to"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Choose Email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/taskDeadlineEdit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskdeadlineEdit" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/usernameEdit"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
         android:hint="User Name"
         android:inputType="none"
-        android:longClickable="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        android:enabled="false"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/taskAssigneeEdit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskAssigneeEdit" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSaveTask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/purple_500"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/usernameEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
