@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/TaskListFragment"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background_light"
     tools:context=".AdminTaskListFragment">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="115dp"
-        android:layout_marginEnd="42dp"
-        android:visibility="gone"
-        android:clickable="true"
-        android:src="@drawable/baseline_add_24" />
-
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title=" "/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/soft_purple"
+        app:title=" "
+        app:popupTheme="@style/ThemeOverlay.Material3.Dark">
+
+        <Spinner
+            android:id="@+id/filterSpinnerTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:backgroundTint="@color/white"
+            android:spinnerMode="dropdown"
+            android:layout_marginEnd="8dp"/>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -34,23 +33,22 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/taskListRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="75dp" />
 
-        <Spinner
-            android:id="@+id/filterSpinnerTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/baseline_add_24"
+        android:backgroundTint="@color/dark_purple"
+        app:tint="@color/white"
+        android:visibility="gone" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/taskListRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="75dp"/>
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package com.example.taskmanager
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,10 +20,12 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -184,8 +187,35 @@ class AdminTaskListFragment : Fragment() {
 
         binding.progressBar.visibility = View.GONE
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, options)
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,  // Hem seçili hem de dropdown için özel layout kullan
+            options
+        ) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.WHITE)  // Dropdown yazı rengi beyaz
+                view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.spinner_dropdown_bg)) // Dropdown arka plan
+                return view
+            }
+
+            override fun getView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.WHITE)  // Kapalı durum yazı rengi beyaz
+                return view
+            }
+        }
+
         binding.filterSpinnerTask.adapter = adapter
+
 
         binding.filterSpinnerTask.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
