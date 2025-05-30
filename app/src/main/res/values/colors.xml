@@ -24,4 +24,13 @@
     <color name="spinner_dropdown_bg">#7B1FA2</color>
     <color name="light_yellow">#FFF9C4</color>
     <color name="dark_background_light">#2C2C2C</color>
+    <color name="grey">#9E9E9E</color>
+    <color name="header_text">#333333</color>
+    <color name="background_light">#F8F6FA</color>
+    <color name="text_primary">#333333</color>
+    <color name="text_hint">#9E9E9E</color>
+    <color name="outline_color">#BDBDBD</color>
+    <color name="text_light">#FFFFFF</color>
+    <color name="text_hint_light">#B0BEC5</color>
+    <color name="outline_light">#B0BEC5</color>
 </resources>
