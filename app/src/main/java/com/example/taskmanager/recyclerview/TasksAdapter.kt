@@ -36,7 +36,7 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick:
         if(deadlineMillis < now && task.status != "Done"){
             container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.expired_red))
             onOverdueDetected(task)
-        }else if(deadlineMillis - now <= 3 * 24 * 60 * 60 * 1000 && task.status != "Done"){
+        }else if(deadlineMillis - now <= 3 * 24 * 60 * 60 * 1000 && task.status != "Done" && task.status != "Pending"){
             container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.deadline_yellow))
         } else when (task.status) {
             "Yeni" -> container.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_blue))
