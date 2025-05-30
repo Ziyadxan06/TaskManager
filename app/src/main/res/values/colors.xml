@@ -20,5 +20,8 @@
     <color name="white_hint">#DDDDDD</color>
     <color name="purple_500">#7E57C2</color>
     <color name="link_blue">#1DACF8</color>
-
+    <color name="soft_purple">#6A1B9A</color>
+    <color name="spinner_dropdown_bg">#7B1FA2</color>
+    <color name="light_yellow">#FFF9C4</color>
+    <color name="dark_background_light">#2C2C2C</color>
 </resources>
