@@ -69,7 +69,7 @@ class SignInFragment : Fragment() {
                 .addOnSuccessListener {
                     findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
                     val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.signInFragment, true)
+                        .setPopUpTo(R.id.nav_graph, true)
                         .build()
 
                     findNavController().navigate(R.id.adminTaskListFragment, null, navOptions)
