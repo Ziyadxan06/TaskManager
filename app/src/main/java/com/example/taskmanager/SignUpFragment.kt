@@ -50,7 +50,6 @@ class SignUpFragment : Fragment() {
 
         binding.btnSignup.setOnClickListener {
             signup()
-
         }
     }
 
