@@ -156,7 +156,6 @@ class AdminTaskListFragment : Fragment() {
                 if (now >= deadline) {
                     FirebaseFirestore.getInstance().collection("tasks").document(id)
                         .update("status", "Overdue")
-                    // 🔥 Şu anki taskList'ten bu görevi çıkar
                     val indexToRemove = taskList.indexOfFirst { it.id == id }
                     if (indexToRemove >= 0) {
                         taskList.removeAt(indexToRemove)
@@ -189,7 +188,7 @@ class AdminTaskListFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,  // Hem seçili hem de dropdown için özel layout kullan
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
             options
         ) {
             override fun getDropDownView(
@@ -198,8 +197,8 @@ class AdminTaskListFragment : Fragment() {
                 parent: ViewGroup
             ): View {
                 val view = super.getDropDownView(position, convertView, parent)
-                (view as TextView).setTextColor(Color.WHITE)  // Dropdown yazı rengi beyaz
-                view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.spinner_dropdown_bg)) // Dropdown arka plan
+                (view as TextView).setTextColor(Color.WHITE)
+                view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.spinner_dropdown_bg))
                 return view
             }
 
@@ -209,7 +208,7 @@ class AdminTaskListFragment : Fragment() {
                 parent: ViewGroup
             ): View {
                 val view = super.getView(position, convertView, parent)
-                (view as TextView).setTextColor(Color.WHITE)  // Kapalı durum yazı rengi beyaz
+                (view as TextView).setTextColor(Color.WHITE)
                 return view
             }
         }
