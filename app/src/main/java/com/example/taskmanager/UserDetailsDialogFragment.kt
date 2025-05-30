@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.FragmentUserDetailsDialogBinding
 import com.example.taskmanager.databinding.FragmentUserManagementBinding
 import com.example.taskmanager.recyclerview.UserModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
@@ -39,6 +41,8 @@ class UserDetailsDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+
         userId = args.userId
 
         getUser()
@@ -61,6 +65,7 @@ class UserDetailsDialogFragment : DialogFragment() {
         }
 
     }
+
 
     private fun getUser(){
         FirebaseFirestore.getInstance().collection("users")

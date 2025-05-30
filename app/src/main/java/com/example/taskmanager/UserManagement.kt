@@ -41,8 +41,6 @@ class UserManagement : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
-
         userList = ArrayList()
 
         recyclerView = binding.userRecyclerView
@@ -95,7 +93,4 @@ class UserManagement : Fragment() {
                 }
             }
     }
-
-
-
 }
