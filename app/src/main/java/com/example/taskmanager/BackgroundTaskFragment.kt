@@ -83,6 +83,7 @@ class BackgroundTaskFragment : Fragment() {
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
                 menuInflater.inflate(R.menu.optionsmenu, menu)
             }
 
