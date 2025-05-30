@@ -2,6 +2,7 @@ package com.example.taskmanager
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.InputType
@@ -17,9 +18,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -101,7 +104,34 @@ class InventoryListFragment : Fragment() {
         }else{
             arrayOf("All Items", "By Arrival Date")
         }
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
+
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            options
+        ) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.WHITE)
+                view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.spinner_dropdown_bg))
+                return view
+            }
+
+            override fun getView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.WHITE)
+                return view
+            }
+        }
+
         binding.filterSpinner.adapter = adapter
 
         val toolbar = binding.inventoryToolbar

@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.adminTaskListFragment,
-                R.id.InventoryListFragment,
+                R.id.inventoryListFragment,
                 R.id.backgroundTaskFragment
             )
         )
