@@ -55,11 +55,11 @@ class InventoryAddFragment : Fragment() {
 
         registerLauncher()
 
-        binding.addimageView.setOnClickListener {
+        binding.addImageView.setOnClickListener {
             getPermission()
         }
 
-        binding.btnequipAdd.setOnClickListener {
+        binding.btnAddEquipment.setOnClickListener {
             selectedImageUri?.let { uri ->
                 saveImageUriToFirestore(uri.toString()  )
             } ?: run {
@@ -88,7 +88,7 @@ class InventoryAddFragment : Fragment() {
                 val imageData = result.data?.data
                 imageData?.let {
                     selectedImageUri = it
-                    binding.addimageView.setImageURI(it)
+                    binding.addImageView.setImageURI(it)
                 }
             }
         }

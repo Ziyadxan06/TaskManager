@@ -5,86 +5,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background"
+    android:padding="16dp"
     tools:context=".InventoryAddFragment">
 
-
-    <ImageView
-        android:id="@+id/addimageView"
-        android:layout_width="185dp"
-        android:layout_height="165dp"
-        android:layout_marginTop="140dp"
-        android:src="@drawable/add_inventory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/titleAddEquipment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="Add Equipment"
         android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <ImageView
+        android:id="@+id/addImageView"
+        android:layout_width="185dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/add_inventory_white"
+        app:layout_constraintTop_toBottomOf="@id/titleAddEquipment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/equipmentName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="Equipment Name"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/addImageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addimageView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
     <EditText
         android:id="@+id/equipmentType"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="Category/Type"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/equipmentName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/equipmentName" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/macAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="MAC Address"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/equipmentType"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/equipmentType" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/ipAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="IP Address"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/macAddress"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/macAddress" />
-
-    <Button
-        android:id="@+id/btnequipAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
-        android:text="Add"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddEquipment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/purple_500"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/ipAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
