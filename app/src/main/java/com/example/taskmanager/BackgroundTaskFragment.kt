@@ -2,6 +2,7 @@ package com.example.taskmanager
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -14,8 +15,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -104,7 +107,33 @@ class BackgroundTaskFragment : Fragment() {
 
         binding.backgroundprogressBar.visibility = View.GONE
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, options)
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            options
+        ) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.WHITE)
+                view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.spinner_dropdown_bg))
+                return view
+            }
+
+            override fun getView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.WHITE)
+                return view
+            }
+        }
+
         binding.backgroundfilterSpinnerTask.adapter = adapter
 
         binding.backgroundfilterSpinnerTask.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
