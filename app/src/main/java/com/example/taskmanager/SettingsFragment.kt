@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.databinding.FragmentSettingsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,6 +49,10 @@ class SettingsFragment : Fragment() {
         binding.cardSignOut.setOnClickListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 findNavController().navigate(R.id.action_settingsFragment_to_signInFragment)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.nav_graph, true)
+                    .build()
+                findNavController().navigate(R.id.signInFragment, null, navOptions)
             }, 300)
         }
 
