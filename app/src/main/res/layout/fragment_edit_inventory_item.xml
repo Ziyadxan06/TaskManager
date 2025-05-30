@@ -1,90 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_background"
+    android:padding="16dp"
     tools:context=".EditInventoryItemFragment">
 
-    <ImageView
-        android:id="@+id/editimageView"
-        android:layout_width="185dp"
-        android:layout_height="165dp"
-        android:layout_marginTop="140dp"
-        android:src="@drawable/change_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/titleEditEquipment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="Edit Equipment"
         android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <ImageView
+        android:id="@+id/editImageView"
+        android:layout_width="185dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/change_img"
+        app:layout_constraintTop_toBottomOf="@id/titleEditEquipment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/editequipmentName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="Equipment Name"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/editImageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editimageView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
     <EditText
         android:id="@+id/editequipmentType"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="Category/Type"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/editequipmentName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editequipmentName" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/editmacAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="MAC Address"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/editequipmentType"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editequipmentType" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/editipAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="IP Address"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintTop_toBottomOf="@id/editmacAddress"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editmacAddress" />
-
-    <Button
-        android:id="@+id/btnequipEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
-        android:text="Edit"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEquipEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/purple_500"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/editipAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

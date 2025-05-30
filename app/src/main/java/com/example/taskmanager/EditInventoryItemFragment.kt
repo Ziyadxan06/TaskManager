@@ -71,11 +71,11 @@ class EditInventoryItemFragment : Fragment() {
                 }
             }
 
-        binding.editimageView.setOnClickListener {
+        binding.editImageView.setOnClickListener {
             getPermission()
         }
 
-        binding.btnequipEdit.setOnClickListener {
+        binding.btnEquipEdit.setOnClickListener {
             selectedImageUri.let { uri ->
                 if(uri == null){
                     updateData(defaultUri)
@@ -106,7 +106,7 @@ class EditInventoryItemFragment : Fragment() {
                 val imageData = result.data?.data
                 imageData?.let {
                     selectedImageUri = it
-                    binding.editimageView.setImageURI(it)
+                    binding.editImageView.setImageURI(it)
                 }
             }
         }
