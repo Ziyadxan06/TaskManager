@@ -99,7 +99,9 @@ class AddTaskFragment : Fragment() {
 
             newDocRef.set(taskData)
                 .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Tapşırıq uğurla əlavə olundu", Toast.LENGTH_SHORT).show()
+                    context?.let {
+                        Toast.makeText(requireContext(), "Tapşırıq uğurla əlavə olundu", Toast.LENGTH_SHORT).show()
+                    }
                     findNavController().navigate(R.id.action_addTaskFragment_to_adminTaskListFragment)
                     findNavController().popBackStack(R.id.addTaskFragment, true)
                 }
