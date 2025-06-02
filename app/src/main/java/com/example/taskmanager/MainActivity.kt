@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.signInFragment, R.id.signUpFragment -> bottomNavigationView.visibility = View.GONE
                 R.id.userManagement, R.id.userDetailsDialogFragment -> bottomNavigationView.visibility = View.GONE
+                R.id.editInventoryItemFragment -> bottomNavigationView.visibility = View.GONE
                 else -> bottomNavigationView.visibility = View.VISIBLE
             }
         }
