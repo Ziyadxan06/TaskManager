@@ -51,6 +51,11 @@ class UserManagement : Fragment() {
         }
         binding.userRecyclerView.adapter = userAdapter
 
+        binding.toolbarUserManagement.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbarUserManagement.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         getData()
 
         parentFragmentManager.setFragmentResultListener("userRoleUpdated", viewLifecycleOwner) { _, bundle ->
