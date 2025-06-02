@@ -45,6 +45,10 @@ class AddTaskFragment : Fragment() {
 
         (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
 
+        binding.toolbarAddTask.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbarAddTask.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         binding.taskDeadline.setOnClickListener {
             val calendar = Calendar.getInstance()
 
