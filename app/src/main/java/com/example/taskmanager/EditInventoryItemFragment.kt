@@ -50,6 +50,11 @@ class EditInventoryItemFragment : Fragment() {
 
         registerLauncher()
 
+        binding.toolbarEditItem.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbarEditItem.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         var docId = args.itemId
         FirebaseFirestore.getInstance().collection("inventory")
             .document(docId)

@@ -6,21 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
-    android:padding="16dp"
     tools:context=".EditInventoryItemFragment">
 
-    <TextView
-        android:id="@+id/titleEditEquipment"
-        android:layout_width="wrap_content"
+    <Toolbar
+        android:id="@+id/toolbarEditItem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Equipment"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/soft_purple"
+        android:title="Edit item"
+        android:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.Material3.Dark" />
 
     <ImageView
         android:id="@+id/editImageView"
@@ -28,7 +26,7 @@
         android:layout_height="165dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/change_img"
-        app:layout_constraintTop_toBottomOf="@id/titleEditEquipment"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEditItem"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -45,6 +43,8 @@
         app:layout_constraintTop_toBottomOf="@id/editImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"/>
 
     <EditText
@@ -60,6 +60,8 @@
         app:layout_constraintTop_toBottomOf="@id/editequipmentName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"/>
 
     <EditText
@@ -75,6 +77,8 @@
         app:layout_constraintTop_toBottomOf="@id/editequipmentType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"/>
 
     <EditText
@@ -90,6 +94,8 @@
         app:layout_constraintTop_toBottomOf="@id/editmacAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"/>
 
     <com.google.android.material.button.MaterialButton
@@ -103,6 +109,8 @@
         app:layout_constraintTop_toBottomOf="@id/editipAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
