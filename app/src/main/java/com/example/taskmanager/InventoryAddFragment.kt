@@ -55,6 +55,11 @@ class InventoryAddFragment : Fragment() {
 
         registerLauncher()
 
+        binding.toolbarAddItem.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbarAddItem.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.addImageView.setOnClickListener {
             getPermission()
         }
