@@ -34,6 +34,10 @@ class ProfileFragment : Fragment() {
         (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
 
         val user = FirebaseAuth.getInstance().currentUser
+        binding.toolbarAccount.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbarAccount.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         binding.useridAccount.setText(user?.uid ?: "-")
         binding.useremailAccount.setText(user?.email ?: "-")
 
