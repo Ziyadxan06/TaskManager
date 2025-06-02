@@ -38,6 +38,11 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+        binding.toolbar.title = "Settings"
+        binding.toolbar.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         binding.settingsProgressBar.visibility = View.VISIBLE
         binding.cardAccount.visibility = View.GONE
         binding.cardUserManagement.visibility = View.GONE
