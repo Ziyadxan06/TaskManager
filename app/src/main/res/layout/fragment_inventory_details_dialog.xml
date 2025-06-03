@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="600dp"
@@ -42,13 +43,23 @@
         android:fontFamily="sans-serif-black"
         android:textSize="20sp" />
 
-
     <TextView
         android:id="@+id/ipaddressTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="18sp" />
+
+    <!-- ŞIK Material Switch -->
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/materialSwitchArchive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Arşive Gönder"
+        android:layout_gravity="start"
+        android:layout_marginTop="16dp"
+        app:trackColor="@color/material_blue_grey_200"
+        app:thumbTint="@color/material_teal_500" />
 
     <Button
         android:id="@+id/btnEditTask"

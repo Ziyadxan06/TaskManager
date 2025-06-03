@@ -45,6 +45,10 @@ class InventoryDetailsDialogFragment : DialogFragment() {
             val action = InventoryDetailsDialogFragmentDirections.actionInventoryDetailsDialogFragmentToEditInventoryItemFragment(documentId)
             findNavController().navigate(action)
         }
+
+        binding.materialSwitchArchive.setOnClickListener {
+            archive(documentId)
+        }
     }
 
     private fun loadEquipmentDetails(docId : String){
@@ -75,6 +79,23 @@ class InventoryDetailsDialogFragment : DialogFragment() {
                 }
             }.addOnFailureListener {
                 Toast.makeText(requireContext(), it.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun archive(docId: String){
+        FirebaseFirestore.getInstance().collection("inventory")
+            .document(docId)
+            .addSnapshotListener { snapshot, error ->
+                if(error != null || snapshot == null){
+                    context?.let{
+                        Toast.makeText(requireContext(), error?.localizedMessage, Toast.LENGTH_LONG).show()
+                    }
+                }
+                if(snapshot?.getBoolean("isarchived") == false){
+                    FirebaseFirestore.getInstance().collection("inventory").document(docId).update("isarchived", true)
+                }else{
+                    FirebaseFirestore.getInstance().collection("inventory").document(docId).update("isarchived", false)
+                }
             }
     }
 }
