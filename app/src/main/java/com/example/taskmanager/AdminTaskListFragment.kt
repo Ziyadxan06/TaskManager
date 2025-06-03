@@ -1,8 +1,14 @@
 package com.example.taskmanager
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -26,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -45,10 +52,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
 import java.util.concurrent.TimeUnit
-import androidx.work.PeriodicWorkRequestBuilder
+import kotlin.random.Random
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
+@Suppress("UNREACHABLE_CODE")
 class AdminTaskListFragment : Fragment() {
 
     private var _binding: AdminFragmentTaskListBinding? = null
@@ -72,6 +80,15 @@ class AdminTaskListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = AdminFragmentTaskListBinding.inflate(inflater, container, false)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel("task_channel", "Task Notifications", NotificationManager.IMPORTANCE_HIGH)
+            context?.let {
+                val manager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                manager.createNotificationChannel(channel)
+            }
+        }
+
         return (binding.root)
     }
 
@@ -142,6 +159,47 @@ class AdminTaskListFragment : Fragment() {
         )
 
         handler.post(checkDeadlineRunnable)
+
+        val currentUserEmail2 = FirebaseAuth.getInstance().currentUser?.email ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("tasks")
+            .whereEqualTo("assignedTo", currentUserEmail2)
+            .whereEqualTo("shown", false)
+            .addSnapshotListener { snapshots, error ->
+                if (error != null || snapshots == null) return@addSnapshotListener
+
+                for (doc in snapshots) {
+                    val title = doc.getString("name") ?: "Yeni tapşırıq"
+                    val description = doc.getString("priority") ?: ""
+                    showLocalNotification(title, description)
+                    db.collection("tasks").document(doc.id).update("shown", true)
+                }
+            }
+
+    }
+
+    fun showLocalNotification(title: String, content: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+                Log.d("Notification", "Bildiriş icazəsi verilməyib")
+                return
+            }
+        }
+
+        val builder = NotificationCompat.Builder(requireContext(), "task_channel")
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+        context?.let {
+            val notificationManager = NotificationManagerCompat.from(requireContext())
+            notificationManager.notify(Random.nextInt(), builder.build())
+            Log.d("Notification", "Bildiriş göstərildi: $title")
+        }
+
     }
 
     fun checkAndUpdateOverdueTasks() {
@@ -254,7 +312,6 @@ class AdminTaskListFragment : Fragment() {
             .addSnapshotListener { snapshots, error ->
                 if (error != null || snapshots == null) {
                     Toast.makeText(requireContext(), "Veri alınırken hata: ${error?.localizedMessage}", Toast.LENGTH_LONG).show()
-                    Log.e("Saaalllllam", error.toString())
                     return@addSnapshotListener
                 }
 

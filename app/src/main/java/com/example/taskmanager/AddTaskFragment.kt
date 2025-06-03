@@ -98,7 +98,8 @@ class AddTaskFragment : Fragment() {
                 "assignedTo" to assignedTo,
                 "userName" to userName,
                 "deadline" to deadlineTimestamp,
-                "status" to "Yeni"
+                "status" to "Yeni",
+                "shown" to false
             )
 
             newDocRef.set(taskData)
