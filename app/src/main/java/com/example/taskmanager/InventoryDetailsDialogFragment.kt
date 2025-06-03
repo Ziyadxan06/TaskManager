@@ -55,8 +55,8 @@ class InventoryDetailsDialogFragment : DialogFragment() {
                 if(document != null && document.exists()){
                     val name = document.getString("equipmentName") ?: "-"
                     val category = document.getString("category") ?: "-"
-                    val mac = document.getString("MACaddress") ?: "-"
-                    val ip = document.getString("IPaddress") ?: "-"
+                    val mac = document.getString("count") ?: "-"
+                    val ip = document.getString("itemstatus") ?: "-"
                     val imageUrl = document.getString("imageUrl") ?: ""
                     val createdAt = document.getLong("createdAt") ?: 0L
 

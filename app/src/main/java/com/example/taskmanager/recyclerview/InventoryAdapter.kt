@@ -22,7 +22,7 @@ class InventoryAdapter(val equipmentList: ArrayList<InventoryModel>, private val
         val formattedArrival = formatter.format(Date(equipment.createdAt))
 
         holder.arrivalDate.text = "Arrival Date: ${formattedArrival}"
-        holder.macAddress.text = "MAC adress: ${equipment.macAddress}"
+        holder.count.text = "Count: ${equipment.macAddress}"
         holder.category.text = "Category: ${equipment.category}"
         holder.equipmentName.text = "Model: ${equipment.equipmentName}"
 

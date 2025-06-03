@@ -176,8 +176,8 @@ class InventoryListFragment : Fragment() {
                     val name = document.get("equipmentName") as? String ?: ""
                     val category = document.get("category") as? String ?: ""
                     val imageUri = document.get("imageUrl") as? String ?: ""
-                    val macAddress = document.get("MACaddress") as? String ?: ""
-                    val ipAddress = document.get("IPaddress") as? String ?: ""
+                    val macAddress = document.get("count") as? String ?: ""
+                    val ipAddress = document.get("itemstatus") as? String ?: ""
                     val arrival = document.get("createdAt") as? Long ?: 0L
 
                     val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
@@ -201,8 +201,8 @@ class InventoryListFragment : Fragment() {
                 val name = document.get("equipmentName") as? String ?: ""
                 val category = document.get("category") as? String ?: ""
                 val imageUri = document.get("imageUrl") as? String ?: ""
-                val macAddress = document.get("MACaddress") as? String ?: ""
-                val ipAddress = document.get("IPaddress") as? String ?: ""
+                val macAddress = document.get("count") as? String ?: ""
+                val ipAddress = document.get("itemstatus") as? String ?: ""
                 val arrival = document.get("createdAt") as? Long ?: 0L
 
                 val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
@@ -223,8 +223,8 @@ class InventoryListFragment : Fragment() {
                     val name = document.get("equipmentName") as? String ?: ""
                     val category = document.get("category") as? String ?: ""
                     val imageUri = document.get("imageUrl") as? String ?: ""
-                    val macAddress = document.get("MACaddress") as? String ?: ""
-                    val ipAddress = document.get("IPaddress") as? String ?: ""
+                    val macAddress = document.get("count") as? String ?: ""
+                    val ipAddress = document.get("itemstatus") as? String ?: ""
                     val arrival = document.get("createdAt") as? Long ?: 0L
 
                     val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
@@ -334,8 +334,8 @@ class InventoryListFragment : Fragment() {
                     val name = document.getString("equipmentName") ?: ""
                     val category = document.getString("category") ?: ""
                     val imageUri = document.getString("imageUrl") ?: ""
-                    val macAddress = document.getString("MACaddress") ?: ""
-                    val ipAddress = document.getString("IPaddress") ?: ""
+                    val macAddress = document.getString("count") ?: ""
+                    val ipAddress = document.getString("itemstatus") ?: ""
                     val arrival = document.getLong("createdAt") ?: 0L
 
                     val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)

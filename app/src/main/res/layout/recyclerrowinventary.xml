@@ -33,7 +33,7 @@
             android:layout_marginTop="4dp"/>
 
         <TextView
-            android:id="@+id/macView"
+            android:id="@+id/countView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="MAC: A1:B2:C3:D4:E5:F6"

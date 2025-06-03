@@ -36,8 +36,8 @@ class InventoryAddFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private lateinit var equipmentName: String
     private lateinit var category: String
-    private lateinit var macAddress: String
-    private lateinit var ipAddress: String
+    private lateinit var count: String
+    private lateinit var status: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -121,10 +121,10 @@ class InventoryAddFragment : Fragment() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         equipmentName = binding.equipmentName.text.toString().trim()
         category = binding.equipmentType.text.toString().trim()
-        macAddress = binding.macAddress.text.toString().trim()
-        ipAddress = binding.ipAddress.text.toString().trim()
+        count = binding.itemCount.text.toString().trim()
+        status = binding.itemStatus.text.toString().trim()
 
-        if(equipmentName.isEmpty() || category.isEmpty() || macAddress.isEmpty() || ipAddress.isEmpty()){
+        if(equipmentName.isEmpty() || category.isEmpty() || count.isEmpty() || status.isEmpty()){
             Toast.makeText(requireContext(), "Butun xanalari doldurun", Toast.LENGTH_SHORT).show()
         }else{
             val inventoryItem = hashMapOf(
@@ -133,8 +133,8 @@ class InventoryAddFragment : Fragment() {
                 "createdAt" to System.currentTimeMillis(),
                 "equipmentName" to equipmentName,
                 "category" to category,
-                "MACaddress" to macAddress,
-                "IPaddress" to ipAddress,
+                "count" to count,
+                "itemstatus" to status,
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
