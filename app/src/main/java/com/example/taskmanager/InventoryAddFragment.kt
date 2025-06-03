@@ -135,6 +135,7 @@ class InventoryAddFragment : Fragment() {
                 "category" to category,
                 "count" to count,
                 "itemstatus" to status,
+                "isarchived" to false
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
