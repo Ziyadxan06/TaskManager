@@ -34,4 +34,6 @@
     <color name="text_hint_light">#B0BEC5</color>
     <color name="outline_light">#B0BEC5</color>
     <color name="card_background">#1E1E1E</color>
+    <color name="material_blue_grey_200">#B0BEC5</color>
+    <color name="material_teal_500">#009688</color>
 </resources>
