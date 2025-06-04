@@ -171,8 +171,9 @@ class ArchiveFragment : Fragment() {
                 val macAddress = document.get("count") as? String ?: ""
                 val ipAddress = document.get("itemstatus") as? String ?: ""
                 val arrival = document.get("createdAt") as? Long ?: 0L
+                val location = document.get("location") as? String ?: ""
 
-                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
+                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
                 equipmentList.add(equipment)
             }
 
@@ -197,8 +198,9 @@ class ArchiveFragment : Fragment() {
                     val macAddress = document.get("count") as? String ?: ""
                     val ipAddress = document.get("itemstatus") as? String ?: ""
                     val arrival = document.get("createdAt") as? Long ?: 0L
+                    val location = document.get("location") as? String ?: ""
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
                     equipmentList.add(equipment)
                 }
 
@@ -220,8 +222,9 @@ class ArchiveFragment : Fragment() {
                     val macAddress = document.get("count") as? String ?: ""
                     val ipAddress = document.get("itemstatus") as? String ?: ""
                     val arrival = document.get("createdAt") as? Long ?: 0L
+                    val location = document.get("location") as? String ?: ""
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
                     equipmentList.add(equipment)
                 }
 
@@ -330,8 +333,9 @@ class ArchiveFragment : Fragment() {
                     val macAddress = document.getString("count") ?: ""
                     val ipAddress = document.getString("itemstatus") ?: ""
                     val arrival = document.getLong("createdAt") ?: 0L
+                    val location = document.get("location") as? String ?: ""
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
                     equipmentList.add(equipment)
                 }
                 inventoryAdapter.notifyDataSetChanged()

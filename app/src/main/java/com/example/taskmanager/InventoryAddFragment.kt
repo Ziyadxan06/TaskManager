@@ -38,6 +38,7 @@ class InventoryAddFragment : Fragment() {
     private lateinit var category: String
     private lateinit var count: String
     private lateinit var status: String
+    private lateinit var location: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -123,6 +124,8 @@ class InventoryAddFragment : Fragment() {
         category = binding.equipmentType.text.toString().trim()
         count = binding.itemCount.text.toString().trim()
         status = binding.itemStatus.text.toString().trim()
+        location = binding.location.text.toString().trim()
+
 
         if(equipmentName.isEmpty() || category.isEmpty() || count.isEmpty() || status.isEmpty()){
             Toast.makeText(requireContext(), "Butun xanalari doldurun", Toast.LENGTH_SHORT).show()
@@ -135,7 +138,9 @@ class InventoryAddFragment : Fragment() {
                 "category" to category,
                 "count" to count,
                 "itemstatus" to status,
-                "isarchived" to false
+                "isarchived" to false,
+                "location" to location
+
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
