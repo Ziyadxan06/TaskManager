@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -177,14 +178,15 @@ class EditInventoryItemFragment : Fragment() {
         val updatedLocation = binding.editLocation.text.toString().trim()
 
         val isCountReduced = updatedCount < originalCount
+        val isCountIncreased = updatedCount > originalCount
         val isStatusChanged = updatedStatus != originalStatus
         val isLocationChanged = updatedLocation != originalLocation
         val requiresSplit = isCountReduced && (isStatusChanged || isLocationChanged)
+        val warnAndSuggestSplit = isCountIncreased && (isStatusChanged || isLocationChanged)
 
         if (requiresSplit) {
             val countDifference = originalCount.toInt() - updatedCount.toInt()
 
-            // 1. Mövcud itemi güncəllə
             val addNewMap = mapOf(
                 "equipmentName" to updatedName,
                 "category" to updatedCategory,
@@ -203,7 +205,7 @@ class EditInventoryItemFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Yeniləmə xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Update error: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
 
             val newItem = hashMapOf(
@@ -223,16 +225,25 @@ class EditInventoryItemFragment : Fragment() {
                 .addOnSuccessListener { documentReference ->
                     val id = documentReference.id
                     documentReference.update("id", id)
-                    context?.let {
-                        Toast.makeText(requireContext(), "Item split successfully", Toast.LENGTH_SHORT).show()
-                    }
                     findNavController().popBackStack()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Yeni item yaratmaqda xəta: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
+        }else if(warnAndSuggestSplit){
+            context?.let {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Warning")
+                    .setMessage("You are increasing the item count while changing its status or location. It's recommended to add these as a new item instead.")
+                    .setPositiveButton("Add as new item"){ _, _ ->
+                        createNewItemOnly(imageUrl, originalStatus, originalCount)
+                    }
+                    .setNegativeButton("Cancel"){ dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
         } else {
-            // Split lazım deyil, normal update
             val updateMap = mapOf(
                 "equipmentName" to updatedName,
                 "category" to updatedCategory,
@@ -253,6 +264,40 @@ class EditInventoryItemFragment : Fragment() {
                     Toast.makeText(requireContext(), "Yeniləmə xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
         }
+    }
+
+    private fun createNewItemOnly(imageUrl: String, originalStatus: String, originalCount: String){
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val updatedName = binding.editequipmentName.text.toString().trim()
+        val updatedCategory = binding.editequipmentType.text.toString().trim()
+        val updatedCount = binding.editCount.text.toString().trim()
+        val updatedStatus = binding.editStatus.text.toString().trim()
+        val updatedLocation = binding.editLocation.text.toString().trim()
+
+        val countDifference = updatedCount.toInt() - originalCount.toInt()
+
+        val newItem = hashMapOf(
+            "equipmentName" to updatedName,
+            "category" to updatedCategory,
+            "count" to countDifference.toString(),
+            "itemstatus" to updatedStatus,
+            "location" to updatedLocation,
+            "imageUrl" to imageUrl,
+            "createdAt" to System.currentTimeMillis(),
+            "isarchived" to false,
+            "userId" to userId
+        )
+
+        FirebaseFirestore.getInstance().collection("inventory")
+            .add(newItem)
+            .addOnSuccessListener { documentReference ->
+                val id = documentReference.id
+                documentReference.update("id", id)
+                findNavController().popBackStack()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
     }
 
     override fun onDestroyView() {
