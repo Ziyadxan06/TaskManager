@@ -64,12 +64,30 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"/>
 
-    <EditText
-        android:id="@+id/editmacAddress"
+    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        android:id="@+id/editLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="MAC Address"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Location"
         android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCount"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <EditText
+        android:id="@+id/editCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Count"
+        android:inputType="number"
         android:padding="12dp"
         android:background="@drawable/edittext_background"
         android:textColor="@color/white"
@@ -81,22 +99,23 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"/>
 
-    <EditText
-        android:id="@+id/editipAddress"
+    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        android:id="@+id/editStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="IP Address"
-        android:inputType="text"
-        android:padding="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
+        android:hint="Status"
+        android:inputType="none"
+        android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white_hint"
-        app:layout_constraintTop_toBottomOf="@id/editmacAddress"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editLocation" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEquipEdit"
@@ -106,7 +125,7 @@
         android:textColor="@color/white"
         android:backgroundTint="@color/purple_500"
         android:background="@drawable/edittext_background"
-        app:layout_constraintTop_toBottomOf="@id/editipAddress"
+        app:layout_constraintTop_toBottomOf="@id/editStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
