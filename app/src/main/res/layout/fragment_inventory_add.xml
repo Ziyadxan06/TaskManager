@@ -64,7 +64,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"/>
 
-    <AutoCompleteTextView
+    <com.google.android.material.textfield.MaterialAutoCompleteTextView
         android:id="@+id/location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
         android:hint="Count"
-        android:inputType="text"
+        android:inputType="number"
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white_hint"
@@ -98,22 +98,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location" />
 
-    <EditText
+    <com.google.android.material.textfield.MaterialAutoCompleteTextView
         android:id="@+id/itemStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Status"
-        android:inputType="text"
-        android:padding="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
+        android:inputType="none"
+        android:hint="Status"
+        android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white_hint"
-        app:layout_constraintTop_toBottomOf="@id/itemCount"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemCount" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddEquipment"

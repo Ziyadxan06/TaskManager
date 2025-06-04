@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,6 +40,8 @@ class InventoryAddFragment : Fragment() {
     private lateinit var count: String
     private lateinit var status: String
     private lateinit var location: String
+    private lateinit var locationAdapter: ArrayAdapter<String>
+    private lateinit var statusAdapter: ArrayAdapter<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,6 +74,23 @@ class InventoryAddFragment : Fragment() {
             } ?: run {
                 Toast.makeText(requireContext(), "Zəhmət olmasa şəkil seçin", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val statusList = listOf("New", "Used", "Out of order")
+        val locationList = listOf("A1", "A2", "A3", "A3")
+
+        context?.let {
+            statusAdapter = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, statusList)
+            locationAdapter = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, locationList)
+        }
+
+        binding.location.setAdapter(locationAdapter)
+        binding.itemStatus.setAdapter(statusAdapter)
+        binding.location.setOnClickListener {
+            binding.location.showDropDown()
+        }
+        binding.itemStatus.setOnClickListener {
+            binding.itemStatus.showDropDown()
         }
     }
 
