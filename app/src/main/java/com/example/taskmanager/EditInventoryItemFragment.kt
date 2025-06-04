@@ -22,6 +22,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.taskmanager.databinding.FragmentEditInventoryItemBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class EditInventoryItemFragment : Fragment() {
@@ -34,6 +35,9 @@ class EditInventoryItemFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private val args: EditInventoryItemFragmentArgs by navArgs()
     private lateinit var defaultUri: String
+    private lateinit var status: String
+    private lateinit var location: String
+    private lateinit var count: String
     private lateinit var locationAdapterEdit: ArrayAdapter<String>
     private lateinit var statusAdapterEdit: ArrayAdapter<String>
 
@@ -72,9 +76,9 @@ class EditInventoryItemFragment : Fragment() {
                 if (document != null && document.exists()) {
                     val name = document.getString("equipmentName") ?: "-"
                     val category = document.getString("category") ?: "-"
-                    val count = document.getString("count") ?: "-"
-                    val status = document.getString("itemstatus") ?: "-"
-                    val location = document.getString("location") ?: ""
+                    count = document.getString("count") ?: "-"
+                    status = document.getString("itemstatus") ?: "-"
+                    location = document.getString("location") ?: ""
                     defaultUri = document.getString("imageUrl") ?: ""
 
                     binding.editequipmentName.setText(name)
@@ -99,9 +103,9 @@ class EditInventoryItemFragment : Fragment() {
 
         binding.btnEquipEdit.setOnClickListener {
             selectedImageUri?.let {
-                updateData(it.toString())
+                updateData(it.toString(), status, count, location)
             } ?: run {
-                updateData(defaultUri)
+                updateData(defaultUri, status, count, location)
             }
         }
     }
@@ -164,37 +168,91 @@ class EditInventoryItemFragment : Fragment() {
         activityResulLauncher.launch(intentToGallery)
     }
 
-    private fun updateData(imageUrl: String) {
+    private fun updateData(imageUrl: String, originalStatus: String, originalCount: String, originalLocation: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
         val updatedName = binding.editequipmentName.text.toString().trim()
         val updatedCategory = binding.editequipmentType.text.toString().trim()
         val updatedCount = binding.editCount.text.toString().trim()
         val updatedStatus = binding.editStatus.text.toString().trim()
         val updatedLocation = binding.editLocation.text.toString().trim()
 
-        val updatedData = hashMapOf<String, Any>(
-            "equipmentName" to updatedName,
-            "category" to updatedCategory,
-            "count" to updatedCount,
-            "itemstatus" to updatedStatus,
-            "location" to updatedLocation,
-            "imageUrl" to imageUrl
-        )
+        val isCountReduced = updatedCount < originalCount
+        val isStatusChanged = updatedStatus != originalStatus
+        val isLocationChanged = updatedLocation != originalLocation
+        val requiresSplit = isCountReduced && (isStatusChanged || isLocationChanged)
 
-        FirebaseFirestore.getInstance()
-            .collection("inventory")
-            .document(args.itemId)
-            .update(updatedData)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Data Updated", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Yeniləmə xətası: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        if (requiresSplit) {
+            val countDifference = originalCount.toInt() - updatedCount.toInt()
+
+            // 1. Mövcud itemi güncəllə
+            val addNewMap = mapOf(
+                "equipmentName" to updatedName,
+                "category" to updatedCategory,
+                "count" to updatedCount,
+                "itemstatus" to updatedStatus,
+                "location" to updatedLocation,
+                "imageUrl" to imageUrl
+            )
+
+            FirebaseFirestore.getInstance().collection("inventory")
+                .document(args.itemId)
+                .update(addNewMap)
+                .addOnSuccessListener {
+                    context?.let {
+                        Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Yeniləmə xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                }
+
+            val newItem = hashMapOf(
+                "equipmentName" to updatedName,
+                "category" to updatedCategory,
+                "count" to countDifference.toString(),
+                "itemstatus" to originalStatus,
+                "location" to originalLocation,
+                "imageUrl" to imageUrl,
+                "createdAt" to System.currentTimeMillis(),
+                "isarchived" to false,
+                "userId" to userId
+            )
+
+            FirebaseFirestore.getInstance().collection("inventory")
+                .add(newItem)
+                .addOnSuccessListener { documentReference ->
+                    val id = documentReference.id
+                    documentReference.update("id", id)
+                    context?.let {
+                        Toast.makeText(requireContext(), "Item split successfully", Toast.LENGTH_SHORT).show()
+                    }
+                    findNavController().popBackStack()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Yeni item yaratmaqda xəta: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                }
+        } else {
+            // Split lazım deyil, normal update
+            val updateMap = mapOf(
+                "equipmentName" to updatedName,
+                "category" to updatedCategory,
+                "count" to updatedCount,
+                "itemstatus" to updatedStatus,
+                "location" to updatedLocation,
+                "imageUrl" to imageUrl
+            )
+
+            FirebaseFirestore.getInstance().collection("inventory")
+                .document(args.itemId)
+                .update(updateMap)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Data Updated", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Yeniləmə xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                }
+        }
     }
 
     override fun onDestroyView() {
