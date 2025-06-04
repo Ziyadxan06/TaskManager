@@ -354,12 +354,12 @@ class ArchiveFragment : Fragment() {
                     .document(swipedItem.id)
                     .update("isarchived", false)
                     .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "${swipedItem.equipmentName} inventoryye qayitdi", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${swipedItem.equipmentName} unarchived", Toast.LENGTH_SHORT).show()
                         equipmentList.removeAt(position)
                         inventoryAdapter.notifyItemRemoved(position)
                     }
                     .addOnFailureListener {
-                        Toast.makeText(requireContext(), "Arşivleme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "operation unsuccessful: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                         inventoryAdapter.notifyItemChanged(position)
                     }
             }
