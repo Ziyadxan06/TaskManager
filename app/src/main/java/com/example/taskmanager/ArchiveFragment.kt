@@ -54,13 +54,13 @@ class ArchiveFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         equipmentList = ArrayList()
-        recyclerView = binding.adminInventoryRV
+        recyclerView = binding.archiveRV
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         inventoryAdapter = InventoryAdapter(equipmentList) { selectedItem ->
             val action = ArchiveFragmentDirections.actionArchiveFragmentToInventoryDetailsDialogFragment(selectedItem.id)
             findNavController().navigate(action)
         }
-        binding.adminInventoryRV.adapter = inventoryAdapter
+        binding.archiveRV.adapter = inventoryAdapter
         val currentUser = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         FirebaseFirestore.getInstance().collection("users")
@@ -72,6 +72,7 @@ class ArchiveFragment : Fragment() {
             }
 
         sendInventory()
+        delete()
 
         requireActivity().addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -354,9 +355,11 @@ class ArchiveFragment : Fragment() {
                     .document(swipedItem.id)
                     .update("isarchived", false)
                     .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "${swipedItem.equipmentName} unarchived", Toast.LENGTH_SHORT).show()
-                        equipmentList.removeAt(position)
-                        inventoryAdapter.notifyItemRemoved(position)
+                        context?.let {
+                            Toast.makeText(requireContext(), "${swipedItem.equipmentName} unarchived", Toast.LENGTH_SHORT).show()
+                            equipmentList.removeAt(position)
+                            inventoryAdapter.notifyItemRemoved(position)
+                        }
                     }
                     .addOnFailureListener {
                         Toast.makeText(requireContext(), "operation unsuccessful: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
@@ -365,7 +368,51 @@ class ArchiveFragment : Fragment() {
             }
         }
 
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.adminInventoryRV)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.archiveRV)
+    }
+
+    private fun delete(){
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val swipedItem = equipmentList[position]
+
+                context?.let {
+                    val builder = AlertDialog.Builder(requireContext())
+                        .setTitle("Are you sure you want to delete this?")
+                        .setMessage("Deleted item cannot be recovered")
+                        .setPositiveButton("Yes"){ dialog, which ->
+                            FirebaseFirestore.getInstance()
+                                .collection("inventory")
+                                .document(swipedItem.id)
+                                .delete()
+                                .addOnSuccessListener {
+                                    Toast.makeText(requireContext(), "${swipedItem.equipmentName} deleted", Toast.LENGTH_SHORT).show()
+                                    equipmentList.removeAt(position)
+                                    inventoryAdapter.notifyItemRemoved(position)
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                        .setNegativeButton("No"){ dialog, which ->
+                            dialog.dismiss()
+                        }
+
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+            }
+
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.archiveRV)
     }
 
 }
