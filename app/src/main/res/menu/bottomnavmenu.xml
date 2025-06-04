@@ -11,6 +11,11 @@
         android:title="Inventory"/>
 
     <item
+        android:id="@+id/archiveFragment"
+        android:icon="@drawable/baseline_archive_24"
+        android:title="Archive"/>
+
+    <item
         android:id="@+id/backgroundTaskFragment"
         android:icon="@drawable/baseline_archive_24"
         android:title="Background"/>

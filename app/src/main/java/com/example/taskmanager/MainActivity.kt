@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.adminTaskListFragment,
                 R.id.inventoryListFragment,
+                R.id.archiveFragment,
                 R.id.backgroundTaskFragment
             )
         )
