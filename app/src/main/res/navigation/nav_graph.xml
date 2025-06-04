@@ -182,4 +182,16 @@
             android:id="@+id/action_backgroundTaskFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.example.taskmanager.ArchiveFragment"
+        android:label="fragment_archive"
+        tools:layout="@layout/fragment_archive" >
+        <action
+            android:id="@+id/action_archiveFragment_to_inventoryDetailsDialogFragment"
+            app:destination="@id/inventoryDetailsDialogFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 </navigation>
