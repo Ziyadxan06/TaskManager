@@ -355,18 +355,21 @@ class InventoryListFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val deletedTask = equipmentList[position]
+                val swipedItem = equipmentList[position]
 
                 FirebaseFirestore.getInstance()
                     .collection("inventory")
-                    .document(deletedTask.id)
-                    .delete()
+                    .document(swipedItem.id)
+                    .update("isarchived", true)
                     .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "${swipedItem.equipmentName} arşivlendi", Toast.LENGTH_SHORT).show()
+                        // RecyclerView'dan kaldır
                         equipmentList.removeAt(position)
                         inventoryAdapter.notifyItemRemoved(position)
-                        Toast.makeText(requireContext(), "Item deleted", Toast.LENGTH_LONG).show()
-                    }.addOnFailureListener {
-                        Toast.makeText(requireContext(), "Item could not deleted", Toast.LENGTH_LONG).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(requireContext(), "Arşivleme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        inventoryAdapter.notifyItemChanged(position)  // Geri getir
                     }
             }
         }
