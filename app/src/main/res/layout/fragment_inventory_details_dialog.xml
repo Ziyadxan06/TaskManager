@@ -50,17 +50,6 @@
         android:layout_marginTop="20dp"
         android:textSize="18sp" />
 
-    <!-- ŞIK Material Switch -->
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/materialSwitchArchive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Arşive Gönder"
-        android:layout_gravity="start"
-        android:layout_marginTop="16dp"
-        app:trackColor="@color/material_blue_grey_200"
-        app:thumbTint="@color/material_teal_500" />
-
     <Button
         android:id="@+id/btnEditTask"
         android:layout_width="wrap_content"
