@@ -55,19 +55,21 @@ class InventoryDetailsDialogFragment : DialogFragment() {
                 if(document != null && document.exists()){
                     val name = document.getString("equipmentName") ?: "-"
                     val category = document.getString("category") ?: "-"
-                    val mac = document.getString("count") ?: "-"
-                    val ip = document.getString("itemstatus") ?: "-"
+                    val count = document.getString("count") ?: "-"
+                    val status = document.getString("itemstatus") ?: "-"
                     val imageUrl = document.getString("imageUrl") ?: ""
                     val createdAt = document.getLong("createdAt") ?: 0L
+                    val location = document.getString("location") ?: ""
 
                     val formattedDate = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
                         .format(Date(createdAt))
 
-                    binding.equipmentnameTextView.text = name
-                    binding.categoryTextView.text = category
-                    binding.macaddressTextView.text = mac
-                    binding.ipaddressTextView.text = ip
-                    binding.arrival.text = formattedDate
+                    binding.equipmentnameTextView.text = "Model: ${name}"
+                    binding.categoryTextView.text = "Category: ${category}"
+                    binding.countTextView.text = "Count: ${count}"
+                    binding.statusTextView.text = "Status: ${status}"
+                    binding.locationTextView.text = "Location: ${location}"
+                    binding.arrival.text = "Arrival Date: ${formattedDate}"
 
                     Glide.with(requireContext())
                         .load(imageUrl)
