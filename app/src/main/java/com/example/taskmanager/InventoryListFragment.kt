@@ -56,7 +56,7 @@ class InventoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        delete()
+        archive()
 
         equipmentList = ArrayList()
         recyclerView = binding.adminInventoryRV
@@ -166,9 +166,9 @@ class InventoryListFragment : Fragment() {
         equipmentList.clear()
         inventoryAdapter.notifyDataSetChanged()
         val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory")
+            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", false)
         }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId)
+            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId).whereEqualTo("isarchived", false)
         }
         query.get().addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -192,7 +192,7 @@ class InventoryListFragment : Fragment() {
         equipmentList.clear()
         inventoryAdapter.notifyDataSetChanged()
 
-        FirebaseFirestore.getInstance().collection("inventory")
+        FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", false)
             .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { documents ->
@@ -215,6 +215,7 @@ class InventoryListFragment : Fragment() {
 
     fun fetchInventoryByEmail(userId: String) {
         FirebaseFirestore.getInstance().collection("inventory")
+            .whereEqualTo("isarchived", false)
             .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener {documents ->
@@ -321,9 +322,9 @@ class InventoryListFragment : Fragment() {
 
     fun fetchInventoryByDateRange(start: Long, end: Long, role: String, userId: String) {
         val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory")
+            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", false)
         }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId)
+            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId).whereEqualTo("isarchived", false)
         }
         query.whereGreaterThanOrEqualTo("createdAt", start)
             .whereLessThanOrEqualTo("createdAt", end)
@@ -345,7 +346,7 @@ class InventoryListFragment : Fragment() {
             }
     }
 
-    private fun delete(){
+    private fun archive(){
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -363,13 +364,12 @@ class InventoryListFragment : Fragment() {
                     .update("isarchived", true)
                     .addOnSuccessListener {
                         Toast.makeText(requireContext(), "${swipedItem.equipmentName} arşivlendi", Toast.LENGTH_SHORT).show()
-                        // RecyclerView'dan kaldır
                         equipmentList.removeAt(position)
                         inventoryAdapter.notifyItemRemoved(position)
                     }
                     .addOnFailureListener {
                         Toast.makeText(requireContext(), "Arşivleme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
-                        inventoryAdapter.notifyItemChanged(position)  // Geri getir
+                        inventoryAdapter.notifyItemChanged(position)
                     }
             }
         }
