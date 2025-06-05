@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Name: Komputer"
             android:textSize="20sp"
-            android:textColor="#FFFFFF"
+            android:textColor="#444444"
             android:textStyle="bold" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Category: Computer"
             android:textSize="16sp"
-            android:textColor="#DDDDDD"
+            android:textColor="#444444"
             android:layout_marginTop="4dp"/>
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="MAC: A1:B2:C3:D4:E5:F6"
             android:textSize="16sp"
-            android:textColor="#DDDDDD"
+            android:textColor="#444444"
             android:layout_marginTop="4dp"/>
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="Arrival: 12 May 2025"
             android:textSize="14sp"
-            android:textColor="#BBBBBB"
+            android:textColor="#444444"
             android:layout_marginTop="6dp"/>
 
         <TextView
@@ -56,7 +56,16 @@
             android:layout_height="wrap_content"
             android:text="Ziyadxan"
             android:textSize="14sp"
-            android:textColor="#BBBBBB"
+            android:textColor="#444444"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:id="@+id/senderView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sky"
+            android:textSize="14sp"
+            android:textColor="#444444"
             android:layout_marginTop="6dp"/>
     </LinearLayout>
 

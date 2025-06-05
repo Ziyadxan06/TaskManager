@@ -173,9 +173,11 @@ class ArchiveFragment : Fragment() {
                 val arrival = document.get("createdAt") as? Long ?: 0L
                 val location = document.get("location") as? String ?: ""
                 val userName = document.get("userName") as? String ?: ""
+                val sender = document.get("sender") as? String ?: ""
 
 
-                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
+
+                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName,sender)
                 equipmentList.add(equipment)
             }
 
@@ -202,9 +204,11 @@ class ArchiveFragment : Fragment() {
                     val arrival = document.get("createdAt") as? Long ?: 0L
                     val location = document.get("location") as? String ?: ""
                     val userName = document.get("userName") as? String ?: ""
+                    val sender = document.get("sender") as? String ?: ""
 
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
+
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
                     equipmentList.add(equipment)
                 }
 
@@ -228,9 +232,11 @@ class ArchiveFragment : Fragment() {
                     val arrival = document.get("createdAt") as? Long ?: 0L
                     val location = document.get("location") as? String ?: ""
                     val userName = document.get("userName") as? String ?: ""
+                    val sender = document.get("sender") as? String ?: ""
 
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
+
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
                     equipmentList.add(equipment)
                 }
 
@@ -341,9 +347,11 @@ class ArchiveFragment : Fragment() {
                     val arrival = document.getLong("createdAt") ?: 0L
                     val location = document.get("location") as? String ?: ""
                     val userName = document.get("userName") as? String ?: ""
+                    val sender = document.get("sender") as? String ?: ""
 
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
+
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
                     equipmentList.add(equipment)
                 }
                 inventoryAdapter.notifyDataSetChanged()

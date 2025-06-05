@@ -40,6 +40,7 @@ class InventoryAddFragment : Fragment() {
     private lateinit var count: String
     private lateinit var status: String
     private lateinit var location: String
+    private lateinit var sender: String
     private lateinit var locationAdapter: ArrayAdapter<String>
     private lateinit var statusAdapter: ArrayAdapter<String>
     private lateinit var userName: String
@@ -147,6 +148,7 @@ class InventoryAddFragment : Fragment() {
         count = binding.itemCount.text.toString().trim()
         status = binding.itemStatus.text.toString().trim()
         location = binding.location.text.toString().trim()
+        sender = binding.sender.text.toString().trim()
 
 
         if(equipmentName.isEmpty() || category.isEmpty() || count.isEmpty() || status.isEmpty()){
@@ -162,7 +164,8 @@ class InventoryAddFragment : Fragment() {
                 "itemstatus" to status,
                 "isarchived" to false,
                 "location" to location,
-                "userName" to userName
+                "userName" to userName,
+                "sender" to sender
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
