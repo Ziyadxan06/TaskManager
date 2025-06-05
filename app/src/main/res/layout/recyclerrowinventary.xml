@@ -49,6 +49,15 @@
             android:textSize="14sp"
             android:textColor="#BBBBBB"
             android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:id="@+id/usernameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ziyadxan"
+            android:textSize="14sp"
+            android:textColor="#BBBBBB"
+            android:layout_marginTop="6dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

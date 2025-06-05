@@ -180,8 +180,9 @@ class InventoryListFragment : Fragment() {
                     val ipAddress = document.get("itemstatus") as? String ?: ""
                     val arrival = document.get("createdAt") as? Long ?: 0L
                     val location = document.get("location") as? String ?: ""
+                    val userName = document.get("userName") as? String ?: ""
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
                     equipmentList.add(equipment)
                 }
 
@@ -205,9 +206,11 @@ class InventoryListFragment : Fragment() {
                 val macAddress = document.get("count") as? String ?: ""
                 val ipAddress = document.get("itemstatus") as? String ?: ""
                 val arrival = document.get("createdAt") as? Long ?: 0L
-                    val location = document.get("location") as? String ?: ""
+                val location = document.get("location") as? String ?: ""
+                val userName = document.get("userName") as? String ?: ""
 
-                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
+
+                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
                 equipmentList.add(equipment)
             }
 
@@ -230,8 +233,10 @@ class InventoryListFragment : Fragment() {
                     val itemStatus = document.get("itemstatus") as? String ?: ""
                     val arrival = document.get("createdAt") as? Long ?: 0L
                     val location = document.get("location") as? String ?: ""
+                    val userName = document.get("userName") as? String ?: ""
 
-                    val equipment = InventoryModel(id, name, category, count, itemStatus, imageUri, arrival, location)
+
+                    val equipment = InventoryModel(id, name, category, count, itemStatus, imageUri, arrival, location, userName)
                     equipmentList.add(equipment)
                 }
 
@@ -342,8 +347,10 @@ class InventoryListFragment : Fragment() {
                     val ipAddress = document.getString("itemstatus") ?: ""
                     val arrival = document.getLong("createdAt") ?: 0L
                     val location = document.get("location") as? String ?: ""
+                    val userName = document.get("userName") as? String ?: ""
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location)
+
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName)
                     equipmentList.add(equipment)
                 }
                 inventoryAdapter.notifyDataSetChanged()

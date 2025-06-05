@@ -41,6 +41,7 @@ class EditInventoryItemFragment : Fragment() {
     private lateinit var count: String
     private lateinit var locationAdapterEdit: ArrayAdapter<String>
     private lateinit var statusAdapterEdit: ArrayAdapter<String>
+    private lateinit var userName: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +55,7 @@ class EditInventoryItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         registerLauncher()
+        getCurrentUserName()
 
         binding.toolbarEditItem.setNavigationIcon(R.drawable.ic_back)
         binding.toolbarEditItem.setNavigationOnClickListener {
@@ -217,7 +219,8 @@ class EditInventoryItemFragment : Fragment() {
                 "imageUrl" to imageUrl,
                 "createdAt" to System.currentTimeMillis(),
                 "isarchived" to false,
-                "userId" to userId
+                "userId" to userId,
+                "userName" to userName
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
@@ -285,7 +288,8 @@ class EditInventoryItemFragment : Fragment() {
             "imageUrl" to imageUrl,
             "createdAt" to System.currentTimeMillis(),
             "isarchived" to false,
-            "userId" to userId
+            "userId" to userId,
+            "userName" to userName
         )
 
         FirebaseFirestore.getInstance().collection("inventory")
@@ -298,6 +302,18 @@ class EditInventoryItemFragment : Fragment() {
             .addOnFailureListener {
                 Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_LONG).show()
             }
+    }
+
+    private fun getCurrentUserName() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            FirebaseFirestore.getInstance().collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    userName = document.getString("username") ?: ""
+                }
+        }
     }
 
     override fun onDestroyView() {

@@ -22,9 +22,10 @@ class InventoryAdapter(val equipmentList: ArrayList<InventoryModel>, private val
         val formattedArrival = formatter.format(Date(equipment.createdAt))
 
         holder.arrivalDate.text = "Arrival Date: ${formattedArrival}"
-        holder.count.text = "Count: ${equipment.macAddress}"
+        holder.count.text = "Count: ${equipment.count}"
         holder.category.text = "Category: ${equipment.category}"
         holder.equipmentName.text = "Model: ${equipment.equipmentName}"
+        holder.userName.text = "Receiver: ${equipment.receiver}"
 
         holder.itemView.setOnClickListener {
             onClickItem(equipment)

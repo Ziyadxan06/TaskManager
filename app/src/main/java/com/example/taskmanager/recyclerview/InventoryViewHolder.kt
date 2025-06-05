@@ -11,4 +11,5 @@ class InventoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     val category = itemView.findViewById<TextView>(R.id.categoryView)
     val arrivalDate = itemView.findViewById<TextView>(R.id.arrivalView)
     val count = itemView.findViewById<TextView>(R.id.countView)
+    val userName = itemView.findViewById<TextView>(R.id.usernameView)
 }

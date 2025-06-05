@@ -42,6 +42,7 @@ class InventoryAddFragment : Fragment() {
     private lateinit var location: String
     private lateinit var locationAdapter: ArrayAdapter<String>
     private lateinit var statusAdapter: ArrayAdapter<String>
+    private lateinit var userName: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +59,7 @@ class InventoryAddFragment : Fragment() {
         (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
 
         registerLauncher()
+        getCurrentUserName()
 
         binding.toolbarAddItem.setNavigationIcon(R.drawable.ic_back)
         binding.toolbarAddItem.setNavigationOnClickListener {
@@ -159,8 +161,8 @@ class InventoryAddFragment : Fragment() {
                 "count" to count,
                 "itemstatus" to status,
                 "isarchived" to false,
-                "location" to location
-
+                "location" to location,
+                "userName" to userName
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
@@ -173,6 +175,18 @@ class InventoryAddFragment : Fragment() {
                 }
                 .addOnFailureListener {
                     Toast.makeText(requireContext(), "Xəta: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun getCurrentUserName() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            FirebaseFirestore.getInstance().collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    userName = document.getString("username") ?: ""
                 }
         }
     }
