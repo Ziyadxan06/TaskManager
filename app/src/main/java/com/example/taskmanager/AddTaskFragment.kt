@@ -136,7 +136,6 @@ class AddTaskFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 val emailList = result.mapNotNull { it.getString("useremail") }
-
                 val adapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_list_item_1,
