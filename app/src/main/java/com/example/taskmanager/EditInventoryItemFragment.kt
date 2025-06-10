@@ -251,7 +251,18 @@ class EditInventoryItemFragment : Fragment() {
         val updatedStatus = binding.editStatus.text.toString().trim()
         val updatedLocation = binding.editLocation.text.toString().trim()
 
-        val countDifference = updatedCount.toInt() - originalCount.toInt()
+        val updatedCountInt = updatedCount.toIntOrNull() ?: 0
+        val originalCountInt = originalCount.toIntOrNull() ?: 0
+        val countDifference = updatedCountInt - originalCountInt
+
+        if (countDifference <= 0) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Invalid Action")
+                .setMessage("Cannot create a new item with zero or negative count. Please review the count.")
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .show()
+            return
+        }
 
         val newItem = hashMapOf(
             "equipmentName" to updatedName,
@@ -273,6 +284,7 @@ class EditInventoryItemFragment : Fragment() {
                 findNavController().popBackStack()
             }
     }
+
 
     private fun logChange(inventoryId: String, field: String, oldValue: String, newValue: String, userId: String, userName: String) {
         FirebaseFirestore.getInstance().collection("inventory")
