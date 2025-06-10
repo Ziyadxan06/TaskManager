@@ -25,6 +25,7 @@ class LogAdapter(val logList: ArrayList<LogModel>) : RecyclerView.Adapter<LogVie
             "count" -> "Count changed: '${log.oldValue}' ➝ '${log.newValue}'"
             "name" -> "Item name changed: '${log.oldValue}' ➝ '${log.newValue}'"
             "category" -> "Category changed: '${log.oldValue}' ➝ '${log.newValue}'"
+            "sender" -> "Sender changed: '${log.oldValue}' ➝ '${log.newValue}'"
             else -> "${log.fieldChanged} changed: '${log.oldValue}' ➝ '${log.newValue}'"
         }
 

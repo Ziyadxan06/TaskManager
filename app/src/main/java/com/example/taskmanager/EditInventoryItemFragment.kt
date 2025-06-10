@@ -104,9 +104,9 @@ class EditInventoryItemFragment : Fragment() {
 
         binding.btnEquipEdit.setOnClickListener {
             selectedImageUri?.let {
-                updateData(it.toString(), status, count, location, name, category)
+                updateData(it.toString(), status, count, location, name, category, sender)
             } ?: run {
-                updateData(defaultUri, status, count, location, name, category)
+                updateData(defaultUri, status, count, location, name, category, sender)
             }
         }
     }
@@ -148,7 +148,7 @@ class EditInventoryItemFragment : Fragment() {
         activityResulLauncher.launch(intentToGallery)
     }
 
-    private fun updateData(imageUrl: String, originalStatus: String, originalCount: String, originalLocation: String, originalName: String, originalCategory: String) {
+    private fun updateData(imageUrl: String, originalStatus: String, originalCount: String, originalLocation: String, originalName: String, originalCategory: String, originalSender: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val updatedName = binding.editequipmentName.text.toString().trim()
         val updatedCategory = binding.editequipmentType.text.toString().trim()
@@ -166,6 +166,7 @@ class EditInventoryItemFragment : Fragment() {
         val isLocationChanged = updatedLocation != originalLocation
         val requiresSplit = isCountReduced && (isStatusChanged || isLocationChanged)
         val warnAndSuggestSplit = isCountIncreased && (isStatusChanged || isLocationChanged)
+        val isSenderChanged = updatedSender != originalSender
 
         if (requiresSplit) {
             val countDifference = originalCount.toInt() - updatedCount.toInt()
@@ -189,6 +190,7 @@ class EditInventoryItemFragment : Fragment() {
                     if (isCountChanged) logChange(args.itemId, "count", originalCount, updatedCount, userId, userName)
                     if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
                     if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
+                    if (isSenderChanged) logChange(args.itemId, "sender", originalCategory, updatedCategory, userId, userName)
                     Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
                 }
 
@@ -229,7 +231,8 @@ class EditInventoryItemFragment : Fragment() {
                 "count" to updatedCount,
                 "itemstatus" to updatedStatus,
                 "location" to updatedLocation,
-                "imageUrl" to imageUrl
+                "imageUrl" to imageUrl,
+                "sender" to updatedSender
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
@@ -241,6 +244,7 @@ class EditInventoryItemFragment : Fragment() {
                     if (isCountChanged) logChange(args.itemId, "count", originalCount, updatedCount, userId, userName)
                     if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
                     if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
+                    if (isSenderChanged) logChange(args.itemId, "sender", originalSender, updatedSender, userId, userName)
 
                     Toast.makeText(requireContext(), "Data Updated", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
