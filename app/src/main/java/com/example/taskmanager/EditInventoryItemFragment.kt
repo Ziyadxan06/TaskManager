@@ -179,12 +179,13 @@ class EditInventoryItemFragment : Fragment() {
                 .document(args.itemId)
                 .update(addNewMap)
                 .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
                     if (isStatusChanged) logChange(args.itemId, "status", originalStatus, updatedStatus, userId, userName)
                     if (isLocationChanged) logChange(args.itemId, "location", originalLocation, updatedLocation, userId, userName)
                     if (isCountChanged) logChange(args.itemId, "count", originalCount, updatedCount, userId, userName)
                     if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
                     if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
+                    Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
+
                 }
 
             val newItem = hashMapOf(
@@ -278,9 +279,9 @@ class EditInventoryItemFragment : Fragment() {
             .document(inventoryId)
             .get()
             .addOnSuccessListener { document ->
-                val itemName = document.getString("equipmentName") ?: "-"
-                val itemLoc = document.getString("location") ?: "-"
-                val itemStatus = document.getString("itemstatus") ?: "-"
+                val itemName = if(field == "name") oldValue else document.getString("equipmentName") ?: "-"
+                val itemLoc = if(field == "location") oldValue else document.getString("location") ?: "-"
+                val itemStatus = if(field == "status") oldValue else document.getString("itemstatus") ?: "-"
 
                 val log = hashMapOf(
                     "inventoryId" to inventoryId,
