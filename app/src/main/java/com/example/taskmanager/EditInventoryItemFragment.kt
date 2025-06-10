@@ -42,6 +42,7 @@ class EditInventoryItemFragment : Fragment() {
     private lateinit var count: String
     private lateinit var name: String
     private lateinit var category: String
+    private lateinit var sender: String
     private lateinit var locationAdapterEdit: ArrayAdapter<String>
     private lateinit var statusAdapterEdit: ArrayAdapter<String>
     private lateinit var userName: String
@@ -86,12 +87,14 @@ class EditInventoryItemFragment : Fragment() {
                     status = document.getString("itemstatus") ?: "-"
                     location = document.getString("location") ?: ""
                     defaultUri = document.getString("imageUrl") ?: ""
+                    sender = document.getString("sender") ?: ""
 
                     binding.editequipmentName.setText(name)
                     binding.editequipmentType.setText(category)
                     binding.editCount.setText(count)
                     binding.editStatus.setText(status, false)
                     binding.editLocation.setText(location, false)
+                    binding.senderEdit.setText(sender)
                 }
             }
 
@@ -152,6 +155,7 @@ class EditInventoryItemFragment : Fragment() {
         val updatedCount = binding.editCount.text.toString().trim()
         val updatedStatus = binding.editStatus.text.toString().trim()
         val updatedLocation = binding.editLocation.text.toString().trim()
+        val updatedSender = binding.senderEdit.text.toString().trim()
 
         val isCountReduced = updatedCount < originalCount
         val isCountIncreased = updatedCount > originalCount
@@ -172,7 +176,8 @@ class EditInventoryItemFragment : Fragment() {
                 "count" to updatedCount,
                 "itemstatus" to updatedStatus,
                 "location" to updatedLocation,
-                "imageUrl" to imageUrl
+                "imageUrl" to imageUrl,
+                "sender" to updatedSender
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
@@ -185,7 +190,6 @@ class EditInventoryItemFragment : Fragment() {
                     if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
                     if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
                     Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
-
                 }
 
             val newItem = hashMapOf(
@@ -198,7 +202,8 @@ class EditInventoryItemFragment : Fragment() {
                 "createdAt" to System.currentTimeMillis(),
                 "isarchived" to false,
                 "userId" to userId,
-                "userName" to userName
+                "userName" to userName,
+                "sender" to updatedSender
             )
 
             FirebaseFirestore.getInstance().collection("inventory")
@@ -250,6 +255,7 @@ class EditInventoryItemFragment : Fragment() {
         val updatedCount = binding.editCount.text.toString().trim()
         val updatedStatus = binding.editStatus.text.toString().trim()
         val updatedLocation = binding.editLocation.text.toString().trim()
+        val updatedSender = binding.senderEdit.text.toString().trim()
 
         val updatedCountInt = updatedCount.toIntOrNull() ?: 0
         val originalCountInt = originalCount.toIntOrNull() ?: 0
@@ -274,7 +280,8 @@ class EditInventoryItemFragment : Fragment() {
             "createdAt" to System.currentTimeMillis(),
             "isarchived" to false,
             "userId" to userId,
-            "userName" to userName
+            "userName" to userName,
+            "sender" to updatedSender
         )
 
         FirebaseFirestore.getInstance().collection("inventory")
