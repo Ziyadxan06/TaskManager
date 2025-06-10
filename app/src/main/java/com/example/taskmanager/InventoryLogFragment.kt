@@ -3,8 +3,14 @@ package com.example.taskmanager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentAddTaskBinding
@@ -41,6 +47,24 @@ class InventoryLogFragment : Fragment() {
         binding.logRecyclerView.adapter = logAdapter
 
         getData()
+
+        val toolbar = binding.toolbarLogs
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
+        requireActivity().addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.optionsmenu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId){
+                    R.id.menu_settings -> { findNavController().navigate(R.id.action_archiveFragment_to_settingsFragment)
+                        true
+                    }
+                    else -> {false}
+                }
+            }
+        }, viewLifecycleOwner )
     }
 
     private fun getData(){
