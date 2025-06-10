@@ -194,4 +194,9 @@
             android:id="@+id/action_archiveFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/inventoryLogFragment"
+        android:name="com.example.taskmanager.InventoryLogFragment"
+        android:label="fragment_inventory_log"
+        tools:layout="@layout/fragment_inventory_log" />
 </navigation>

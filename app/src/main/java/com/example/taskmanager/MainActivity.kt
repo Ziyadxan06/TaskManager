@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.backgroundTaskFragment,
                 R.id.inventoryListFragment,
                 R.id.archiveFragment,
+                R.id.inventoryLogFragment
             )
         )
 
