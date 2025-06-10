@@ -73,6 +73,7 @@ class InventoryLogFragment : Fragment() {
         logList.clear()
 
         FirebaseFirestore.getInstance().collection("inventory_logs")
+            .orderBy("changedAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 for(doc in documents){
