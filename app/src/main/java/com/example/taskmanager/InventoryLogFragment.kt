@@ -48,9 +48,6 @@ class InventoryLogFragment : Fragment() {
 
         getData()
 
-        val toolbar = binding.toolbarLogs
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-
         requireActivity().addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.optionsmenu, menu)
@@ -58,13 +55,18 @@ class InventoryLogFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId){
-                    R.id.menu_settings -> { findNavController().navigate(R.id.action_archiveFragment_to_settingsFragment)
+                    R.id.menu_settings -> { findNavController().navigate(R.id.action_inventoryLogFragment_to_settingsFragment)
                         true
                     }
                     else -> {false}
                 }
             }
         }, viewLifecycleOwner )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLogs)
     }
 
     private fun getData(){
