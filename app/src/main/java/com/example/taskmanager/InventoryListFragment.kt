@@ -99,11 +99,7 @@ class InventoryListFragment : Fragment() {
 
     private fun setupFilterSpinner(role: String, userId: String) {
 
-        val options = if(role == "admin" || role == "superadmin"){
-            arrayOf("All Items", "My Items", "By User", "By Arrival Date")
-        }else{
-            arrayOf("All Items", "By Arrival Date")
-        }
+        val options = arrayOf("All Items", "My Items", "By User", "By Arrival Date")
 
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
@@ -140,19 +136,12 @@ class InventoryListFragment : Fragment() {
 
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if(role == "admin" || role == "superadmin"){
                     when (position) {
-                        0 -> fetchAllInventory(role, userId)
+                        0 -> fetchAllInventory()
                         1 -> fetchUserInventory(userId)
                         2 -> showEmailInputDialog()
                         3 -> showArrivalDatePicker(role, userId)
                     }
-                }else{
-                    when(position){
-                        0 -> fetchAllInventory(role, userId)
-                        1 -> showArrivalDatePicker(role, userId)
-                    }
-                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -162,15 +151,11 @@ class InventoryListFragment : Fragment() {
         }
     }
 
-    fun fetchAllInventory(role: String, userId: String) {
+    fun fetchAllInventory() {
         equipmentList.clear()
         inventoryAdapter.notifyDataSetChanged()
-        val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", false)
-        }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId).whereEqualTo("isarchived", false)
-        }
-        query.get().addOnSuccessListener { documents ->
+
+        FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", false).get().addOnSuccessListener { documents ->
                 for (document in documents) {
                     val id = document.get("id") as? String ?: ""
                     val name = document.get("equipmentName") as? String ?: ""
