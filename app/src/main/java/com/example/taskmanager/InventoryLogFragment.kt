@@ -11,6 +11,7 @@ import com.example.taskmanager.databinding.FragmentAddTaskBinding
 import com.example.taskmanager.databinding.FragmentInventoryLogBinding
 import com.example.taskmanager.recyclerview.LogAdapter
 import com.example.taskmanager.recyclerview.LogModel
+import com.google.firebase.firestore.FirebaseFirestore
 
 class InventoryLogFragment : Fragment() {
 
@@ -34,8 +35,34 @@ class InventoryLogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         logList = ArrayList()
+        recyclerView = binding.logRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         logAdapter = LogAdapter(logList)
         binding.logRecyclerView.adapter = logAdapter
+
+        getData()
+    }
+
+    private fun getData(){
+        logList.clear()
+
+        FirebaseFirestore.getInstance().collection("inventory_logs")
+            .get()
+            .addOnSuccessListener { documents ->
+                for(doc in documents){
+                    val id = doc.getString("inventoryId") ?: ""
+                    val changedAt = doc.getDate("changedAt")
+                    val changedBy = doc.getString("changedBy") ?: ""
+                    val changedByName = doc.getString("changedByName") ?: ""
+                    val fieldChanged = doc.getString("fieldChanged") ?: ""
+                    val newValue = doc.getString("newValue") ?: ""
+                    val oldValue = doc.getString("oldValue") ?: ""
+
+                    val log = LogModel(id, fieldChanged, oldValue, newValue, changedBy, changedByName, changedAt)
+                    logList.add(log)
+                }
+
+                logAdapter.notifyDataSetChanged()
+            }
     }
 }

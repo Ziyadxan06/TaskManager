@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.example.taskmanager.databinding.FragmentEditInventoryItemBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class EditInventoryItemFragment : Fragment() {
@@ -92,17 +93,9 @@ class EditInventoryItemFragment : Fragment() {
                 }
             }
 
-        binding.editLocation.setOnClickListener {
-            binding.editLocation.showDropDown()
-        }
-
-        binding.editStatus.setOnClickListener {
-            binding.editStatus.showDropDown()
-        }
-
-        binding.editImageView.setOnClickListener {
-            getPermission()
-        }
+        binding.editLocation.setOnClickListener { binding.editLocation.showDropDown() }
+        binding.editStatus.setOnClickListener { binding.editStatus.showDropDown() }
+        binding.editImageView.setOnClickListener { getPermission() }
 
         binding.btnEquipEdit.setOnClickListener {
             selectedImageUri?.let {
@@ -114,23 +107,12 @@ class EditInventoryItemFragment : Fragment() {
     }
 
     private fun getPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            ) {
-                Snackbar.make(
-                    binding.root,
-                    "Permission needed for gallery",
-                    Snackbar.LENGTH_INDEFINITE
-                ).setAction("Give Permission") {
-                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }.show()
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Snackbar.make(binding.root, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Give Permission") {
+                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }.show()
             } else {
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
@@ -140,39 +122,29 @@ class EditInventoryItemFragment : Fragment() {
     }
 
     private fun registerLauncher() {
-        activityResulLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    val imageData = result.data?.data
-                    imageData?.let {
-                        selectedImageUri = it
-                        binding.editImageView.setImageURI(it)
-                    }
+        activityResulLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val imageData = result.data?.data
+                imageData?.let {
+                    selectedImageUri = it
+                    binding.editImageView.setImageURI(it)
                 }
             }
+        }
 
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-                if (granted) {
-                    openGallery()
-                } else {
-                    Snackbar.make(
-                        binding.root,
-                        "Permission denied. Cannot access gallery.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) openGallery()
+            else Snackbar.make(binding.root, "Permission denied. Cannot access gallery.", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun openGallery() {
-        val intentToGallery =
-            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activityResulLauncher.launch(intentToGallery)
     }
 
     private fun updateData(imageUrl: String, originalStatus: String, originalCount: String, originalLocation: String) {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val updatedName = binding.editequipmentName.text.toString().trim()
         val updatedCategory = binding.editequipmentType.text.toString().trim()
         val updatedCount = binding.editCount.text.toString().trim()
@@ -202,12 +174,9 @@ class EditInventoryItemFragment : Fragment() {
                 .document(args.itemId)
                 .update(addNewMap)
                 .addOnSuccessListener {
-                    context?.let {
-                        Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Update error: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
+                    if (isStatusChanged) logChange(args.itemId, "status", originalStatus, updatedStatus, userId, userName)
+                    if (isLocationChanged) logChange(args.itemId, "location", originalLocation, updatedLocation, userId, userName)
                 }
 
             val newItem = hashMapOf(
@@ -226,26 +195,19 @@ class EditInventoryItemFragment : Fragment() {
             FirebaseFirestore.getInstance().collection("inventory")
                 .add(newItem)
                 .addOnSuccessListener { documentReference ->
-                    val id = documentReference.id
-                    documentReference.update("id", id)
+                    documentReference.update("id", documentReference.id)
                     findNavController().popBackStack()
                 }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_LONG).show()
+        } else if (warnAndSuggestSplit) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Warning")
+                .setMessage("You are increasing the item count while changing its status or location. It's recommended to add these as a new item instead.")
+                .setPositiveButton("Add as new item") { _, _ ->
+                    createNewItemOnly(imageUrl, originalStatus, originalCount)
                 }
-        }else if(warnAndSuggestSplit){
-            context?.let {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Warning")
-                    .setMessage("You are increasing the item count while changing its status or location. It's recommended to add these as a new item instead.")
-                    .setPositiveButton("Add as new item"){ _, _ ->
-                        createNewItemOnly(imageUrl, originalStatus, originalCount)
-                    }
-                    .setNegativeButton("Cancel"){ dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
-            }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
         } else {
             val updateMap = mapOf(
                 "equipmentName" to updatedName,
@@ -260,17 +222,17 @@ class EditInventoryItemFragment : Fragment() {
                 .document(args.itemId)
                 .update(updateMap)
                 .addOnSuccessListener {
+                    if (isStatusChanged) logChange(args.itemId, "status", originalStatus, updatedStatus, userId, userName)
+                    if (isLocationChanged) logChange(args.itemId, "location", originalLocation, updatedLocation, userId, userName)
+
                     Toast.makeText(requireContext(), "Data Updated", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Yeniləmə xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
         }
     }
 
-    private fun createNewItemOnly(imageUrl: String, originalStatus: String, originalCount: String){
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
+    private fun createNewItemOnly(imageUrl: String, originalStatus: String, originalCount: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val updatedName = binding.editequipmentName.text.toString().trim()
         val updatedCategory = binding.editequipmentType.text.toString().trim()
         val updatedCount = binding.editCount.text.toString().trim()
@@ -295,13 +257,25 @@ class EditInventoryItemFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("inventory")
             .add(newItem)
             .addOnSuccessListener { documentReference ->
-                val id = documentReference.id
-                documentReference.update("id", id)
+                documentReference.update("id", documentReference.id)
                 findNavController().popBackStack()
             }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_LONG).show()
-            }
+    }
+
+    private fun logChange(inventoryId: String, field: String, oldValue: String, newValue: String, userId: String, userName: String) {
+        val log = hashMapOf(
+            "inventoryId" to inventoryId,
+            "fieldChanged" to field,
+            "oldValue" to oldValue,
+            "newValue" to newValue,
+            "changedBy" to userId,
+            "changedByName" to userName,
+            "changedAt" to FieldValue.serverTimestamp()
+        )
+
+        FirebaseFirestore.getInstance()
+            .collection("inventory_logs")
+            .add(log)
     }
 
     private fun getCurrentUserName() {
