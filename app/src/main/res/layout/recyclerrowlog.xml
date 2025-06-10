@@ -33,5 +33,15 @@
             android:textColor="#666"
             android:layout_marginTop="4dp" />
 
+        <TextView
+            android:id="@+id/logItemSnapshot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Printer A - A2 - Used"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginTop="2dp"/>
+
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

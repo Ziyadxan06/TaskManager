@@ -22,10 +22,14 @@ class LogAdapter(val logList: ArrayList<LogModel>) : RecyclerView.Adapter<LogVie
         holder.fieldChangedTextView.text = when (log.fieldChanged) {
             "status" -> "✅ Status changed: '${log.oldValue}' ➝ '${log.newValue}'"
             "location" -> "📍 Location changed: '${log.oldValue}' ➝ '${log.newValue}'"
+            "count" -> "Count changed: '${log.oldValue}' ➝ '${log.newValue}'"
+            "name" -> "Item name changed: '${log.oldValue}' ➝ '${log.newValue}'"
+            "category" -> "Category changed: '${log.oldValue}' ➝ '${log.newValue}'"
             else -> "${log.fieldChanged} changed: '${log.oldValue}' ➝ '${log.newValue}'"
         }
 
         holder.changedMetaTextView.text = "${formatDate(log.changedAt)} | by ${log.changedByName ?: "Unknown"}"
+        holder.logItemSnap.text = log.itemSnap
     }
 
     private fun formatDate(date: Date?): String {

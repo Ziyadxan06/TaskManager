@@ -81,8 +81,9 @@ class InventoryLogFragment : Fragment() {
                     val fieldChanged = doc.getString("fieldChanged") ?: ""
                     val newValue = doc.getString("newValue") ?: ""
                     val oldValue = doc.getString("oldValue") ?: ""
+                    val itemSnap = doc.getString("itemSnapshot") ?: ""
 
-                    val log = LogModel(id, fieldChanged, oldValue, newValue, changedBy, changedByName, changedAt)
+                    val log = LogModel(id, fieldChanged, oldValue, newValue, changedBy, changedByName, changedAt, itemSnap)
                     logList.add(log)
                 }
 

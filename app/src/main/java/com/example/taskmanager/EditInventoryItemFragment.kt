@@ -40,6 +40,8 @@ class EditInventoryItemFragment : Fragment() {
     private lateinit var status: String
     private lateinit var location: String
     private lateinit var count: String
+    private lateinit var name: String
+    private lateinit var category: String
     private lateinit var locationAdapterEdit: ArrayAdapter<String>
     private lateinit var statusAdapterEdit: ArrayAdapter<String>
     private lateinit var userName: String
@@ -78,8 +80,8 @@ class EditInventoryItemFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
-                    val name = document.getString("equipmentName") ?: "-"
-                    val category = document.getString("category") ?: "-"
+                    name = document.getString("equipmentName") ?: "-"
+                    category = document.getString("category") ?: "-"
                     count = document.getString("count") ?: "-"
                     status = document.getString("itemstatus") ?: "-"
                     location = document.getString("location") ?: ""
@@ -99,9 +101,9 @@ class EditInventoryItemFragment : Fragment() {
 
         binding.btnEquipEdit.setOnClickListener {
             selectedImageUri?.let {
-                updateData(it.toString(), status, count, location)
+                updateData(it.toString(), status, count, location, name, category)
             } ?: run {
-                updateData(defaultUri, status, count, location)
+                updateData(defaultUri, status, count, location, name, category)
             }
         }
     }
@@ -143,7 +145,7 @@ class EditInventoryItemFragment : Fragment() {
         activityResulLauncher.launch(intentToGallery)
     }
 
-    private fun updateData(imageUrl: String, originalStatus: String, originalCount: String, originalLocation: String) {
+    private fun updateData(imageUrl: String, originalStatus: String, originalCount: String, originalLocation: String, originalName: String, originalCategory: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val updatedName = binding.editequipmentName.text.toString().trim()
         val updatedCategory = binding.editequipmentType.text.toString().trim()
@@ -153,6 +155,9 @@ class EditInventoryItemFragment : Fragment() {
 
         val isCountReduced = updatedCount < originalCount
         val isCountIncreased = updatedCount > originalCount
+        val isCountChanged = updatedCount.toIntOrNull() != originalCount.toIntOrNull()
+        val isNameChanged = updatedName != originalName
+        val isCategoryChanged = updatedCategory != originalCategory
         val isStatusChanged = updatedStatus != originalStatus
         val isLocationChanged = updatedLocation != originalLocation
         val requiresSplit = isCountReduced && (isStatusChanged || isLocationChanged)
@@ -177,6 +182,9 @@ class EditInventoryItemFragment : Fragment() {
                     Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
                     if (isStatusChanged) logChange(args.itemId, "status", originalStatus, updatedStatus, userId, userName)
                     if (isLocationChanged) logChange(args.itemId, "location", originalLocation, updatedLocation, userId, userName)
+                    if (isCountChanged) logChange(args.itemId, "count", originalCount, updatedCount, userId, userName)
+                    if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
+                    if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
                 }
 
             val newItem = hashMapOf(
@@ -224,6 +232,9 @@ class EditInventoryItemFragment : Fragment() {
                 .addOnSuccessListener {
                     if (isStatusChanged) logChange(args.itemId, "status", originalStatus, updatedStatus, userId, userName)
                     if (isLocationChanged) logChange(args.itemId, "location", originalLocation, updatedLocation, userId, userName)
+                    if (isCountChanged) logChange(args.itemId, "count", originalCount, updatedCount, userId, userName)
+                    if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
+                    if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
 
                     Toast.makeText(requireContext(), "Data Updated", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
@@ -263,20 +274,31 @@ class EditInventoryItemFragment : Fragment() {
     }
 
     private fun logChange(inventoryId: String, field: String, oldValue: String, newValue: String, userId: String, userName: String) {
-        val log = hashMapOf(
-            "inventoryId" to inventoryId,
-            "fieldChanged" to field,
-            "oldValue" to oldValue,
-            "newValue" to newValue,
-            "changedBy" to userId,
-            "changedByName" to userName,
-            "changedAt" to FieldValue.serverTimestamp()
-        )
+        FirebaseFirestore.getInstance().collection("inventory")
+            .document(inventoryId)
+            .get()
+            .addOnSuccessListener { document ->
+                val itemName = document.getString("equipmentName") ?: "-"
+                val itemLoc = document.getString("location") ?: "-"
+                val itemStatus = document.getString("itemstatus") ?: "-"
 
-        FirebaseFirestore.getInstance()
-            .collection("inventory_logs")
-            .add(log)
+                val log = hashMapOf(
+                    "inventoryId" to inventoryId,
+                    "fieldChanged" to field,
+                    "oldValue" to oldValue,
+                    "newValue" to newValue,
+                    "changedBy" to userId,
+                    "changedByName" to userName,
+                    "changedAt" to FieldValue.serverTimestamp(),
+                    "itemSnapshot" to "$itemName - $itemLoc - $itemStatus"
+                )
+
+                FirebaseFirestore.getInstance()
+                    .collection("inventory_logs")
+                    .add(log)
+            }
     }
+
 
     private fun getCurrentUserName() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
