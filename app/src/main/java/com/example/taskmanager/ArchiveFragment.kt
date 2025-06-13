@@ -71,7 +71,7 @@ class ArchiveFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 val role = document.getString("role") ?: "staff"
-                setupFilterSpinner(role, currentUser)
+                setupFilterSpinner(currentUser)
             }
 
         sendInventory()
@@ -93,13 +93,10 @@ class ArchiveFragment : Fragment() {
         }, viewLifecycleOwner )
     }
 
-    private fun setupFilterSpinner(role: String, userId: String) {
+    private fun setupFilterSpinner(userId: String) {
 
-        val options = if(role == "admin" || role == "superadmin"){
-            arrayOf("All Items", "My Items", "By User", "By Arrival Date")
-        }else{
-            arrayOf("All Items", "By Arrival Date")
-        }
+        val options = arrayOf("All Items", "My Items", "By User", "By Arrival Date", "Broken Items")
+
 
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
@@ -136,35 +133,26 @@ class ArchiveFragment : Fragment() {
 
         binding.filterSpinnerArchive.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if(role == "admin" || role == "superadmin"){
                     when (position) {
-                        0 -> fetchAllInventory(role, userId)
+                        0 -> fetchAllInventory()
                         1 -> fetchUserInventory(userId)
                         2 -> showEmailInputDialog()
-                        3 -> showArrivalDatePicker(role, userId)
+                        3 -> showArrivalDatePicker()
+                        4 -> fetchBrokenItems()
                     }
-                }else{
-                    when(position){
-                        0 -> fetchAllInventory(role, userId)
-                        1 -> showArrivalDatePicker(role, userId)
-                    }
-                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
     }
-    fun fetchAllInventory(role: String, userId: String) {
+
+    fun fetchAllInventory() {
         equipmentList.clear()
         inventoryAdapter.notifyDataSetChanged()
-        val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", true)
-        }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId).whereEqualTo("isarchived", true)
-        }
+        val query = FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", true)
+
         query.get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val id = document.get("id") as? String ?: ""
@@ -309,7 +297,7 @@ class ArchiveFragment : Fragment() {
             }
     }
 
-    private fun showArrivalDatePicker(role: String, userId: String) {
+    private fun showArrivalDatePicker() {
         val calendar = java.util.Calendar.getInstance()
 
         val datePicker = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
@@ -325,7 +313,7 @@ class ArchiveFragment : Fragment() {
 
             equipmentList.clear()
             inventoryAdapter.notifyDataSetChanged()
-            fetchInventoryByDateRange(startOfDay, endOfDay, role, userId)
+            fetchInventoryByDateRange(startOfDay, endOfDay)
 
         }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH))
 
@@ -333,12 +321,37 @@ class ArchiveFragment : Fragment() {
         datePicker.show()
     }
 
-    fun fetchInventoryByDateRange(start: Long, end: Long, role: String, userId: String) {
-        val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", true)
-        }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId).whereEqualTo("isarchived", true)
-        }
+    fun fetchBrokenItems(){
+        equipmentList.clear()
+        FirebaseFirestore.getInstance().collection("inventory")
+            .whereEqualTo("itemstatus", "Out of order")
+            .whereEqualTo("isarchived", true)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents){
+                    val id = document.get("id") as? String ?: ""
+                    val name = document.get("equipmentName") as? String ?: ""
+                    val category = document.get("category") as? String ?: ""
+                    val imageUri = document.get("imageUrl") as? String ?: ""
+                    val macAddress = document.get("count") as? String ?: ""
+                    val ipAddress = document.get("itemstatus") as? String ?: ""
+                    val arrival = document.get("createdAt") as? Long ?: 0L
+                    val location = document.get("location") as? String ?: ""
+                    val userName = document.get("userName") as? String ?: ""
+                    val sender = document.get("sender") as? String ?: ""
+                    val archivedDate = document.getLong("archivedAt") ?: 0L
+
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender, archivedDate)
+                    equipmentList.add(equipment)
+                }
+
+                inventoryAdapter.notifyDataSetChanged()
+            }
+    }
+
+    fun fetchInventoryByDateRange(start: Long, end: Long) {
+        val query = FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", true)
+
         query.whereGreaterThanOrEqualTo("createdAt", start)
             .whereLessThanOrEqualTo("createdAt", end)
             .get()
