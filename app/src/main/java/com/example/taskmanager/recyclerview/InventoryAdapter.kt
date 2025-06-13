@@ -30,6 +30,7 @@ class InventoryAdapter(val equipmentList: ArrayList<InventoryModel>, private val
         holder.equipmentName.text = "Model: ${equipment.equipmentName}"
         holder.userName.text = "Receiver: ${equipment.receiver}"
         holder.sender.text = "Sender: ${equipment.sender}"
+        holder.itemStatus.text = "Status: ${equipment.status}"
 
         when(equipment.status){
             "New" -> holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_green))

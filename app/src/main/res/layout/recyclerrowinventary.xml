@@ -77,6 +77,15 @@
             android:textSize="14sp"
             android:textColor="#444444"
             android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:id="@+id/itemStatusView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Out of order"
+            android:textSize="14sp"
+            android:textColor="#444444"
+            android:layout_marginTop="6dp"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
