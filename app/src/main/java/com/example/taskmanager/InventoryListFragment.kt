@@ -140,7 +140,7 @@ class InventoryListFragment : Fragment() {
                         0 -> fetchAllInventory()
                         1 -> fetchUserInventory(userId)
                         2 -> showEmailInputDialog()
-                        3 -> showArrivalDatePicker(role, userId)
+                        3 -> showArrivalDatePicker()
                     }
             }
 
@@ -293,7 +293,7 @@ class InventoryListFragment : Fragment() {
             }
     }
 
-    private fun showArrivalDatePicker(role: String, userId: String) {
+    private fun showArrivalDatePicker() {
         val calendar = java.util.Calendar.getInstance()
 
         val datePicker = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
@@ -309,7 +309,7 @@ class InventoryListFragment : Fragment() {
 
             equipmentList.clear()
             inventoryAdapter.notifyDataSetChanged()
-            fetchInventoryByDateRange(startOfDay, endOfDay, role, userId)
+            fetchInventoryByDateRange(startOfDay, endOfDay)
 
         }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH))
 
@@ -318,16 +318,16 @@ class InventoryListFragment : Fragment() {
     }
 
 
-    fun fetchInventoryByDateRange(start: Long, end: Long, role: String, userId: String) {
-        val query = if(role == "admin" || role == "superadmin"){
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", false)
-        }else{
-            FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("userId", userId).whereEqualTo("isarchived", false)
-        }
-        query.whereGreaterThanOrEqualTo("createdAt", start)
-            .whereLessThanOrEqualTo("createdAt", end)
+    fun fetchInventoryByDateRange(startMillis: Long, endMillis: Long) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("inventory")
+            .whereEqualTo("isarchived", false)
+            .whereGreaterThanOrEqualTo("createdAt", startMillis)
+            .whereLessThanOrEqualTo("createdAt", endMillis)
             .get()
             .addOnSuccessListener { documents ->
+                equipmentList.clear()
                 for (document in documents) {
                     val id = document.getString("id") ?: ""
                     val name = document.getString("equipmentName") ?: ""
@@ -336,18 +336,24 @@ class InventoryListFragment : Fragment() {
                     val macAddress = document.getString("count") ?: ""
                     val ipAddress = document.getString("itemstatus") ?: ""
                     val arrival = document.getLong("createdAt") ?: 0L
-                    val location = document.get("location") as? String ?: ""
-                    val userName = document.get("userName") as? String ?: ""
-                    val sender = document.get("sender") as? String ?: ""
+                    val location = document.getString("location") ?: ""
+                    val userName = document.getString("userName") ?: ""
+                    val sender = document.getString("sender") ?: ""
 
-
-
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
+                    val equipment = InventoryModel(
+                        id, name, category, macAddress, ipAddress,
+                        imageUri, arrival, location, userName, sender
+                    )
                     equipmentList.add(equipment)
                 }
+
                 inventoryAdapter.notifyDataSetChanged()
             }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Fetch failed: ${exception.message}", Toast.LENGTH_LONG).show()
+            }
     }
+
 
     private fun archive(){
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

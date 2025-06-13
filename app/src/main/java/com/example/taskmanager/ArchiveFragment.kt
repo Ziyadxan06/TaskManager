@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -349,13 +350,16 @@ class ArchiveFragment : Fragment() {
             }
     }
 
-    fun fetchInventoryByDateRange(start: Long, end: Long) {
-        val query = FirebaseFirestore.getInstance().collection("inventory").whereEqualTo("isarchived", true)
+    fun fetchInventoryByDateRange(startMillis: Long, endMillis: Long) {
+        val db = FirebaseFirestore.getInstance()
 
-        query.whereGreaterThanOrEqualTo("createdAt", start)
-            .whereLessThanOrEqualTo("createdAt", end)
+        db.collection("inventory")
+            .whereEqualTo("isarchived", true)
+            .whereGreaterThanOrEqualTo("createdAt", startMillis)
+            .whereLessThanOrEqualTo("createdAt", endMillis)
             .get()
             .addOnSuccessListener { documents ->
+                equipmentList.clear()
                 for (document in documents) {
                     val id = document.getString("id") ?: ""
                     val name = document.getString("equipmentName") ?: ""
@@ -364,17 +368,23 @@ class ArchiveFragment : Fragment() {
                     val macAddress = document.getString("count") ?: ""
                     val ipAddress = document.getString("itemstatus") ?: ""
                     val arrival = document.getLong("createdAt") ?: 0L
-                    val location = document.get("location") as? String ?: ""
-                    val userName = document.get("userName") as? String ?: ""
-                    val sender = document.get("sender") as? String ?: ""
+                    val location = document.getString("location") ?: ""
+                    val userName = document.getString("userName") ?: ""
+                    val sender = document.getString("sender") ?: ""
                     val archivedDate = document.getLong("archivedAt") ?: 0L
 
-
-
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender, archivedDate)
+                    val equipment = InventoryModel(
+                        id, name, category, macAddress, ipAddress,
+                        imageUri, arrival, location, userName, sender, archivedDate
+                    )
                     equipmentList.add(equipment)
                 }
+
                 inventoryAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Fetch failed: ${exception.message}", Toast.LENGTH_LONG).show()
+                Log.e("Firestore", "Fetch error", exception)
             }
     }
 
