@@ -31,6 +31,9 @@ import com.example.taskmanager.recyclerview.InventoryModel
 import com.example.taskmanager.recyclerview.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ArchiveFragment : Fragment() {
 
@@ -174,10 +177,11 @@ class ArchiveFragment : Fragment() {
                 val location = document.get("location") as? String ?: ""
                 val userName = document.get("userName") as? String ?: ""
                 val sender = document.get("sender") as? String ?: ""
+                val archivedDate = document.getLong("archivedAt") ?: 0L
 
 
 
-                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName,sender)
+                val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName,sender, archivedDate)
                 equipmentList.add(equipment)
             }
 
@@ -205,10 +209,11 @@ class ArchiveFragment : Fragment() {
                     val location = document.get("location") as? String ?: ""
                     val userName = document.get("userName") as? String ?: ""
                     val sender = document.get("sender") as? String ?: ""
+                    val archivedDate = document.getLong("archivedAt") ?: 0L
 
 
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender, archivedDate)
                     equipmentList.add(equipment)
                 }
 
@@ -233,10 +238,11 @@ class ArchiveFragment : Fragment() {
                     val location = document.get("location") as? String ?: ""
                     val userName = document.get("userName") as? String ?: ""
                     val sender = document.get("sender") as? String ?: ""
+                    val archivedDate = document.getLong("archivedAt") ?: 0L
 
 
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender, archivedDate)
                     equipmentList.add(equipment)
                 }
 
@@ -348,10 +354,11 @@ class ArchiveFragment : Fragment() {
                     val location = document.get("location") as? String ?: ""
                     val userName = document.get("userName") as? String ?: ""
                     val sender = document.get("sender") as? String ?: ""
+                    val archivedDate = document.getLong("archivedAt") ?: 0L
 
 
 
-                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender)
+                    val equipment = InventoryModel(id, name, category, macAddress, ipAddress, imageUri, arrival, location, userName, sender, archivedDate)
                     equipmentList.add(equipment)
                 }
                 inventoryAdapter.notifyDataSetChanged()

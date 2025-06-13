@@ -364,7 +364,12 @@ class InventoryListFragment : Fragment() {
                 FirebaseFirestore.getInstance()
                     .collection("inventory")
                     .document(swipedItem.id)
-                    .update("isarchived", true)
+                    .update(
+                        mapOf(
+                            "isarchived" to true,
+                            "archivedAt" to System.currentTimeMillis()
+                        )
+                    )
                     .addOnSuccessListener {
                         Toast.makeText(requireContext(), "${swipedItem.equipmentName} arşivlendi", Toast.LENGTH_SHORT).show()
                         equipmentList.removeAt(position)
@@ -375,6 +380,7 @@ class InventoryListFragment : Fragment() {
                         inventoryAdapter.notifyItemChanged(position)
                     }
             }
+
         }
 
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.adminInventoryRV)

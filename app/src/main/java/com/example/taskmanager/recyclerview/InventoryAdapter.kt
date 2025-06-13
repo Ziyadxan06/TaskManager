@@ -2,7 +2,9 @@ package com.example.taskmanager.recyclerview
 
 import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.R
@@ -34,6 +36,15 @@ class InventoryAdapter(val equipmentList: ArrayList<InventoryModel>, private val
             "Used" -> holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_yellow))
             "Out of order" -> holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.expired_red))
         }
+
+        if (equipment.archivedAt != null) {
+            val formatted = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date(equipment.archivedAt))
+            holder.archivedDate.text = "Archive Date: $formatted"
+            holder.archivedDate.visibility = View.VISIBLE
+        } else {
+            holder.archivedDate.visibility = View.GONE
+        }
+
 
         holder.itemView.setOnClickListener {
             onClickItem(equipment)
