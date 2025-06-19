@@ -24,13 +24,13 @@ class InventoryAdapter(val equipmentList: ArrayList<InventoryModel>, private val
         val formatter = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
         val formattedArrival = formatter.format(Date(equipment.createdAt))
 
-        holder.arrivalDate.text = "Arrival Date: ${formattedArrival}"
-        holder.count.text = "Count: ${equipment.count}"
-        holder.category.text = "Category: ${equipment.category}"
-        holder.equipmentName.text = "Model: ${equipment.equipmentName}"
-        holder.userName.text = "Receiver: ${equipment.receiver}"
-        holder.sender.text = "Sender: ${equipment.sender}"
-        holder.itemStatus.text = "Status: ${equipment.status}"
+        holder.arrivalDate.text = "${holder.itemView.context.getString(R.string.arrival)}: ${formattedArrival}"
+        holder.count.text = "${holder.itemView.context.getString(R.string.count)}: ${equipment.count}"
+        holder.category.text = "${holder.itemView.context.getString(R.string.category)}: ${equipment.category}"
+        holder.equipmentName.text = "${holder.itemView.context.getString(R.string.model)}: ${equipment.equipmentName}"
+        holder.userName.text = "${holder.itemView.context.getString(R.string.receiver)}: ${equipment.receiver}"
+        holder.sender.text = "${holder.itemView.context.getString(R.string.sender)}: ${equipment.sender}"
+        holder.itemStatus.text = "${holder.itemView.context.getString(R.string.status)}: ${equipment.status}"
 
         when(equipment.status){
             "New" -> holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.light_green))
@@ -40,7 +40,7 @@ class InventoryAdapter(val equipmentList: ArrayList<InventoryModel>, private val
 
         if (equipment.archivedAt != null) {
             val formatted = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date(equipment.archivedAt))
-            holder.archivedDate.text = "Archive Date: $formatted"
+            holder.archivedDate.text = "${holder.itemView.context.getString(R.string.archived)}: ${formatted}"
             holder.archivedDate.visibility = View.VISIBLE
         } else {
             holder.archivedDate.visibility = View.GONE

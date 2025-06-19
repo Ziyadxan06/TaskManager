@@ -55,4 +55,14 @@
     <string name="deadline">Deadline</string>
     <string name="status">Status</string>
     <string name="user_name">User Name</string>
+
+    <!--inventory-->
+    <string name="model">Model</string>
+    <string name="category">Category</string>
+    <string name="count">Count</string>
+    <string name="arrival">Arrival Date</string>
+    <string name="archived">Archived Date</string>
+    <string name="receiver">Receiver</string>
+    <string name="sender">Sender</string>
+    <string name="status_inventory">Status</string>
 </resources>

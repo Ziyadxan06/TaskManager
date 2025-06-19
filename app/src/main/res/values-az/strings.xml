@@ -55,5 +55,13 @@
     <string name="status">Status</string>
     <string name="user_name">İstifadəçi adı</string>
 
-
+    <!--inventory-->
+    <string name="model">Model</string>
+    <string name="category">Kateqoriya</string>
+    <string name="count">Say</string>
+    <string name="arrival">Gəlmə Tarixi</string>
+    <string name="archived">Arxivlənmə Tarixi</string>
+    <string name="receiver">Qəbul edən</string>
+    <string name="sender">Göndərən</string>
+    <string name="status_inventory">Status</string>
 </resources>
