@@ -1,6 +1,7 @@
 package com.example.taskmanager
 
 import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -53,5 +54,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         bottomNavigationView.setupWithNavController(navController)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val langCode = PreferenceHelper.getLanguage(newBase)
+        val context = LocalHelper.setLocale(newBase, langCode)
+        super.attachBaseContext(context)
     }
 }

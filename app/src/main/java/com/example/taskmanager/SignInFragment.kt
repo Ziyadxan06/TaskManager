@@ -57,25 +57,26 @@ class SignInFragment : Fragment() {
         }
     }
 
-    fun signin(){
-
+    fun signin() {
         email = binding.signinEmail.text.toString()
         password = binding.signinPassword.text.toString()
 
-        if(email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
-        }else{
+        } else {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    findNavController().navigate(R.id.action_signInFragment_to_taskListFragment)
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.nav_graph, true)
-                        .build()
-
-                    findNavController().navigate(R.id.adminTaskListFragment, null, navOptions)
-
-                }.addOnFailureListener {
-                    Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+                    if (isAdded && view != null) {
+                        val navOptions = NavOptions.Builder()
+                            .setPopUpTo(R.id.nav_graph, true)
+                            .build()
+                        findNavController().navigate(R.id.adminTaskListFragment, null, navOptions)
+                    }
+                }
+                .addOnFailureListener {
+                    if (isAdded && context != null) {
+                        Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
+                    }
                 }
         }
     }
