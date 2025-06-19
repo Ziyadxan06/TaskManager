@@ -27,10 +27,10 @@ class TasksAdapter(val taskList: ArrayList<TasksModel>, private val onItemClick:
         val now = System.currentTimeMillis()
         val deadlineMillis = task.deadline
 
-        holder.nameTextView.text = "Task Name: ${task.taskName}"
-        holder.deadlineTextView.text = "Deadline: ${formattedDeadline}"
-        holder.status.text = "Status: ${task.status}"
-        holder.userName.text = "User Name: ${task.userName}"
+        holder.nameTextView.text = "${holder.itemView.context.getString(R.string.task_name)}: ${task.taskName}"
+        holder.deadlineTextView.text = "${holder.itemView.context.getString(R.string.deadline)}: ${formattedDeadline}"
+        holder.status.text = "${holder.itemView.context.getString(R.string.status)}: ${task.status}"
+        holder.userName.text = "${holder.itemView.context.getString(R.string.user_name)}: ${task.userName}"
 
 
         if(deadlineMillis < now && task.status != "Done"){

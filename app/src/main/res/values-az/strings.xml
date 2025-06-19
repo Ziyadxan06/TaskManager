@@ -49,5 +49,11 @@
     <string name="role_account">Vəzifə</string>
     <string name="update_button_account">Adı Yenilə</string>
 
+    <!--task adapter-->
+    <string name="task_name">Task adı</string>
+    <string name="deadline">Son tarix</string>
+    <string name="status">Status</string>
+    <string name="user_name">İstifadəçi adı</string>
+
 
 </resources>

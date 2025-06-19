@@ -49,4 +49,10 @@
     <string name="email_accout">Email</string>
     <string name="role_account">Role</string>
     <string name="update_button_account">Update Name</string>
+
+    <!--task adapter-->
+    <string name="task_name">Task Name</string>
+    <string name="deadline">Deadline</string>
+    <string name="status">Status</string>
+    <string name="user_name">User Name</string>
 </resources>
