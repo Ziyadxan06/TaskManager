@@ -13,6 +13,13 @@
     <string name="message2">Forgot password</string>
     <string name="message_link2">Click here!</string>
 
-
-
+    <!--signup-->
+    <string name="signup_title">Sign Up</string>
+    <string name="email_hint_signup">Email</string>
+    <string name="username_hint">User Name</string>
+    <string name="password_hint_signup">Password</string>
+    <string name="check">Enter Password Again</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="message">Already have an account?</string>
+    <string name="message_link">Sign In!</string>
 </resources>

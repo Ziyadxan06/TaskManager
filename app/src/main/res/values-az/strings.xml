@@ -11,4 +11,14 @@
     <string name="message_link1">Qeydiyyat!</string>
     <string name="message2">Şifrəmi unutdum</string>
     <string name="message_link2">Buradan keçid edin!</string>
+
+    <!--signup-->
+    <string name="signup_title">Qeydiyyat</string>
+    <string name="email_hint_signup">Email</string>
+    <string name="username_hint">İstifadəçi adı</string>
+    <string name="password_hint_signup">Şifrə</string>
+    <string name="check">Şifrəni yenidən daxil et</string>
+    <string name="signup_button">Qeydiyyat</string>
+    <string name="message">Artıq hesabın var?</string>
+    <string name="message_link">Daxil ol!</string>
 </resources>
