@@ -46,6 +46,7 @@ class SettingsFragment : Fragment() {
         binding.cardAccount.visibility = View.GONE
         binding.cardUserManagement.visibility = View.GONE
         binding.cardSignOut.visibility = View.GONE
+        binding.language.visibility = View.GONE
 
         adminorstaff()
         auth = Firebase.auth
@@ -67,6 +68,10 @@ class SettingsFragment : Fragment() {
         binding.cardUserManagement.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_userManagement)
         }
+
+        binding.language.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_languageFragment)
+        }
     }
 
     fun adminorstaff(){
@@ -82,6 +87,7 @@ class SettingsFragment : Fragment() {
                 binding.settingsProgressBar.visibility = View.GONE
                 binding.cardAccount.visibility = View.VISIBLE
                 binding.cardSignOut.visibility = View.VISIBLE
+                binding.language.visibility = View.VISIBLE
                 if (role == "admin" || role == "superadmin") {
                     binding.cardUserManagement.visibility = View.VISIBLE
                 }
