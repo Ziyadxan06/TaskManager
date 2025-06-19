@@ -92,4 +92,10 @@
     <string name="byuser">By User</string>
     <string name="byarrival">By Arrival Date</string>
 
+    <!--filter tasks-->
+    <string name="alltasks">All Tasks</string>
+    <string name="mytasks">My Tasks</string>
+    <string name="byuser_tasks">By User</string>
+    <string name="bydeadline">By Deadline</string>
+
 </resources>

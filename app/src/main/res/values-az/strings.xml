@@ -91,4 +91,10 @@
     <string name="byuser">İstifadəçiyə görə</string>
     <string name="byarrival">Gəlmə tarixinə görə</string>
 
+    <!--filter tasks-->
+    <string name="alltasks">Bütün Tasklar</string>
+    <string name="mytasks">Mənim Tasklarım</string>
+    <string name="byuser_tasks">İstifadəçiyə görə</string>
+    <string name="bydeadline">Bitmə tarixinə görə</string>
+
 </resources>

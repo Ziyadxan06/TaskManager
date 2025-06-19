@@ -101,9 +101,9 @@
 
         private fun setUpFilterListenerTasks(role: String, email: String){
             val options = if(role == "admin" || role == "superadmin"){
-                arrayOf("All Tasks", "My Tasks", "By User", "By Deadline")
+                arrayOf("${context?.getString(R.string.alltasks)}", "${context?.getString(R.string.mytasks)}", "${context?.getString(R.string.byuser_tasks)}", "${context?.getString(R.string.bydeadline)}")
             }else{
-                arrayOf("All Tasks", "By Deadline")
+                arrayOf("${context?.getString(R.string.alltasks)}", "${context?.getString(R.string.bydeadline)}")
             }
 
             binding.backgroundprogressBar.visibility = View.GONE

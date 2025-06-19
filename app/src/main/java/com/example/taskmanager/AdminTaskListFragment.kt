@@ -183,7 +183,6 @@ class AdminTaskListFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
-                Log.d("Notification", "Bildiriş icazəsi verilməyib")
                 return
             }
         }
@@ -197,7 +196,6 @@ class AdminTaskListFragment : Fragment() {
         context?.let {
             val notificationManager = NotificationManagerCompat.from(requireContext())
             notificationManager.notify(Random.nextInt(), builder.build())
-            Log.d("Notification", "Bildiriş göstərildi: $title")
         }
 
     }
@@ -238,9 +236,9 @@ class AdminTaskListFragment : Fragment() {
 
     private fun setUpFilterListenerTasks(role: String, email: String){
         val options = if(role == "admin" || role == "superadmin"){
-            arrayOf("All Tasks", "My Tasks", "By User", "By Deadline")
+            arrayOf("${context?.getString(R.string.alltasks)}", "${context?.getString(R.string.mytasks)}", "${context?.getString(R.string.byuser_tasks)}", "${context?.getString(R.string.bydeadline)}")
         }else{
-            arrayOf("All Tasks", "By Deadline")
+            arrayOf("${context?.getString(R.string.alltasks)}", "${context?.getString(R.string.bydeadline)}")
         }
 
         binding.progressBar.visibility = View.GONE
