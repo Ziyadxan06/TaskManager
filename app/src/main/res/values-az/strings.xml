@@ -55,7 +55,7 @@
     <string name="status">Status</string>
     <string name="user_name">İstifadəçi adı</string>
 
-    <!--inventory-->
+    <!--inventory adapter-->
     <string name="model">Model</string>
     <string name="category">Kateqoriya</string>
     <string name="count">Say</string>
@@ -65,7 +65,7 @@
     <string name="sender">Göndərən</string>
     <string name="status_inventory">Status</string>
 
-    <!--inventory log-->
+    <!--log adapter-->
     <string name="status_changed">✅ Status dəyişdi</string>
     <string name="location_changed">📍 Yer dəyişdi</string>
     <string name="count_changed">Say dəyişdi</string>
@@ -73,4 +73,8 @@
     <string name="category_changed">Kateqoriya dəyişdi</string>
     <string name="sender_changed">Göndərən dəyişdi</string>
     <string name="who_changed">dəyişən</string>
+
+    <!--inventory log-->
+    <string name="log_toolbar">İnventar keçmişi</string>
+
 </resources>

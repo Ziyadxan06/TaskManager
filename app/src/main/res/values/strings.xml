@@ -56,7 +56,7 @@
     <string name="status">Status</string>
     <string name="user_name">User Name</string>
 
-    <!--inventory-->
+    <!--inventory adapter-->
     <string name="model">Model</string>
     <string name="category">Category</string>
     <string name="count">Count</string>
@@ -66,7 +66,7 @@
     <string name="sender">Sender</string>
     <string name="status_inventory">Status</string>
 
-    <!--inventory log-->
+    <!--log adapter-->
     <string name="status_changed">✅ Status changed</string>
     <string name="location_changed">📍 Location changed</string>
     <string name="count_changed">Count changed</string>
@@ -74,5 +74,8 @@
     <string name="category_changed">Category changed</string>
     <string name="sender_changed">Sender changed</string>
     <string name="who_changed">by</string>
+
+    <!--inventory log-->
+    <string name="log_toolbar">Inventory Log</string>
 
 </resources>
