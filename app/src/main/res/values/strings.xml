@@ -98,4 +98,13 @@
     <string name="byuser_tasks">By User</string>
     <string name="bydeadline">By Deadline</string>
 
+    <!--add task-->
+    <string name="addtask_toolbar">Add new task</string>
+    <string name="enter_taskname">Enter Task Name</string>
+    <string name="enter_priority">Enter Task Priority</string>
+    <string name="enter_deadline">Choose Deadline</string>
+    <string name="enter_email">Choose Email</string>
+    <string name="enter_username">User Name</string>
+    <string name="addtask_button">Add</string>
+
 </resources>

@@ -97,4 +97,13 @@
     <string name="byuser_tasks">İstifadəçiyə görə</string>
     <string name="bydeadline">Bitmə tarixinə görə</string>
 
+    <!--add task-->
+    <string name="addtask_toolbar">Task Əlavə Et</string>
+    <string name="enter_taskname">Task Adını Daxil Et</string>
+    <string name="enter_priority">Task Prioritetini Daxil Et</string>
+    <string name="enter_deadline">Son Tarixi Seç</string>
+    <string name="enter_email">Email Seç</string>
+    <string name="enter_username">İstifadəçi Adı</string>
+    <string name="addtask_button">Əlavə Et</string>
+
 </resources>
