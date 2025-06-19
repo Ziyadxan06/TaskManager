@@ -34,6 +34,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,7 +57,7 @@ import kotlin.random.Random
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
-@Suppress("UNREACHABLE_CODE")
+
 class AdminTaskListFragment : Fragment() {
 
     private var _binding: AdminFragmentTaskListBinding? = null
@@ -180,6 +181,10 @@ class AdminTaskListFragment : Fragment() {
     }
 
     fun showLocalNotification(title: String, content: String) {
+        if (!isAdded || context == null || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -193,11 +198,8 @@ class AdminTaskListFragment : Fragment() {
             .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
-        context?.let {
-            val notificationManager = NotificationManagerCompat.from(requireContext())
-            notificationManager.notify(Random.nextInt(), builder.build())
-        }
-
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        notificationManager.notify(Random.nextInt(), builder.build())
     }
 
     fun checkAndUpdateOverdueTasks() {
