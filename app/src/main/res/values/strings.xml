@@ -65,4 +65,14 @@
     <string name="receiver">Receiver</string>
     <string name="sender">Sender</string>
     <string name="status_inventory">Status</string>
+
+    <!--inventory log-->
+    <string name="status_changed">✅ Status changed</string>
+    <string name="location_changed">📍 Location changed</string>
+    <string name="count_changed">Count changed</string>
+    <string name="name_changed">Item name changed</string>
+    <string name="category_changed">Category changed</string>
+    <string name="sender_changed">Sender changed</string>
+    <string name="who_changed">by</string>
+
 </resources>

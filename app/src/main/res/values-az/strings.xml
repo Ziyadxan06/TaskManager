@@ -64,4 +64,13 @@
     <string name="receiver">Qəbul edən</string>
     <string name="sender">Göndərən</string>
     <string name="status_inventory">Status</string>
+
+    <!--inventory log-->
+    <string name="status_changed">✅ Status dəyişdi</string>
+    <string name="location_changed">📍 Yer dəyişdi</string>
+    <string name="count_changed">Say dəyişdi</string>
+    <string name="name_changed">Alət adı dəyişdi</string>
+    <string name="category_changed">Kateqoriya dəyişdi</string>
+    <string name="sender_changed">Göndərən dəyişdi</string>
+    <string name="who_changed">dəyişən</string>
 </resources>
