@@ -12,7 +12,7 @@
         android:id="@+id/toolbarUserManagement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="User Management"
+        android:title="@string/usermanagement_toolbar"
         android:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/dark_purple"

@@ -124,5 +124,8 @@
     <string name="edittask_toolbar">Redaktə et</string>
     <string name="edittask_button">Redaktə Et</string>
 
+    <!--user management-->
+    <string name="usermanagement_toolbar">İstifadəçilər</string>
+
 
 </resources>
