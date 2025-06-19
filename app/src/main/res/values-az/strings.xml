@@ -87,7 +87,7 @@
 
     <!--filter items-->
     <string name="all">Bütün Alətlər</string>
-    <string name="mytasks">Mənim Alətlərim</string>
+    <string name="myitems">Mənim Alətlərim</string>
     <string name="byuser">İstifadəçiyə görə</string>
     <string name="byarrival">Gəlmə tarixinə görə</string>
 

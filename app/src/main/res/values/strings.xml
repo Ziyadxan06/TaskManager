@@ -88,7 +88,7 @@
 
     <!--filter items-->
     <string name="all">All Items</string>
-    <string name="mytasks">My Items</string>
+    <string name="myitems">My Items</string>
     <string name="byuser">By User</string>
     <string name="byarrival">By Arrival Date</string>
 
