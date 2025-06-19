@@ -435,9 +435,9 @@ class ArchiveFragment : Fragment() {
 
                 context?.let {
                     val builder = AlertDialog.Builder(requireContext())
-                        .setTitle("Are you sure you want to delete this?")
-                        .setMessage("Deleted item cannot be recovered")
-                        .setPositiveButton("Yes"){ dialog, which ->
+                        .setTitle("${context?.getString(R.string.alert_title)}")
+                        .setMessage("${context?.getString(R.string.alert_message)}")
+                        .setPositiveButton("${context?.getString(R.string.positive_button)}"){ dialog, which ->
                             FirebaseFirestore.getInstance()
                                 .collection("inventory")
                                 .document(swipedItem.id)
@@ -451,7 +451,7 @@ class ArchiveFragment : Fragment() {
                                     Toast.makeText(requireContext(), "${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                                 }
                         }
-                        .setNegativeButton("No"){ dialog, which ->
+                        .setNegativeButton("${context?.getString(R.string.negative_button)}"){ dialog, which ->
                             dialog.dismiss()
                         }
 

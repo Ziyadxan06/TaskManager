@@ -134,5 +134,11 @@
     <string name="details_role">Vəzifə: </string>
     <string name="details_changerole">Vəzifəni dəyiş: </string>
 
+    <!--archive alert title-->
+    <string name="alert_title">Silmək istədiyinizdən əminsiniz?</string>
+    <string name="alert_message">Silinən alətlər geri qayıtmır</string>
+    <string name="positive_button">Bəli</string>
+    <string name="negative_button">Xeyr</string>
+
 
 </resources>
