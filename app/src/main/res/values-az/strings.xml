@@ -36,4 +36,9 @@
     <string name="users">İstifadəçilər</string>
     <string name="signout">Cıxış Et</string>
 
+    <!--language-->
+    <string name="toolbar_lang">Dil</string>
+    <string name="azeri">Azərbaycan</string>
+    <string name="eng">İngilis</string>
+
 </resources>

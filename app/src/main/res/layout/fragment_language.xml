@@ -11,7 +11,7 @@
         android:id="@+id/toolbarLanguage"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:title="Choose Language"
+        android:title="@string/language"
         android:background="@color/soft_purple"
         app:popupTheme="@style/ThemeOverlay.Material3.Dark"
         android:titleTextColor="@color/white"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Azerbaijan"
+            android:text="@string/azeri"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </com.google.android.material.card.MaterialCardView>
@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="English"
+            android:text="@string/eng"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:padding="16dp"/>

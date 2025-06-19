@@ -36,4 +36,9 @@
     <string name="users">User Management</string>
     <string name="language">Language</string>
     <string name="signout">Sign Out</string>
+
+    <!--language-->
+    <string name="toolbar_lang">Language</string>
+    <string name="azeri">Azerbaijan</string>
+    <string name="eng">English</string>
 </resources>
