@@ -85,4 +85,10 @@
     <string name="equipment_location">Yer</string>
     <string name="equipment_arrival">Gəliş tarixi</string>
 
+    <!--filter items-->
+    <string name="all">Bütün Alətlər</string>
+    <string name="mytasks">Mənim Alətlərim</string>
+    <string name="byuser">İstifadəçiyə görə</string>
+    <string name="byarrival">Gəlmə tarixinə görə</string>
+
 </resources>

@@ -99,7 +99,7 @@ class InventoryListFragment : Fragment() {
 
     private fun setupFilterSpinner(role: String, userId: String) {
 
-        val options = arrayOf("All Items", "My Items", "By User", "By Arrival Date")
+        val options = arrayOf("${context?.getString(R.string.all)}", "${context?.getString(R.string.mytasks)}", "${context?.getString(R.string.byuser)}", "${context?.getString(R.string.byarrival)}")
 
         val adapter = object : ArrayAdapter<String>(
             requireContext(),

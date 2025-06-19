@@ -96,7 +96,7 @@ class ArchiveFragment : Fragment() {
 
     private fun setupFilterSpinner(userId: String) {
 
-        val options = arrayOf("All Items", "My Items", "By User", "By Arrival Date", "Broken Items")
+        val options = arrayOf("${context?.getString(R.string.all)}", "${context?.getString(R.string.mytasks)}", "${context?.getString(R.string.byuser)}", "${context?.getString(R.string.byarrival)}")
 
 
         val adapter = object : ArrayAdapter<String>(

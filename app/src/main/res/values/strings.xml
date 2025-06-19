@@ -86,5 +86,10 @@
     <string name="equipment_location">Location</string>
     <string name="equipment_arrival">Arrival Date</string>
 
+    <!--filter items-->
+    <string name="all">All Items</string>
+    <string name="mytasks">My Items</string>
+    <string name="byuser">By User</string>
+    <string name="byarrival">By Arrival Date</string>
 
 </resources>
