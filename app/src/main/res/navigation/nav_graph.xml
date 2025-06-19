@@ -113,6 +113,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_userManagement"
             app:destination="@id/userManagement" />
+        <action
+            android:id="@+id/action_settingsFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -201,6 +204,15 @@
         tools:layout="@layout/fragment_inventory_log" >
         <action
             android:id="@+id/action_inventoryLogFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.example.taskmanager.LanguageFragment"
+        android:label="fragment_language"
+        tools:layout="@layout/fragment_language" >
+        <action
+            android:id="@+id/action_languageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>
