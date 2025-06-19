@@ -119,5 +119,6 @@
 
     <!--edit item-->
     <string name="edititem_toolbar">Edit item</string>
+    <string name="edititem_button">Edit</string>
 
 </resources>

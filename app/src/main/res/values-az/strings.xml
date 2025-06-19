@@ -116,4 +116,9 @@
     <string name="enter_itemstatus">Status</string>
     <string name="additem_button">Əlavə Et</string>
 
+    <!--edit item-->
+    <string name="edititem_toolbar">Redaktə et</string>
+    <string name="edititem_button">Redaktə Et</string>
+
+
 </resources>
