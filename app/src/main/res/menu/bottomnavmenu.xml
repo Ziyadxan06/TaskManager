@@ -3,25 +3,25 @@
     <item
         android:id="@+id/adminTaskListFragment"
         android:icon="@drawable/task_icon"
-        android:title="Tasks"/>
+        android:title="@string/tasks"/>
 
     <item
         android:id="@+id/backgroundTaskFragment"
         android:icon="@drawable/baseline_task_alt_24"
-        android:title="Task Log"/>
+        android:title="@string/task_log"/>
 
     <item
         android:id="@+id/inventoryListFragment"
         android:icon="@drawable/baseline_inventory_24"
-        android:title="Inventory"/>
+        android:title="@string/inventory"/>
 
     <item
         android:id="@+id/archiveFragment"
         android:icon="@drawable/baseline_archive_24"
-        android:title="Archive"/>
+        android:title="@string/archive"/>
 
     <item
         android:id="@+id/inventoryLogFragment"
         android:icon="@drawable/baseline_list_alt_24"
-        android:title="Inventory Log"/>
+        android:title="@string/inventory_log"/>
 </menu>

@@ -22,4 +22,11 @@
     <string name="signup_button">Sign Up</string>
     <string name="message">Already have an account?</string>
     <string name="message_link">Sign In!</string>
+
+    <!--bottomnav-->
+    <string name="tasks">Tasks</string>
+    <string name="task_log">Task Log</string>
+    <string name="inventory">Inventory</string>
+    <string name="archive">Archive</string>
+    <string name="inventory_log">Inventory Log</string>
 </resources>
