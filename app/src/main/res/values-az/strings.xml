@@ -127,5 +127,12 @@
     <!--user management-->
     <string name="usermanagement_toolbar">İstifadəçilər</string>
 
+    <!--user details-->
+    <string name="details_username">Istifadəçi Adı: </string>
+    <string name="details_userid">İstifadəçi ID: </string>
+    <string name="details_email">Email: </string>
+    <string name="details_role">Vəzifə: </string>
+    <string name="details_changerole">Vəzifəni dəyiş: </string>
+
 
 </resources>

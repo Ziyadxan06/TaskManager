@@ -128,4 +128,11 @@
     <!--user management-->
     <string name="usermanagement_toolbar">User Management</string>
 
+    <!--user details-->
+    <string name="details_username">User Name: </string>
+    <string name="details_userid">User ID: </string>
+    <string name="details_email">User Email: </string>
+    <string name="details_role">User Role: </string>
+    <string name="details_changerole">Change Role: </string>
+
 </resources>

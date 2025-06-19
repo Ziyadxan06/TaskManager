@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Name: "
+            android:text="@string/details_username"
             android:paddingRight="5dp"
             android:textSize="16sp"
             android:layout_gravity="center"/>
@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User ID: "
+            android:text="@string/details_userid"
             android:paddingRight="5dp"
             android:textSize="10sp"
             android:layout_gravity="center"/>
@@ -69,7 +69,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Email: "
+            android:text="@string/details_email"
             android:paddingRight="5dp"
             android:textSize="16sp"
             android:layout_gravity="center"/>
@@ -94,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Role: "
+            android:text="@string/details_role"
             android:paddingRight="5dp"
             android:textSize="16sp"
             android:layout_gravity="center"/>
@@ -116,7 +116,7 @@
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Role:"
+        android:text="@string/details_changerole"
         android:layout_marginTop="20dp"/>
 
     <com.google.android.material.chip.ChipGroup
