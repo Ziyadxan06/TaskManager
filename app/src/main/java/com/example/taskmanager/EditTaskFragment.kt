@@ -62,6 +62,11 @@ class EditTaskFragment : Fragment() {
                 Toast.makeText(context, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
 
+        binding.toolbarEditTask.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbarEditTask.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.btnSaveTask.setOnClickListener {
             updatedName = binding.taskNameEdit.text.toString().trim()
             updatedDeadline = binding.taskDeadlineEdit.text.toString().trim()

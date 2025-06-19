@@ -6,21 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
-    android:padding="16dp"
     tools:context=".EditTaskFragment">
 
-    <TextView
-        android:id="@+id/titleEditTask"
-        android:layout_width="wrap_content"
+    <Toolbar
+        android:id="@+id/toolbarEditTask"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Task"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/soft_purple"
+        android:title="Edit Task"
+        android:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.Material3.Dark" />
 
     <EditText
         android:id="@+id/taskNameEdit"
@@ -32,9 +30,11 @@
         android:background="@drawable/edittext_background"
         android:textColor="@color/white"
         android:textColorHint="@color/white_hint"
-        app:layout_constraintTop_toBottomOf="@id/titleEditTask"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEditTask"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp" />
 
     <EditText
@@ -50,6 +50,8 @@
         app:layout_constraintTop_toBottomOf="@id/taskNameEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp" />
 
     <EditText
@@ -65,6 +67,8 @@
         app:layout_constraintTop_toBottomOf="@id/taskPriorityEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp" />
 
     <AutoCompleteTextView
@@ -80,6 +84,8 @@
         app:layout_constraintTop_toBottomOf="@id/taskDeadlineEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp" />
 
     <EditText
@@ -96,6 +102,8 @@
         app:layout_constraintTop_toBottomOf="@id/taskAssigneeEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp" />
 
     <com.google.android.material.button.MaterialButton
@@ -109,6 +117,8 @@
         app:layout_constraintTop_toBottomOf="@id/usernameEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
