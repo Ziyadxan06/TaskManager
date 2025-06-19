@@ -78,4 +78,13 @@
     <!--inventory log-->
     <string name="log_toolbar">Inventory Log</string>
 
+    <!--inventory details-->
+    <string name="equipment_model">Model</string>
+    <string name="equipment_category">Category</string>
+    <string name="equipment_count">Count</string>
+    <string name="equipment_status">Status</string>
+    <string name="equipment_location">Location</string>
+    <string name="equipment_arrival">Arrival Date</string>
+
+
 </resources>

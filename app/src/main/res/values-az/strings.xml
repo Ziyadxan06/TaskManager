@@ -77,4 +77,12 @@
     <!--inventory log-->
     <string name="log_toolbar">İnventar keçmişi</string>
 
+    <!--inventory details-->
+    <string name="equipment_model">Model</string>
+    <string name="equipment_category">Kateqoriya</string>
+    <string name="equipment_count">Say</string>
+    <string name="equipment_status">Status</string>
+    <string name="equipment_location">Yer</string>
+    <string name="equipment_arrival">Gəliş tarixi</string>
+
 </resources>

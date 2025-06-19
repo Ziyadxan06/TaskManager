@@ -64,12 +64,12 @@ class InventoryDetailsDialogFragment : DialogFragment() {
                     val formattedDate = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
                         .format(Date(createdAt))
 
-                    binding.equipmentnameTextView.text = "Model: ${name}"
-                    binding.categoryTextView.text = "Category: ${category}"
-                    binding.countTextView.text = "Count: ${count}"
-                    binding.statusTextView.text = "Status: ${status}"
-                    binding.locationTextView.text = "Location: ${location}"
-                    binding.arrival.text = "Arrival Date: ${formattedDate}"
+                    binding.equipmentnameTextView.text = "${context?.getString(R.string.equipment_model)}: ${name}"
+                    binding.categoryTextView.text = "${context?.getString(R.string.equipment_category)}: ${category}"
+                    binding.countTextView.text = "${context?.getString(R.string.equipment_count)}: ${count}"
+                    binding.statusTextView.text = "${context?.getString(R.string.equipment_status)}: ${status}"
+                    binding.locationTextView.text = "${context?.getString(R.string.equipment_location)}: ${location}"
+                    binding.arrival.text = "${context?.getString(R.string.equipment_arrival)}: ${formattedDate}"
 
                     Glide.with(requireContext())
                         .load(imageUrl)
