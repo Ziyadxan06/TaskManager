@@ -107,4 +107,17 @@
     <string name="enter_username">User Name</string>
     <string name="addtask_button">Add</string>
 
+    <!--add item-->
+    <string name="additem_toolbar">Add new item</string>
+    <string name="enter_itemname">Enter Equipment Name</string>
+    <string name="enter_category">Category/Type</string>
+    <string name="enter_sender">Sender</string>
+    <string name="enter_location">Location</string>
+    <string name="enter_count">Count</string>
+    <string name="enter_itemstatus">Status</string>
+    <string name="additem_button">Add</string>
+
+    <!--edit item-->
+    <string name="edititem_toolbar">Edit item</string>
+
 </resources>
