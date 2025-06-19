@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/soft_purple"
-        android:title="Account"
+        android:title="@string/account_toolbar"
         android:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User ID"
+                android:text="@string/userid"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User Name"
+                android:text="@string/username_account"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="@string/email_accout"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Role"
+                android:text="@string/role_account"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
@@ -128,7 +128,7 @@
         android:id="@+id/btnupdateName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Update Name"
+        android:text="@string/update_button_account"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:backgroundTint="@color/dark_purple"

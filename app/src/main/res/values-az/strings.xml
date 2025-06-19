@@ -41,4 +41,13 @@
     <string name="azeri">Azərbaycan</string>
     <string name="eng">İngilis</string>
 
+    <!--account-->
+    <string name="account_toolbar">Hesab</string>
+    <string name="userid">İstifadəçi ID</string>
+    <string name="username_account">İstifadəçi Adı</string>
+    <string name="email_accout">Email</string>
+    <string name="role_account">Vəzifə</string>
+    <string name="update_button_account">Adı Yenilə</string>
+
+
 </resources>
