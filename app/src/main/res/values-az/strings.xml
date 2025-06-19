@@ -120,5 +120,9 @@
     <string name="edititem_toolbar">Redaktə et</string>
     <string name="edititem_button">Redaktə Et</string>
 
+    <!--edit task-->
+    <string name="edittask_toolbar">Redaktə et</string>
+    <string name="edittask_button">Redaktə Et</string>
+
 
 </resources>

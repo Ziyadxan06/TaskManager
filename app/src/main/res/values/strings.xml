@@ -121,4 +121,8 @@
     <string name="edititem_toolbar">Edit item</string>
     <string name="edititem_button">Edit</string>
 
+    <!--edit task-->
+    <string name="edittask_toolbar">Edit task</string>
+    <string name="edittask_button">Edit</string>
+
 </resources>
