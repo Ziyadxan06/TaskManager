@@ -28,4 +28,12 @@
     <string name="inventory">İnventar</string>
     <string name="archive">Arxiv</string>
     <string name="inventory_log">Inventar keçmişi</string>
+
+    <!--settings-->
+    <string name="toolbar_settings">Tənzimləmələr</string>
+    <string name="account">Hesab</string>
+    <string name="language">Dil</string>
+    <string name="users">İstifadəçilər</string>
+    <string name="signout">Cıxış Et</string>
+
 </resources>
