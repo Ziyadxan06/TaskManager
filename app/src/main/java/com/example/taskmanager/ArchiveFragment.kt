@@ -452,6 +452,7 @@ class ArchiveFragment : Fragment() {
                         }
                         .setNegativeButton("${context?.getString(R.string.negative_button)}"){ dialog, which ->
                             dialog.dismiss()
+                            fetchAllInventory()
                         }
 
                     val dialog: AlertDialog = builder.create()
