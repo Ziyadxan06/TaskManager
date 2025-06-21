@@ -55,11 +55,11 @@ class ProfileFragment : Fragment() {
                     binding.usernameAccount.setText(username)
                     binding.roleAccount.setText(role)
                 }else {
-                    Toast.makeText(context, "İstifadəçi tapılmadı", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "${context?.getString(R.string.error_notfound)}", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Xəta: ${it.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
             }
 
         binding.btnupdateName.setOnClickListener {
@@ -78,10 +78,10 @@ class ProfileFragment : Fragment() {
             .document(uid)
             .update(updateMap)
             .addOnSuccessListener {
-                Toast.makeText(context, "Username Yenilendi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "${context?.getString(R.string.username_update)}", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Xəta baş verdi: ${it.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
 

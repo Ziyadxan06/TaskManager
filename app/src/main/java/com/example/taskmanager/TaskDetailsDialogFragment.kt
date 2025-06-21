@@ -141,12 +141,12 @@ class TaskDetailsDialogFragment : DialogFragment() {
                     if (newStatus == "Done" && status != "Done") {
                         context.let {
                             AlertDialog.Builder(requireContext())
-                                .setTitle("Təsdiqləyin")
-                                .setMessage("Bu tapşırığı 'tamamlandı' olaraq işarələmək istəyirsinizmi? Daha sonra dəyişmək mümkün olmayacaq.")
-                                .setPositiveButton("Bəli") { _, _ ->
+                                .setTitle(context?.getString(R.string.alert_title_warning))
+                                .setMessage(context?.getString(R.string.alert_message_warning_status))
+                                .setPositiveButton(context?.getString(R.string.positive_button)) { _, _ ->
                                     updateTaskStatus(taskId, newStatus)
                                 }
-                                .setNegativeButton("Xeyr") { dialog, _ ->
+                                .setNegativeButton(context?.getString(R.string.negative_button)) { dialog, _ ->
                                     dialog.dismiss()
                                     restorePreviousSelection()
                                 }
@@ -155,7 +155,7 @@ class TaskDetailsDialogFragment : DialogFragment() {
                     } else if(newStatus == "Pending" && status != "Done" && status != "Pending"){
                         updateTaskStatus(taskId, newStatus)
                         context?.let{
-                            Toast.makeText(requireContext(), "Status güncellendi: $newStatus", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Status ${context?.getString(R.string.updated)}: $newStatus", Toast.LENGTH_SHORT).show()
                         }
                     }else if(currentTimeMillis > deadlineMillis && status != "Done"){
                         updateTaskStatus(taskId, "Overdue")
@@ -178,7 +178,7 @@ class TaskDetailsDialogFragment : DialogFragment() {
                     binding.radioDone.isEnabled = false
                     binding.radioInProgress.isEnabled = false
                     context?.let {
-                        Toast.makeText(requireContext(), "Status güncellendi: $status", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Status ${context?.getString(R.string.updated)}: $status", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

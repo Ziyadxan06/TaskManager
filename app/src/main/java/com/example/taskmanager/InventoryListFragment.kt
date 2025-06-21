@@ -267,9 +267,9 @@ class InventoryListFragment : Fragment() {
                 }, 200)
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Filter by User")
+                    .setTitle("${context?.getString(R.string.alert_title_filter)}")
                     .setView(dialogView)
-                    .setPositiveButton("OK") { dialog, _ ->
+                    .setPositiveButton("${context?.getString(R.string.positive_button_filter)}") { dialog, _ ->
                         val selectedText = autoCompleteTextView.text.toString().trim()
                         val selectedUser = userList.find {
                             "${it.username} (${it.useremail})" == selectedText
@@ -280,16 +280,16 @@ class InventoryListFragment : Fragment() {
                             inventoryAdapter.notifyDataSetChanged()
                             fetchInventoryByEmail(selectedUser.uid ?: "")
                         } else {
-                            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "${context?.getString(R.string.error)}", Toast.LENGTH_SHORT).show()
                         }
 
                         dialog.dismiss()
                     }
-                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                    .setNegativeButton("${context?.getString(R.string.negative_button_filter)}") { dialog, _ -> dialog.cancel() }
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Error fetching users: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
             }
     }
 
@@ -350,7 +350,7 @@ class InventoryListFragment : Fragment() {
                 inventoryAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Fetch failed: ${exception.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${exception.message}", Toast.LENGTH_LONG).show()
             }
     }
 
@@ -377,12 +377,12 @@ class InventoryListFragment : Fragment() {
                         )
                     )
                     .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "${swipedItem.equipmentName} arşivlendi", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${swipedItem.equipmentName} ${context?.getString(R.string.successful_archived)}", Toast.LENGTH_SHORT).show()
                         equipmentList.removeAt(position)
                         inventoryAdapter.notifyItemRemoved(position)
                     }
                     .addOnFailureListener {
-                        Toast.makeText(requireContext(), "Arşivleme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                         inventoryAdapter.notifyItemChanged(position)
                     }
             }

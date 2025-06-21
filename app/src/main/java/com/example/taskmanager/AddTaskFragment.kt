@@ -84,7 +84,7 @@ class AddTaskFragment : Fragment() {
         val userName = binding.usernameAdd.text.toString().trim()
 
         if (taskName.isEmpty() || priority.isEmpty() || assignedTo.isEmpty() || deadlineTimestamp == 0L) {
-            Toast.makeText(requireContext(), "Bütün sahələri doldurun", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "${context?.getString(R.string.empty_input)}", Toast.LENGTH_SHORT).show()
         } else {
             val db = FirebaseFirestore.getInstance()
             val collection = db.collection("tasks")
@@ -105,13 +105,13 @@ class AddTaskFragment : Fragment() {
             newDocRef.set(taskData)
                 .addOnSuccessListener {
                     context?.let {
-                        Toast.makeText(requireContext(), "Tapşırıq uğurla əlavə olundu", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${context?.getString(R.string.successful_addtask)}", Toast.LENGTH_SHORT).show()
                     }
                     findNavController().navigate(R.id.action_addTaskFragment_to_adminTaskListFragment)
                     findNavController().popBackStack(R.id.addTaskFragment, true)
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), "Xəta baş verdi: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${e.message}", Toast.LENGTH_LONG).show()
                 }
 
 
@@ -145,7 +145,7 @@ class AddTaskFragment : Fragment() {
                 binding.taskAssignee.setAdapter(adapter)
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Email siyahısı yüklənmədi: ${it.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
             }
 
         binding.taskAssignee.setOnItemClickListener { _, _, position, _ ->

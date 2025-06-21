@@ -62,7 +62,7 @@ class SignInFragment : Fragment() {
         password = binding.signinPassword.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "${context?.getString(R.string.empty_input_signin)}", Toast.LENGTH_LONG).show()
         } else {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
@@ -86,14 +86,14 @@ class SignInFragment : Fragment() {
         password = binding.signinPassword.text.toString()
 
         if(email.isEmpty()){
-            Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "${context?.getString(R.string.empty_input_signin)}", Toast.LENGTH_LONG).show()
         }else{
             auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(){task ->
                     if(task.isSuccessful){
-                        Toast.makeText(context, "Reset linki emailinize gonderildi", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "${context?.getString(R.string.reset_link)}", Toast.LENGTH_LONG).show()
                     }else{
-                        Toast.makeText(context, "Xeta bas verdi", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "${context?.getString(R.string.error)}", Toast.LENGTH_LONG).show()
                     }
                 }
         }

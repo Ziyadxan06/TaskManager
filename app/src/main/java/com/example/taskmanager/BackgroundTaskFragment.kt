@@ -303,9 +303,9 @@
                     }, 200)
 
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Filter by User")
+                        .setTitle("${context?.getString(R.string.alert_title_filter)}")
                         .setView(dialogView)
-                        .setPositiveButton("OK") { dialog, _ ->
+                        .setPositiveButton("${context?.getString(R.string.positive_button_filter)}") { dialog, _ ->
                             val selectedText = autoCompleteTextView.text.toString().trim()
                             val selectedUser = userList.find {
                                 "${it.username} (${it.useremail})" == selectedText
@@ -316,16 +316,16 @@
                                 backgroundtasksAdapter.notifyDataSetChanged()
                                 fetchInventoryByEmail(selectedUser.useremail ?: "")
                             } else {
-                                Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "${context?.getString(R.string.error_notfound)}", Toast.LENGTH_SHORT).show()
                             }
 
                             dialog.dismiss()
                         }
-                        .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                        .setNegativeButton("${context?.getString(R.string.negative_button_filter)}") { dialog, _ -> dialog.cancel() }
                         .show()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Error fetching users: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
         }
 
@@ -413,9 +413,9 @@
                         .addOnSuccessListener {
                             taskList.removeAt(position)
                             backgroundtasksAdapter.notifyItemRemoved(position)
-                            Toast.makeText(requireContext(), "Task Deleted", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Task ${context?.getString(R.string.successful_deletion)}", Toast.LENGTH_LONG).show()
                         }.addOnFailureListener {
-                            Toast.makeText(requireContext(), "Task could not deleted",Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Task ${context?.getString(R.string.unsuccessful_deletion)}",Toast.LENGTH_LONG).show()
                         }
                 }
             }

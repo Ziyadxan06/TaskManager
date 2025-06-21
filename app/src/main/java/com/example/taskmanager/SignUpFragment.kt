@@ -61,9 +61,9 @@ class SignUpFragment : Fragment() {
         userName = binding.signupUsername.text.toString()
 
         if(email == "" || password == "" || confirmPassword == "" || userName == ""){
-            Toast.makeText(context, "Enter email and password", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "${context?.getString(R.string.empty_input_signin)}", Toast.LENGTH_LONG).show()
         }else if(password != confirmPassword){
-            Toast.makeText(context, "Təhlükəsizlik üçün şifrəni iki dəfə daxil etməlisiniz. Şifrələr uyğun gəlmir.", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "${context?.getString(R.string.check_password)}", Toast.LENGTH_LONG).show()
         }
         else{
             auth.createUserWithEmailAndPassword(email, password)
@@ -82,7 +82,7 @@ class SignUpFragment : Fragment() {
                         .document(uid)
                         .set(userData)
                         .addOnSuccessListener {
-                            Toast.makeText(context, "Hesab Yaradıldı", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "${context?.getString(R.string.account_create)}", Toast.LENGTH_LONG).show()
                             findNavController().navigate(R.id.action_signUpFragment_to_adminTaskListFragment)
                             val navOptions = NavOptions.Builder()
                                 .setPopUpTo(R.id.nav_graph, true)
@@ -90,12 +90,12 @@ class SignUpFragment : Fragment() {
                             findNavController().navigate(R.id.adminTaskListFragment, null, navOptions)
                         }
                         .addOnFailureListener { e ->
-                            Toast.makeText(context, "DB Xətası: ${e.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "${context?.getString(R.string.error)}", Toast.LENGTH_LONG).show()
                         }
 
                 }
                 .addOnFailureListener {
-                    Toast.makeText(context, "Auth xətası: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${context?.getString(R.string.error)}", Toast.LENGTH_LONG).show()
                 }
         }
     }

@@ -126,10 +126,10 @@ class UserDetailsDialogFragment : DialogFragment() {
             .document(userId)
             .update("role", role)
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Role updated to $role", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${context?.getString(R.string.role_update)} $role", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to update role", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${context?.getString(R.string.failed_update)}", Toast.LENGTH_SHORT).show()
             }
 
         parentFragmentManager.setFragmentResult(

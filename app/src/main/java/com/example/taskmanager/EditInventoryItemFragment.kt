@@ -114,8 +114,8 @@ class EditInventoryItemFragment : Fragment() {
     private fun getPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(binding.root, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give Permission") {
+                Snackbar.make(binding.root, "${context?.getString(R.string.snackbar_permission)}", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("${context?.getString(R.string.action_permission)}") {
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }.show()
             } else {
@@ -139,7 +139,7 @@ class EditInventoryItemFragment : Fragment() {
 
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) openGallery()
-            else Snackbar.make(binding.root, "Permission denied. Cannot access gallery.", Snackbar.LENGTH_SHORT).show()
+            else Snackbar.make(binding.root, "${context?.getString(R.string.denied_permission)}", Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -191,7 +191,7 @@ class EditInventoryItemFragment : Fragment() {
                     if (isNameChanged) logChange(args.itemId, "name", originalName, updatedName, userId, userName)
                     if (isCategoryChanged) logChange(args.itemId, "category", originalCategory, updatedCategory, userId, userName)
                     if (isSenderChanged) logChange(args.itemId, "sender", originalCategory, updatedCategory, userId, userName)
-                    Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "${context?.getString(R.string.successful_updation)}", Toast.LENGTH_LONG).show()
                 }
 
             val newItem = hashMapOf(
@@ -216,12 +216,12 @@ class EditInventoryItemFragment : Fragment() {
                 }
         } else if (warnAndSuggestSplit) {
             AlertDialog.Builder(requireContext())
-                .setTitle("Warning")
-                .setMessage("You are increasing the item count while changing its status or location. It's recommended to add these as a new item instead.")
-                .setPositiveButton("Add as new item") { _, _ ->
+                .setTitle("${context?.getString(R.string.alert_title_warning)}")
+                .setMessage("${context?.getString(R.string.alert_message_warning)}")
+                .setPositiveButton("${context?.getString(R.string.edititem_positive_button)}") { _, _ ->
                     createNewItemOnly(imageUrl, originalStatus, originalCount)
                 }
-                .setNegativeButton("Cancel") { dialog, _ ->
+                .setNegativeButton("${context?.getString(R.string.negative_button_filter)}") { dialog, _ ->
                     dialog.dismiss()
                 }.show()
         } else {
@@ -267,9 +267,9 @@ class EditInventoryItemFragment : Fragment() {
 
         if (countDifference <= 0) {
             AlertDialog.Builder(requireContext())
-                .setTitle("Invalid Action")
-                .setMessage("Cannot create a new item with zero or negative count. Please review the count.")
-                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .setTitle("${context?.getString(R.string.invalid_action)}")
+                .setMessage("${context?.getString(R.string.invalid_action_message)}")
+                .setPositiveButton("${context?.getString(R.string.positive_button_filter)}") { dialog, _ -> dialog.dismiss() }
                 .show()
             return
         }

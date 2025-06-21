@@ -136,9 +136,40 @@
 
     <!--archive alert title-->
     <string name="alert_title">Silmək istədiyinizdən əminsiniz?</string>
+    <string name="alert_title_warning">Diqqət!</string>
+    <string name="alert_message_warning_status">Bu tapşırığı "tamamlandı" olaraq işarələmək istəyirsinizmi? Daha sonra dəyişmək mümkün olmayacaq.</string>
+    <string name="alert_message_warning">Siz elementin statusunu və ya yerini dəyişərkən onun sayını artırırsınız. Tövsiyə olunur ki, bu dəyişiklikləri yeni bir element kimi əlavə edəsiniz.</string>
+    <string name="edititem_positive_button">Yeni alət olaraq əlavə et</string>
+    <string name="invalid_action">Xətalı əməliyyat</string>
+    <string name="invalid_action_message">Say 0 və ya mənfi ədəd ola bilməz.</string>
     <string name="alert_message">Silinən alətlər geri qayıtmır</string>
     <string name="positive_button">Bəli</string>
     <string name="negative_button">Xeyr</string>
 
+    <!--filter by user-->
+    <string name="alert_title_filter">İstifadəçiyə görə</string>
+    <string name="positive_button_filter">Ok</string>
+    <string name="negative_button_filter">Ləğv et</string>
 
+    <!--Toast messages-->
+    <string name="empty_input">Bütün sahələri doldurun</string>
+    <string name="empty_input_signin">Email və şifrəni daxil edin</string>
+    <string name="reset_link">Reset linki emailinize gonderildi</string>
+    <string name="error">Xəta baş verdi</string>
+    <string name="error_notfound">İstifadəçi tapılmadı</string>
+    <string name="check_password">Təhlükəsizlik üçün şifrəni iki dəfə daxil etməlisiniz. Şifrələr uyğun gəlmir.</string>
+    <string name="account_create">Hesab Yaradıldı.</string>
+    <string name="successful_addtask">Tapşırıq uğurla əlavə olundu</string>
+    <string name="successful_archived">arxivləndi.</string>
+    <string name="updated">yeniləndi.</string>
+    <string name="successful_unarchived">arxivdən çıxarıldı.</string>
+    <string name="successful_deletion">silindi.</string>
+    <string name="unsuccessful_deletion">silinmədi.</string>
+    <string name="username_update">İstifadəçi adı yeniləndi.</string>
+    <string name="role_update">Vəzifə dəyişdi.</string>
+    <string name="successful_updation">Uğurla yeniləndi.</string>
+    <string name="failed_update">Yeniləmə uğursuz oldu.</string>
+    <string name="snackbar_permission">Galeriya üçün icazə lazımdır.</string>
+    <string name="action_permission">İcazə ver.</string>
+    <string name="denied_permission">icazə verilmədi. Galeriyaya əlçatanlıq yoxdur.</string>
 </resources>

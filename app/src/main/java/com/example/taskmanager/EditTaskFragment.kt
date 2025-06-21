@@ -76,7 +76,7 @@ class EditTaskFragment : Fragment() {
 
 
             if(updatedName.isEmpty() || updatedDeadline.isEmpty() || updatedAssignee.isEmpty() || updatedPriority.isEmpty()){
-                Toast.makeText(context, "Butun xanalari doldurun", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "${context?.getString(R.string.empty_input)}", Toast.LENGTH_LONG).show()
             }else{
                 val updateMap = hashMapOf<String, Any>(
                     "name" to updatedName,
@@ -89,11 +89,11 @@ class EditTaskFragment : Fragment() {
                     .document(args.taskId)
                     .update(updateMap)
                     .addOnSuccessListener {
-                        Toast.makeText(context, "Tapşırıq yeniləndi", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "${context?.getString(R.string.updated)}", Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(context, "Xəta baş verdi: ${it.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
                     }
             }
         }
@@ -117,7 +117,7 @@ class EditTaskFragment : Fragment() {
                 binding.taskAssigneeEdit.setAdapter(adapter)
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Email siyahısı yüklənmədi: ${it.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
             }
 
         binding.taskAssigneeEdit.setOnItemClickListener { _, _, position, _ ->

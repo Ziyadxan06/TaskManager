@@ -272,9 +272,9 @@ class ArchiveFragment : Fragment() {
                 }, 200)
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Filter by User")
+                    .setTitle("${context?.getString(R.string.alert_title_filter)}")
                     .setView(dialogView)
-                    .setPositiveButton("OK") { dialog, _ ->
+                    .setPositiveButton("${context?.getString(R.string.positive_button_filter)}") { dialog, _ ->
                         val selectedText = autoCompleteTextView.text.toString().trim()
                         val selectedUser = userList.find {
                             "${it.username} (${it.useremail})" == selectedText
@@ -285,16 +285,16 @@ class ArchiveFragment : Fragment() {
                             inventoryAdapter.notifyDataSetChanged()
                             fetchInventoryByEmail(selectedUser.uid ?: "")
                         } else {
-                            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "${context?.getString(R.string.error_notfound)}", Toast.LENGTH_SHORT).show()
                         }
 
                         dialog.dismiss()
                     }
-                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                    .setNegativeButton("${context?.getString(R.string.negative_button_filter)}") { dialog, _ -> dialog.cancel() }
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Error fetching users: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
             }
     }
 
@@ -383,8 +383,7 @@ class ArchiveFragment : Fragment() {
                 inventoryAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Fetch failed: ${exception.message}", Toast.LENGTH_LONG).show()
-                Log.e("Firestore", "Fetch error", exception)
+                Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${exception.message}", Toast.LENGTH_LONG).show()
             }
     }
 
@@ -406,13 +405,13 @@ class ArchiveFragment : Fragment() {
                     .update("isarchived", false)
                     .addOnSuccessListener {
                         context?.let {
-                            Toast.makeText(requireContext(), "${swipedItem.equipmentName} unarchived", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "${swipedItem.equipmentName} ${context?.getString(R.string.successful_unarchived)}", Toast.LENGTH_SHORT).show()
                             equipmentList.removeAt(position)
                             inventoryAdapter.notifyItemRemoved(position)
                         }
                     }
                     .addOnFailureListener {
-                        Toast.makeText(requireContext(), "operation unsuccessful: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${context?.getString(R.string.error)}: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                         inventoryAdapter.notifyItemChanged(position)
                     }
             }
@@ -443,7 +442,7 @@ class ArchiveFragment : Fragment() {
                                 .document(swipedItem.id)
                                 .delete()
                                 .addOnSuccessListener {
-                                    Toast.makeText(requireContext(), "${swipedItem.equipmentName} deleted", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), "${swipedItem.equipmentName} ${context?.getString(R.string.successful_deletion)}", Toast.LENGTH_SHORT).show()
                                     equipmentList.removeAt(position)
                                     inventoryAdapter.notifyItemRemoved(position)
                                 }
