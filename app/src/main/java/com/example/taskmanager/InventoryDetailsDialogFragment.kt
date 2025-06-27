@@ -35,6 +35,15 @@ class InventoryDetailsDialogFragment : DialogFragment() {
         return (binding.root)
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.9).toInt(),  // 90% ekran eni
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
