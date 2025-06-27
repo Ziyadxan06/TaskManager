@@ -139,18 +139,20 @@ class TaskDetailsDialogFragment : DialogFragment() {
                     }
 
                     if (newStatus == "Done" && status != "Done") {
-                        context.let {
-                            AlertDialog.Builder(requireContext())
-                                .setTitle(context?.getString(R.string.alert_title_warning))
-                                .setMessage(context?.getString(R.string.alert_message_warning_status))
-                                .setPositiveButton(context?.getString(R.string.positive_button)) { _, _ ->
-                                    updateTaskStatus(taskId, newStatus)
-                                }
-                                .setNegativeButton(context?.getString(R.string.negative_button)) { dialog, _ ->
-                                    dialog.dismiss()
-                                    restorePreviousSelection()
-                                }
-                                .show()
+                        context?.let {
+                            if (isAdded) {
+                                AlertDialog.Builder(it)
+                                    .setTitle(getString(R.string.alert_title_warning))
+                                    .setMessage(getString(R.string.alert_message_warning_status))
+                                    .setPositiveButton(getString(R.string.positive_button)) { _, _ ->
+                                        updateTaskStatus(taskId, newStatus)
+                                    }
+                                    .setNegativeButton(getString(R.string.negative_button)) { dialog, _ ->
+                                        dialog.dismiss()
+                                        restorePreviousSelection()
+                                    }
+                                    .show()
+                            }
                         }
                     } else if(newStatus == "Pending" && status != "Done" && status != "Pending"){
                         updateTaskStatus(taskId, newStatus)
@@ -190,6 +192,4 @@ class TaskDetailsDialogFragment : DialogFragment() {
             "Done" -> binding.radioDone.isChecked = true
         }
     }
-
-
 }
