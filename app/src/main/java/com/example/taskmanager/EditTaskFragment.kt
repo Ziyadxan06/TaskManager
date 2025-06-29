@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskmanager.databinding.AdminFragmentTaskListBinding
 import com.example.taskmanager.databinding.FragmentEditTaskBinding
 import com.example.taskmanager.databinding.FragmentTaskDetailsDialogBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
 import java.util.Locale
@@ -41,6 +43,8 @@ class EditTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
 
         var taskId = args.taskId
 

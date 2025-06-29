@@ -10,7 +10,7 @@
     <string name="message1">Hesabınız yoxdur?</string>
     <string name="message_link1">Qeydiyyat!</string>
     <string name="message2">Şifrəmi unutdum</string>
-    <string name="message_link2">Buradan keçid edin!</string>
+    <string name="message_link2">Keçid edin!</string>
 
     <!--signup-->
     <string name="signup_title">Qeydiyyat</string>
@@ -34,7 +34,7 @@
     <string name="account">Hesab</string>
     <string name="language">Dil</string>
     <string name="users">İstifadəçilər</string>
-    <string name="signout">Cıxış Et</string>
+    <string name="signout">Çıxış Et</string>
 
     <!--language-->
     <string name="toolbar_lang">Dil</string>
