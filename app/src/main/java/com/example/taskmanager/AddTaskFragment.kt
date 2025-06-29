@@ -105,7 +105,9 @@ class AddTaskFragment : Fragment() {
             newDocRef.set(taskData)
                 .addOnSuccessListener {
                     context?.let {
-                        Toast.makeText(requireContext(), "${context?.getString(R.string.successful_addtask)}", Toast.LENGTH_SHORT).show()
+                        if(isAdded){
+                            Toast.makeText(requireContext(), "${context?.getString(R.string.successful_addtask)}", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     findNavController().navigate(R.id.action_addTaskFragment_to_adminTaskListFragment)
                     findNavController().popBackStack(R.id.addTaskFragment, true)
@@ -145,7 +147,9 @@ class AddTaskFragment : Fragment() {
                 binding.taskAssignee.setAdapter(adapter)
             }
             .addOnFailureListener {
-                Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
+                if(context != null && isAdded){
+                    Toast.makeText(context, "${context?.getString(R.string.error)}: ${it.message}", Toast.LENGTH_LONG).show()
+                }
             }
 
         binding.taskAssignee.setOnItemClickListener { _, _, position, _ ->
